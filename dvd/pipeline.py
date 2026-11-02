@@ -11,6 +11,7 @@ from scipy import ndimage
 from . import config as C
 from . import store
 from .detect import detect_scene
+from .geo import haversine_m
 from .infra import Structures
 from .match import match, project_ais
 
@@ -51,6 +52,17 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
     pairs = {int(eligible[k]): v for k, v in sub_pairs.items()}
     near_struct = structures.near(det["lon"].values, det["lat"].values) if len(det) else []
 
+    # candidates from other passes in this database: a target that recurs at the same spot is probably fixed
+    try:
+        others = pd.read_sql("SELECT lon, lat FROM detections WHERE status='candidate' AND pass_id != ? "
+                             "AND lon BETWEEN ? AND ? AND lat BETWEEN ? AND ?", store_con,
+                             params=(pass_id, bbox[0], bbox[2], bbox[1], bbox[3]))
+    except Exception:
+        others = pd.DataFrame(columns=["lon", "lat"])
+
+    def recurring(lon, lat) -> bool:
+        return len(others) > 0 and bool((haversine_m(lon, lat, others.lon.values, others.lat.values) < C.REPEAT_RADIUS_M).any())
+
     status, reason, conf = [], [], []
     for i, d in det.iterrows():
         # A ship that matches AIS is a ship, even beside a pier or bridge: the structure and shore filters only exist
@@ -76,6 +88,8 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
                 reasons.append("ais_feed_gap")
             if proj.empty:
                 reasons.append("no_ais_in_window")
+            if recurring(d.lon, d.lat):
+                reasons.append("same_spot_in_another_pass")
             s, r, c = "candidate", ",".join(reasons), "low" if reasons else "high"
         status.append(s); reason.append(r); conf.append(c)
     det["status"], det["reason"], det["confidence"] = status, reason, conf

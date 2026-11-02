@@ -31,6 +31,9 @@ LAND_BUFFER_PX = 3
 MIN_SCORE = 0.60
 MIN_LENGTH_M = 40.0        # smaller ships are not reliably visible; stated limit of the system
 MIN_SHORE_KM = 0.5
+# An untracked target in the same place on another pass is probably fixed (unmapped structure, mooring, permanently
+# anchored hulk), not a ship going dark. Radius allows for geolocation error between passes (~150 m) plus swinging.
+REPEAT_RADIUS_M = 600.0
 
 # Matching
 MATCH_WINDOW_S = 1800      # use AIS within +/- 30 min of the image time

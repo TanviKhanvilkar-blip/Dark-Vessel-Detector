@@ -121,6 +121,17 @@ def test_matched_ship_beside_structure_is_not_filtered(tmp_path):
     assert (at.status == "matched").sum() == 1
 
 
+def test_candidate_at_same_spot_in_another_pass_is_downgraded(tmp_path):
+    sc = make_scene(11, n_ships=20)
+    con = store.connect(str(tmp_path / "r.sqlite"))
+    store.add_ais(con, make_ais(sc, 11))
+    _, first = run_pass(sc, con, "pass-1")
+    assert (first[first.status == "candidate"].confidence == "high").any()
+    _, second = run_pass(sc, con, "pass-2")              # same targets seen again on another pass
+    cand = second[second.status == "candidate"]
+    assert len(cand) and cand.reason.str.contains("same_spot_in_another_pass").all() and (cand.confidence == "low").all()
+
+
 def test_parse_position_report():
     raw = json.dumps({"MessageType": "PositionReport", "MetaData": {"MMSI": 123, "time_utc": "2026-10-04 10:00:00.123 +0000 UTC"},
                       "Message": {"PositionReport": {"Latitude": 19.0, "Longitude": 72.6, "Sog": 8.2, "Cog": 45.0}}})

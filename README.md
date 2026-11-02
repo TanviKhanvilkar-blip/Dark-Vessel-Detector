@@ -71,6 +71,12 @@ within 0.9 km at image time; all four are compact targets on open water). Lesson
 - 29 broadcasting ships (mostly small harbour craft) gave detections below the score threshold: the detector's real limit.
 - Offshore wind turbines (Middelgrunden) are now pulled from OpenStreetMap with the other fixed structures.
 
+Second pass, 26 Oct 2026 05:32 UTC: 88 ships broadcasting inside the area, 75 (85%) with a radar detection within 300 m;
+**24 matched, 3 candidates**. All three were within ~400 m of 27 Oct candidates: an untracked target at the same spot on
+consecutive days is almost certainly fixed (unmapped structure, mooring, anchored hulk). Such candidates are now tagged
+`same_spot_in_another_pass` and downgraded to low confidence (`REPEAT_RADIUS_M`). Across both passes this leaves **one
+high-confidence candidate** (27 Oct, 55.669 N 12.670 E) out of 50 matched ships.
+
 ## Recording AIS for a pass
 
 aisstream has no history, so AIS must be recorded *while* the satellite passes.
