@@ -135,7 +135,8 @@ Remaining weakness: buoys and small navigation lights, and quay edges that the c
 ## Automatic pass processing
 
 `python -m dvd auto` (run by `scripts/publish_site.ps1` every 15 minutes, before the site is rebuilt) asks Planetary Computer for
-Sentinel-1 scenes over each sector from the last 3 days and processes a scene when it covers >= 80% of the sector, was taken while
+Sentinel-1 scenes over each sector from the last 3 days and processes a scene when it covers >= 65% of the sector (the uncovered
+part is treated as no-data, so ships there are simply not assessed), was taken while
 the AIS recorder was running, is at least 35 min old (AIS must exist up to 30 min after the image) and is not in the sector's
 results database yet. Processing = download the sector crop, copy the AIS and feed gaps around the image time from `live.sqlite`
 into the sector's results database (`mumbai_results.sqlite`, `denmark_hist.sqlite`), run the pipeline with ShipCNN.

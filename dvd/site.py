@@ -521,7 +521,7 @@ target is within receiver range, and it is not at a spot where something was als
 <b>low confidence</b>: the data cannot support calling it dark (for example Mumbai, where no AIS was available for the pass at all).</p>
 <h2>Pipeline</h2><div class="flow">{flow}</div>
 <p class="muted" style="font-size:13px"><b>What runs by itself.</b> AIS is recorded continuously. Every 15 minutes the system checks the
-Sentinel-1 catalogue; any new pass that covers at least 80% of a sector and was taken while the recorder was running is downloaded,
+Sentinel-1 catalogue; any new pass that covers at least 65% of a sector and was taken while the recorder was running is downloaded,
 run through the whole pipeline including ShipCNN, and published here. Passes from before the recorder started were processed with the
 same pipeline using historical AIS. Next expected passes: Mumbai about 5 Nov 01:02 UTC, Oresund about 5 Nov 17:00 UTC
 (predicted from the 6-day repeat pattern).</p>

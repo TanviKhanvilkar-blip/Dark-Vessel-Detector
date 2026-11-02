@@ -25,7 +25,7 @@ from .live import recording_box
 
 STAC = "https://planetarycomputer.microsoft.com/api/stac/v1/search"
 RESULT_DBS = {"mumbai": "mumbai_results.sqlite", "denmark": "denmark_hist.sqlite"}
-MIN_COVERAGE = 0.8          # fraction of the sector inside the scene footprint
+MIN_COVERAGE = 0.65         # fraction of the sector inside the scene footprint; the uncovered part is treated as no-data
 SETTLE_S = 35 * 60          # AIS must exist up to 30 min after the image before matching makes sense
 
 
