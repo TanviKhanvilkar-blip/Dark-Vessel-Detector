@@ -43,6 +43,10 @@ because no AIS was recorded for that date. 174 detections were removed as fixed 
 Bandra–Worli/coastal-road bridges, plus piers). Offshore ships and the Mumbai harbour anchorage look right by eye; 9 candidates
 still sit within 300 m of a mapped structure and are worth inspecting.
 
+Re-run with the final pipeline and ShipCNN (`--cnn`): ShipCNN rejects 38 targets as not ships, leaving **115 candidates, all low
+confidence** (no AIS exists for that date; 9 are also beyond the assumed receiver range). Note that ShipCNN was trained only on
+Danish waters, so how well it transfers to Mumbai is untested.
+
 `dvd/sar.py` reads only the pixels covering the AOI, converts DN to sigma0 with the calibration XML, resamples onto the AOI grid,
 masks land and the black swath border, and scales calm sea to ~1. Use VH if you can (better ships-vs-rough-sea contrast).
 Tested on generated GeoTIFFs with both a plain geotransform and GCP georeferencing (the way GRD products are referenced), and the

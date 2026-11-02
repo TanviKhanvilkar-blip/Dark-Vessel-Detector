@@ -46,14 +46,15 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .label{font:600 10.5px/1.2 var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
 .value{font:600 30px/1.1 var(--mono);color:var(--green);text-shadow:var(--glow)}
 .value.red{color:var(--red);text-shadow:0 0 12px rgba(255,77,94,.35)}.value.cyan{color:var(--cyan);text-shadow:0 0 12px rgba(79,195,255,.35)}
-.value.small{font-size:16px}.ok{color:var(--green)}.bad{color:var(--red)}
+.value.small{font-size:16px}.value.amber{color:var(--amber);text-shadow:0 0 12px rgba(255,181,71,.3)}
+.step a{color:inherit}.step.nn{border-color:rgba(46,242,176,.6);box-shadow:var(--glow)}.ok{color:var(--green)}.bad{color:var(--red)}
 .alert{border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.07);border-radius:6px;padding:12px 16px;color:#f3dcb4}
 .alert b{color:var(--amber)}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .step{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px}
 .step .n{font:700 11px/1 var(--mono);color:var(--green);letter-spacing:.14em}.step .t{font:600 14px/1.3 var(--sans);margin:6px 0 4px}
 .step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
-@media (max-width:760px){.flow{grid-template-columns:1fr 1fr}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
+@media (max-width:760px){.flow{grid-template-columns:1fr 1fr!important}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
  header.hud{position:static}.status .pill:nth-child(3){display:none}.map{height:420px}}
 .region{display:block;color:inherit}.region:hover{border-color:rgba(46,242,176,.5)}
 .region .rt{font:600 16px/1.3 var(--sans);color:var(--ink);margin-bottom:6px}.region .go{font:600 11px/1 var(--mono);color:var(--green);letter-spacing:.14em;margin-top:10px}
@@ -82,7 +83,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--
   <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
  <div class="status"><span class="pill"><span class="dot live"></span>AIS FEED <strong>LIVE</strong></span>
   <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
-  <span class="pill">UPDATED <strong>02 Nov 07:53</strong></span></div>
+  <span class="pill">UPDATED <strong>02 Nov 08:09</strong></span></div>
 </div><nav class="tabs"><a class="" href="../index.html">OVERVIEW</a><a class="" href="../mumbai/index.html">MUMBAI</a><a class="" href="../denmark/index.html">DENMARK</a><a class="" href="../nn/index.html">NEURAL NET</a><a class="on" href="../demo/index.html">SIMULATION</a></nav></div></header>
 <main class="wrap"><div class="coords">SIMULATION // SYNTHETIC SCENES WITH KNOWN GROUND TRUTH</div>
 <h1>Simulation: the whole pipeline with a known answer</h1>

@@ -46,14 +46,15 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .label{font:600 10.5px/1.2 var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
 .value{font:600 30px/1.1 var(--mono);color:var(--green);text-shadow:var(--glow)}
 .value.red{color:var(--red);text-shadow:0 0 12px rgba(255,77,94,.35)}.value.cyan{color:var(--cyan);text-shadow:0 0 12px rgba(79,195,255,.35)}
-.value.small{font-size:16px}.ok{color:var(--green)}.bad{color:var(--red)}
+.value.small{font-size:16px}.value.amber{color:var(--amber);text-shadow:0 0 12px rgba(255,181,71,.3)}
+.step a{color:inherit}.step.nn{border-color:rgba(46,242,176,.6);box-shadow:var(--glow)}.ok{color:var(--green)}.bad{color:var(--red)}
 .alert{border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.07);border-radius:6px;padding:12px 16px;color:#f3dcb4}
 .alert b{color:var(--amber)}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .step{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px}
 .step .n{font:700 11px/1 var(--mono);color:var(--green);letter-spacing:.14em}.step .t{font:600 14px/1.3 var(--sans);margin:6px 0 4px}
 .step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
-@media (max-width:760px){.flow{grid-template-columns:1fr 1fr}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
+@media (max-width:760px){.flow{grid-template-columns:1fr 1fr!important}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
  header.hud{position:static}.status .pill:nth-child(3){display:none}.map{height:420px}}
 .region{display:block;color:inherit}.region:hover{border-color:rgba(46,242,176,.5)}
 .region .rt{font:600 16px/1.3 var(--sans);color:var(--ink);margin-bottom:6px}.region .go{font:600 11px/1 var(--mono);color:var(--green);letter-spacing:.14em;margin-top:10px}
@@ -82,34 +83,43 @@ footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--
   <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
  <div class="status"><span class="pill"><span class="dot live"></span>AIS FEED <strong>LIVE</strong></span>
   <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
-  <span class="pill">UPDATED <strong>02 Nov 07:53</strong></span></div>
+  <span class="pill">UPDATED <strong>02 Nov 08:09</strong></span></div>
 </div><nav class="tabs"><a class="on" href="index.html">OVERVIEW</a><a class="" href="mumbai/index.html">MUMBAI</a><a class="" href="denmark/index.html">DENMARK</a><a class="" href="nn/index.html">NEURAL NET</a><a class="" href="demo/index.html">SIMULATION</a></nav></div></header>
 <main class="wrap"><div class="coords">SYSTEM OVERVIEW</div>
 <h1>Ships the radar sees that nobody is tracking</h1>
 <p class="lede">Radar satellites see ships whether or not they announce themselves. AIS is what ships broadcast about themselves.
-This system compares the two after every Sentinel-1 pass and lists the ships that appear on radar with no matching AIS signal.</p>
+This system compares the two for each processed Sentinel-1 pass and lists the ships that appear on radar with no matching AIS signal.</p>
 <div class="grid" style="margin-top:18px"><div class="panel"><div class="label">Satellite passes processed</div><div class="value ">3</div></div><div class="panel"><div class="label">Ships matched to AIS</div><div class="value ">50</div></div>
-<div class="panel"><div class="label">Not publicly tracked</div><div class="value red">155</div></div><div class="panel"><div class="label">Broadcasting now &middot; 30 min</div><div class="value cyan">19</div></div></div>
-<h2>Pipeline</h2><div class="flow"><div class="step"><div class="n">01</div><div class="t">Radar image</div><div class="d">Sentinel-1 sees every large ship, day or night, through cloud.</div></div><div class="step"><div class="n">02</div><div class="t">Detect</div><div class="d">CFAR finds bright targets on dark sea; land, bridges and buoys are masked.</div></div><div class="step"><div class="n">03</div><div class="t">Align AIS</div><div class="d">Each ship's last AIS report is moved along its course to the exact image time.</div></div><div class="step"><div class="n">04</div><div class="t">Match</div><div class="d">The Hungarian algorithm pairs radar targets with AIS ships within a speed-aware radius.</div></div><div class="step"><div class="n">05</div><div class="t">Flag</div><div class="d">Unmatched targets become candidates, with an honest confidence label.</div></div></div>
+<div class="panel"><div class="label">Not tracked &middot; high confidence</div><div class="value red">0</div></div><div class="panel"><div class="label">Not tracked &middot; low confidence</div><div class="value amber">117</div></div>
+<div class="panel"><div class="label">Broadcasting now &middot; 30 min</div><div class="value cyan">62</div></div></div>
+<p class="muted" style="font-size:13px;margin-top:10px"><b>High confidence</b> = no AIS ship nearby although the AIS feed was healthy and the
+target is within receiver range, and it is not at a spot where something was also seen on another pass. Everything else is
+<b>low confidence</b>: the data cannot support calling it dark (for example Mumbai, where no AIS was available for the pass at all).</p>
+<h2>Pipeline</h2><div class="flow"><div class="step"><div class="n">01</div><div class="t">Radar image</div><div class="d">Sentinel-1 sees every large ship, day or night, through cloud.</div></div><div class="step"><div class="n">02</div><div class="t">Propose</div><div class="d">CFAR marks every target much brighter than the sea around it; land is masked.</div></div><a class="step nn" href="nn/index.html"><div class="n">03 &middot; NEURAL NETWORK</div><div class="t">ShipCNN</div><div class="d">Our neural network looks at each target and gives P(ship): ship, or pylon, turbine, buoy, clutter?</div></a><div class="step"><div class="n">04</div><div class="t">Align AIS</div><div class="d">Each ship's last AIS report is moved along its course to the exact image time.</div></div><div class="step"><div class="n">05</div><div class="t">Match</div><div class="d">The Hungarian algorithm pairs radar targets with AIS ships within a speed-aware radius.</div></div><div class="step"><div class="n">06</div><div class="t">Flag</div><div class="d">Unmatched ships become candidates, labelled high or low confidence by what the data can support.</div></div></div>
+<p class="muted" style="font-size:13px"><b>What runs by itself and what does not.</b> The AIS recording and this website update automatically
+(the site is rebuilt on a schedule). Each satellite pass is processed with the pipeline commands (fetch the scene, run the pipeline);
+watching the catalogue for new passes and processing them automatically is the next step, not built yet.</p>
 <h2>Sectors</h2><div class="grid"><a class="panel region" href="mumbai/index.html"><div class="label">Sector // MUMBAI</div>
 <div class="rt">Mumbai coast and harbour, India</div>
 <div class="kv"><span>passes processed</span><span>1</span></div>
 <div class="kv"><span>ships matched to AIS</span><span class="ok">0</span></div>
-<div class="kv"><span>not publicly tracked</span><span class="bad">153</span></div>
+<div class="kv"><span>not tracked, high confidence</span><span class="bad">0</span></div>
+<div class="kv"><span>not tracked, low confidence</span><span style="color:var(--amber)">115</span></div>
 <div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">0</span></div>
 <div class="go">OPEN SECTOR &rarr;</div></a><a class="panel region" href="denmark/index.html"><div class="label">Sector // DENMARK</div>
 <div class="rt">Oresund, Copenhagen (Denmark/Sweden)</div>
 <div class="kv"><span>passes processed</span><span>2</span></div>
 <div class="kv"><span>ships matched to AIS</span><span class="ok">50</span></div>
-<div class="kv"><span>not publicly tracked</span><span class="bad">2</span></div>
-<div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">19</span></div>
+<div class="kv"><span>not tracked, high confidence</span><span class="bad">0</span></div>
+<div class="kv"><span>not tracked, low confidence</span><span style="color:var(--amber)">2</span></div>
+<div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">62</span></div>
 <div class="go">OPEN SECTOR &rarr;</div></a></div>
 <h2>Read before trusting a flag</h2>
 <div class="alert"><b>"Not publicly tracked" is not "switched off".</b> Small boats often carry no public AIS, free AIS comes from coastal
 receivers with limited range, and ships under about 40 m are not reliably visible to the satellite. Low-confidence flags are the ones the
 data cannot support: beyond receiver range, during an AIS feed gap, or with no AIS recorded.</div>
-<h2>Automatic runs</h2><p class="muted mono" style="font-size:12.5px;margin-top:-4px">Rebuilt on a schedule from the live AIS recording. Newest first.</p>
-<div class="tablewrap"><table><thead><tr><th>run (UTC)</th><th>mumbai live</th><th>mumbai msg/h</th><th>denmark live</th><th>denmark msg/h</th></tr></thead><tbody><tr><td>2026-11-02 07:53</td><td>0</td><td>0</td><td>19</td><td>49</td></tr><tr><td>2026-11-02 07:39</td><td>0</td><td>0</td><td>0</td><td>166</td></tr><tr><td>2026-11-02 07:27</td><td>0</td><td>0</td><td>0</td><td>222</td></tr><tr><td>2026-11-02 06:48</td><td>0</td><td>0</td><td>58</td><td>148</td></tr><tr><td>2026-11-02 06:33</td><td>0</td><td>0</td><td>5</td><td>6</td></tr><tr><td>2026-11-02 06:29</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 06:25</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 06:20</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 06:10</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 05:55</td><td>0</td><td>0</td><td>36</td><td>341</td></tr><tr><td>2026-11-02 05:40</td><td>0</td><td>0</td><td>38</td><td>353</td></tr><tr><td>2026-11-02 05:24</td><td>0</td><td>0</td><td>35</td><td>311</td></tr><tr><td>2026-11-02 05:09</td><td>0</td><td>0</td><td>36</td><td>222</td></tr><tr><td>2026-11-02 04:54</td><td>0</td><td>0</td><td>36</td><td>144</td></tr><tr><td>2026-11-02 04:50</td><td>0</td><td>0</td><td>33</td><td>110</td></tr><tr><td>2026-11-02 04:49</td><td>0</td><td>0</td><td>33</td><td>110</td></tr><tr><td>2026-11-02 04:49</td><td>0</td><td>0</td><td>32</td><td>108</td></tr><tr><td>2026-11-02 04:48</td><td>0</td><td>0</td><td>32</td><td>106</td></tr><tr><td>2026-11-02 04:47</td><td>0</td><td>0</td><td>32</td><td>104</td></tr><tr><td>2026-11-02 04:47</td><td>0</td><td>0</td><td>32</td><td>98</td></tr><tr><td>2026-11-02 04:27</td><td>0</td><td>0</td><td>6</td><td>6</td></tr><tr><td>2026-11-02 04:26</td><td>0</td><td>0</td><td>4</td><td>4</td></tr></tbody></table></div></main>
+<h2>Automatic runs</h2><p class="muted mono" style="font-size:12.5px;margin-top:-4px">Each row is one automatic website rebuild, with the live AIS counts at that moment. Newest first.</p>
+<div class="tablewrap"><table><thead><tr><th>run (UTC)</th><th>mumbai live</th><th>mumbai msg/h</th><th>denmark live</th><th>denmark msg/h</th></tr></thead><tbody><tr><td>2026-11-02 08:09</td><td>0</td><td>0</td><td>62</td><td>171</td></tr><tr><td>2026-11-02 07:53</td><td>0</td><td>0</td><td>19</td><td>49</td></tr><tr><td>2026-11-02 07:39</td><td>0</td><td>0</td><td>0</td><td>166</td></tr><tr><td>2026-11-02 07:27</td><td>0</td><td>0</td><td>0</td><td>222</td></tr><tr><td>2026-11-02 06:48</td><td>0</td><td>0</td><td>58</td><td>148</td></tr><tr><td>2026-11-02 06:33</td><td>0</td><td>0</td><td>5</td><td>6</td></tr><tr><td>2026-11-02 06:29</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 06:25</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 06:20</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 06:10</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2026-11-02 05:55</td><td>0</td><td>0</td><td>36</td><td>341</td></tr><tr><td>2026-11-02 05:40</td><td>0</td><td>0</td><td>38</td><td>353</td></tr><tr><td>2026-11-02 05:24</td><td>0</td><td>0</td><td>35</td><td>311</td></tr><tr><td>2026-11-02 05:09</td><td>0</td><td>0</td><td>36</td><td>222</td></tr><tr><td>2026-11-02 04:54</td><td>0</td><td>0</td><td>36</td><td>144</td></tr><tr><td>2026-11-02 04:50</td><td>0</td><td>0</td><td>33</td><td>110</td></tr><tr><td>2026-11-02 04:49</td><td>0</td><td>0</td><td>33</td><td>110</td></tr><tr><td>2026-11-02 04:49</td><td>0</td><td>0</td><td>32</td><td>108</td></tr><tr><td>2026-11-02 04:48</td><td>0</td><td>0</td><td>32</td><td>106</td></tr><tr><td>2026-11-02 04:47</td><td>0</td><td>0</td><td>32</td><td>104</td></tr><tr><td>2026-11-02 04:47</td><td>0</td><td>0</td><td>32</td><td>98</td></tr><tr><td>2026-11-02 04:27</td><td>0</td><td>0</td><td>6</td><td>6</td></tr><tr><td>2026-11-02 04:26</td><td>0</td><td>0</td><td>4</td><td>4</td></tr></tbody></table></div></main>
 <footer><div class="wrap">Data: Copernicus Sentinel-1 (ESA) &middot; AIS via aisstream.io and the Danish Maritime Authority &middot;
 coastlines, structures and basemap &copy; OpenStreetMap contributors. Flags are candidates for review, not accusations.</div></footer>
 <script>(function(){const e=document.getElementById('utc');const t=()=>e.textContent=new Date().toISOString().slice(11,19);t();setInterval(t,1000);})();</script>

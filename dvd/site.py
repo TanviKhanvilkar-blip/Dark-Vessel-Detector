@@ -184,14 +184,15 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .label{font:600 10.5px/1.2 var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
 .value{font:600 30px/1.1 var(--mono);color:var(--green);text-shadow:var(--glow)}
 .value.red{color:var(--red);text-shadow:0 0 12px rgba(255,77,94,.35)}.value.cyan{color:var(--cyan);text-shadow:0 0 12px rgba(79,195,255,.35)}
-.value.small{font-size:16px}.ok{color:var(--green)}.bad{color:var(--red)}
+.value.small{font-size:16px}.value.amber{color:var(--amber);text-shadow:0 0 12px rgba(255,181,71,.3)}
+.step a{color:inherit}.step.nn{border-color:rgba(46,242,176,.6);box-shadow:var(--glow)}.ok{color:var(--green)}.bad{color:var(--red)}
 .alert{border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.07);border-radius:6px;padding:12px 16px;color:#f3dcb4}
 .alert b{color:var(--amber)}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .step{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px}
 .step .n{font:700 11px/1 var(--mono);color:var(--green);letter-spacing:.14em}.step .t{font:600 14px/1.3 var(--sans);margin:6px 0 4px}
 .step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
-@media (max-width:760px){.flow{grid-template-columns:1fr 1fr}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
+@media (max-width:760px){.flow{grid-template-columns:1fr 1fr!important}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
  header.hud{position:static}.status .pill:nth-child(3){display:none}.map{height:420px}}
 .region{display:block;color:inherit}.region:hover{border-color:rgba(46,242,176,.5)}
 .region .rt{font:600 16px/1.3 var(--sans);color:var(--ink);margin-bottom:6px}.region .go{font:600 11px/1 var(--mono);color:var(--green);letter-spacing:.14em;margin-top:10px}
@@ -284,9 +285,10 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
         data = d.reindex(columns=["lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop",
                                   "ship_prob"]).astype(object).fillna("").to_dict("records")
         shown = f"Showing pass <span class='mono'>{html.escape(latest.pass_id)}</span> &middot; {utc(latest.time)}"
-        n_m, n_c = int(latest.n_matched), int(latest.n_candidates)
+        n_m, n_low = int(latest.n_matched), int(latest.n_low_conf)
+        n_high = int(latest.n_candidates) - n_low
     else:
-        data, shown, n_m, n_c = [], "No satellite pass processed for this area yet.", 0, 0
+        data, shown, n_m, n_high, n_low = [], "No satellite pass processed for this area yet.", 0, 0, 0
     w, s, e, n = aoi
     js = (MAP_JS.replace("__DATA__", json.dumps(data)).replace("__LIVE__", json.dumps(live))
           .replace("__S__", str(s)).replace("__W__", str(w)).replace("__N__", str(n)).replace("__E__", str(e)))
@@ -311,7 +313,8 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
  <div class="panel"><div class="label">Live AIS feed</div><div class="value small">{rec}</div><div class="muted mono" style="font-size:12px;margin-top:6px">{since}</div></div>
  {readout("Ships broadcasting &middot; 30 min", len(live), "cyan")}
  {readout("Matched &middot; latest pass", n_m)}
- {readout("Not tracked &middot; latest pass", n_c, "red")}
+ {readout("Not tracked &middot; high confidence", n_high, "red")}
+ {readout("Not tracked &middot; low confidence", n_low, "amber")}
 </div>{quiet}
 <h2>Tactical map</h2><p class="muted mono" style="font-size:12.5px;margin:-4px 0 10px">{shown}</p>
 <div class="legend"><span><i style="background:var(--green)"></i>matched to AIS</span><span><i style="background:var(--red)"></i>not tracked &middot; high confidence</span>
@@ -324,7 +327,9 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(page(TITLES[region], body, depth=1, leaflet=True, active=region, feed=feed))
     return dict(region=region, passes=len(rp), live=len(live), st=st,
-                matched=int(rp.n_matched.sum()) if len(rp) else 0, cands=int(rp.n_candidates.sum()) if len(rp) else 0)
+                matched=int(rp.n_matched.sum()) if len(rp) else 0,
+                high=int((rp.n_candidates - rp.n_low_conf).sum()) if len(rp) else 0,
+                low=int(rp.n_low_conf.sum()) if len(rp) else 0)
 
 
 def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "ship_cnn_report.json")) -> dict | None:
@@ -445,11 +450,12 @@ flag is low confidence because the AIS feed had a 25-minute gap, so the system r
         f.write(page("Simulation", body, depth=1, leaflet=True, active="demo", feed=feed))
 
 
-FLOW = [("01", "Radar image", "Sentinel-1 sees every large ship, day or night, through cloud."),
-        ("02", "Detect", "CFAR finds bright targets on dark sea; land, bridges and buoys are masked."),
-        ("03", "Align AIS", "Each ship's last AIS report is moved along its course to the exact image time."),
-        ("04", "Match", "The Hungarian algorithm pairs radar targets with AIS ships within a speed-aware radius."),
-        ("05", "Flag", "Unmatched targets become candidates, with an honest confidence label.")]
+FLOW = [("01", "Radar image", "Sentinel-1 sees every large ship, day or night, through cloud.", ""),
+        ("02", "Propose", "CFAR marks every target much brighter than the sea around it; land is masked.", ""),
+        ("03", "ShipCNN", "Our neural network looks at each target and gives P(ship): ship, or pylon, turbine, buoy, clutter?", "nn"),
+        ("04", "Align AIS", "Each ship's last AIS report is moved along its course to the exact image time.", ""),
+        ("05", "Match", "The Hungarian algorithm pairs radar targets with AIS ships within a speed-aware radius.", ""),
+        ("06", "Flag", "Unmatched ships become candidates, labelled high or low confidence by what the data can support.", "")]
 
 
 def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = None, check_catalogue: bool = True) -> str:
@@ -483,15 +489,20 @@ def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = 
     json.dump(log, open(log_path, "w"))
 
     total_m = sum(s["matched"] for s in summaries)
-    total_c = sum(s["cands"] for s in summaries)
+    total_high = sum(s["high"] for s in summaries)
+    total_low = sum(s["low"] for s in summaries)
     total_p = sum(s["passes"] for s in summaries)
     total_live = sum(s["live"] for s in summaries)
-    flow = "".join(f'<div class="step"><div class="n">{n}</div><div class="t">{t}</div><div class="d">{d}</div></div>' for n, t, d in FLOW)
+    flow = "".join(
+        (f'<a class="step nn" href="nn/index.html">' if link else '<div class="step">')
+        + f'<div class="n">{n}{" &middot; NEURAL NETWORK" if link else ""}</div><div class="t">{t}</div><div class="d">{d}</div>'
+        + ("</a>" if link else "</div>") for n, t, d, link in FLOW)
     regions = "".join(f"""<a class="panel region" href="{s['region']}/index.html"><div class="label">Sector // {s['region'].upper()}</div>
 <div class="rt">{TITLES[s['region']]}</div>
 <div class="kv"><span>passes processed</span><span>{s['passes']}</span></div>
 <div class="kv"><span>ships matched to AIS</span><span class="ok">{s['matched']}</span></div>
-<div class="kv"><span>not publicly tracked</span><span class="bad">{s['cands']}</span></div>
+<div class="kv"><span>not tracked, high confidence</span><span class="bad">{s['high']}</span></div>
+<div class="kv"><span>not tracked, low confidence</span><span style="color:var(--amber)">{s['low']}</span></div>
 <div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">{s['live']}</span></div>
 <div class="go">OPEN SECTOR &rarr;</div></a>""" for s in summaries)
     runs = "".join(f"<tr><td>{utc(r['t'], '%Y-%m-%d %H:%M')}</td>" + "".join(
@@ -501,16 +512,23 @@ def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = 
     body = f"""<div class="coords">SYSTEM OVERVIEW</div>
 <h1>Ships the radar sees that nobody is tracking</h1>
 <p class="lede">Radar satellites see ships whether or not they announce themselves. AIS is what ships broadcast about themselves.
-This system compares the two after every Sentinel-1 pass and lists the ships that appear on radar with no matching AIS signal.</p>
+This system compares the two for each processed Sentinel-1 pass and lists the ships that appear on radar with no matching AIS signal.</p>
 <div class="grid" style="margin-top:18px">{readout("Satellite passes processed", total_p)}{readout("Ships matched to AIS", total_m)}
-{readout("Not publicly tracked", total_c, "red")}{readout("Broadcasting now &middot; 30 min", total_live, "cyan")}</div>
+{readout("Not tracked &middot; high confidence", total_high, "red")}{readout("Not tracked &middot; low confidence", total_low, "amber")}
+{readout("Broadcasting now &middot; 30 min", total_live, "cyan")}</div>
+<p class="muted" style="font-size:13px;margin-top:10px"><b>High confidence</b> = no AIS ship nearby although the AIS feed was healthy and the
+target is within receiver range, and it is not at a spot where something was also seen on another pass. Everything else is
+<b>low confidence</b>: the data cannot support calling it dark (for example Mumbai, where no AIS was available for the pass at all).</p>
 <h2>Pipeline</h2><div class="flow">{flow}</div>
+<p class="muted" style="font-size:13px"><b>What runs by itself and what does not.</b> The AIS recording and this website update automatically
+(the site is rebuilt on a schedule). Each satellite pass is processed with the pipeline commands (fetch the scene, run the pipeline);
+watching the catalogue for new passes and processing them automatically is the next step, not built yet.</p>
 <h2>Sectors</h2><div class="grid">{regions}</div>
 <h2>Read before trusting a flag</h2>
 <div class="alert"><b>"Not publicly tracked" is not "switched off".</b> Small boats often carry no public AIS, free AIS comes from coastal
 receivers with limited range, and ships under about 40 m are not reliably visible to the satellite. Low-confidence flags are the ones the
 data cannot support: beyond receiver range, during an AIS feed gap, or with no AIS recorded.</div>
-<h2>Automatic runs</h2><p class="muted mono" style="font-size:12.5px;margin-top:-4px">Rebuilt on a schedule from the live AIS recording. Newest first.</p>
+<h2>Automatic runs</h2><p class="muted mono" style="font-size:12.5px;margin-top:-4px">Each row is one automatic website rebuild, with the live AIS counts at that moment. Newest first.</p>
 <div class="tablewrap"><table><thead><tr><th>run (UTC)</th>{heads}</tr></thead><tbody>{runs}</tbody></table></div>"""
     path = os.path.join(out, "index.html")
     with open(path, "w", encoding="utf-8") as f:
