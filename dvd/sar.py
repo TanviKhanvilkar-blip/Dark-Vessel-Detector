@@ -73,7 +73,10 @@ def load_scene(tiff: str, aoi=C.AOI, res_deg: float = C.RES_DEG, calibration_xml
         nodata_src = (dn == 0)
         intensity = dn ** 2
         if calibration_xml:
-            lut = sigma0_lut(calibration_xml, win)
+            # a cropped file (dvd.pc) records where it sits in the original image; the calibration grid uses original pixels
+            tags = ds.tags()
+            off_r, off_c = int(tags.get("DVD_ROW_OFF", 0)), int(tags.get("DVD_COL_OFF", 0))
+            lut = sigma0_lut(calibration_xml, Window(win.col_off + off_c, win.row_off + off_r, win.width, win.height))
             intensity = intensity / np.maximum(lut, 1e-6) ** 2
         # re-express the full-image GCPs / transform relative to the window
         gcps, gcp_crs = ds.gcps

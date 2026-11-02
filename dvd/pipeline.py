@@ -45,21 +45,27 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
     proj = project_ais(ais, t0)
 
     det["shore_km"] = shore_distance_km(scene.land, grid, det["row"], det["col"]) if len(det) else []
-    pairs = match(det, proj)
+    # only plausible ships compete for AIS partners, so faint clutter (e.g. a wake) cannot take a real ship's match
+    eligible = det.index[(det.score >= C.MIN_SCORE) & (det.length_m >= C.MIN_LENGTH_M)] if len(det) else det.index
+    sub_pairs = match(det.loc[eligible].reset_index(drop=True), proj)
+    pairs = {int(eligible[k]): v for k, v in sub_pairs.items()}
     near_struct = structures.near(det["lon"].values, det["lat"].values) if len(det) else []
 
     status, reason, conf = [], [], []
     for i, d in det.iterrows():
-        if near_struct[i]:
-            s, r, c = "filtered", "fixed_structure", "n/a"
-        elif d.score < C.MIN_SCORE:
+        # A ship that matches AIS is a ship, even beside a pier or bridge: the structure and shore filters only exist
+        # to stop structures being called dark, so they apply to unmatched detections. Score and size filters come
+        # first because only plausible ships take part in matching (see `eligible` above).
+        if d.score < C.MIN_SCORE:
             s, r, c = "filtered", "low_score", "n/a"
         elif d.length_m < C.MIN_LENGTH_M:
             s, r, c = "filtered", "too_small", "n/a"
-        elif d.shore_km < C.MIN_SHORE_KM:
-            s, r, c = "filtered", "too_close_to_shore", "n/a"
         elif i in pairs:
             s, r, c = "matched", "", "high"
+        elif near_struct[i]:
+            s, r, c = "filtered", "fixed_structure", "n/a"
+        elif d.shore_km < C.MIN_SHORE_KM:
+            s, r, c = "filtered", "too_close_to_shore", "n/a"
         else:
             # Unmatched. Only trust "dark" where a ground receiver could plausibly have heard the ship
             # and the AIS feed was healthy; otherwise it is merely "not publicly tracked".

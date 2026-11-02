@@ -124,6 +124,10 @@ def main() -> None:
     area_args(k)
     i = sub.add_parser("fetch-infra", help="download bridges, piers, platforms and buoys from OpenStreetMap")
     area_args(i)
+    g = sub.add_parser("fetch-scene", help="download just the region's part of a Sentinel-1 scene from Planetary Computer")
+    g.add_argument("item", help="scene id, e.g. S1D_IW_GRDH_1SDV_20261029T170847_20261029T170912_005233_009F0B")
+    g.add_argument("--out", help="default scenes/<YYYYMMDD>")
+    area_args(g)
     m = sub.add_parser("import-dma", help="import Danish Maritime Authority historical AIS around a pass time")
     m.add_argument("--at", required=True, help="pass time in UTC, e.g. 2026-10-29T17:08:47")
     m.add_argument("--zip", help="local aisdk-YYYY-MM-DD.zip (downloaded if missing)")
@@ -131,7 +135,12 @@ def main() -> None:
     area_args(m)
     a = p.parse_args()
 
-    if a.cmd == "import-dma":
+    if a.cmd == "fetch-scene":
+        from .pc import fetch_scene
+        out = a.out or os.path.join("scenes", a.item.split("_")[4][:8])
+        tif, xml = fetch_scene(a.item, region_aoi(a), out)
+        print(f"image crop: {tif} ({os.path.getsize(tif) / 1e6:.1f} MB)\ncalibration: {xml}")
+    elif a.cmd == "import-dma":
         from datetime import datetime, timezone
         from .dma import day_url, import_window
         from .live import recording_box

@@ -5,10 +5,11 @@ AOI = (72.45, 18.80, 72.75, 19.10)
 RES_DEG = 0.0001  # ~11 m per pixel, close to Sentinel-1 GRD at 10 m
 # Areas used for real data (scenes, AIS recording, coastline, structures). AOI above stays the synthetic demo area.
 # Mumbai: the project's target, ~1 Sentinel-1 pass every 12 days, sparse free AIS.
-# Denmark (Great Belt): ~daily Sentinel-1 passes and dense coastal AIS receivers, so matching can be shown end to end.
+# Denmark (Oresund, Copenhagen-Malmo): ~daily Sentinel-1 passes, fully inside most swaths, and dense coastal AIS
+# receivers, so matching can be shown end to end. (The Great Belt was tried first but sits on swath edges.)
 REGIONS = {
     "mumbai": (72.55, 18.80, 72.95, 19.10),
-    "denmark": (10.85, 55.20, 11.25, 55.50),
+    "denmark": (12.55, 55.55, 12.95, 55.85),
 }
 LIVE_AOI = REGIONS["mumbai"]
 
@@ -35,6 +36,10 @@ MIN_SHORE_KM = 0.5
 MATCH_WINDOW_S = 1800      # use AIS within +/- 30 min of the image time
 MATCH_BASE_M = 100.0
 MATCH_SPEED_FACTOR = 0.15  # extra radius per metre of distance the ship could have travelled in dt
+# SAR azimuth shift: a ship moving toward/away from the satellite is imaged displaced along the satellite track by
+# (slant range / satellite speed) x (its velocity along the look direction). For Sentinel-1 IW that ratio is ~110 s,
+# so 10 kn can mean ~500 m. Without orbit geometry we allow the worst case (all of the speed along the look direction).
+SAR_RANGE_OVER_VELOCITY_S = 110.0
 
 # AIS coverage honesty: free ground receivers only reach so far offshore (approximate).
 RX_RANGE_KM = 18.0

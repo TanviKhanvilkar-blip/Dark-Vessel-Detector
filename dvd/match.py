@@ -25,8 +25,11 @@ def project_ais(ais: pd.DataFrame, t0: float, window_s: float = C.MATCH_WINDOW_S
 
 
 def match_radius_m(length_m, sog_kn, dt_s):
-    """Gate grows with ship size, and with how far the ship may have drifted from the extrapolated track."""
-    return C.MATCH_BASE_M + 0.5 * np.asarray(length_m) + C.MATCH_SPEED_FACTOR * np.asarray(sog_kn) * C.KNOT_MS * np.abs(dt_s)
+    """Gate grows with ship size, with how far the ship may have drifted from the extrapolated track, and with the
+    radar's azimuth shift of moving ships (stationary ships keep the tight gate)."""
+    speed = np.asarray(sog_kn) * C.KNOT_MS
+    return (C.MATCH_BASE_M + 0.5 * np.asarray(length_m) + C.MATCH_SPEED_FACTOR * speed * np.abs(dt_s)
+            + C.SAR_RANGE_OVER_VELOCITY_S * speed)
 
 
 def match(det: pd.DataFrame, proj: pd.DataFrame) -> dict[int, int]:

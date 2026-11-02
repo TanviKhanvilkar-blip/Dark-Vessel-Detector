@@ -2,6 +2,7 @@ import json
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from dvd import config as C
 from dvd import store
@@ -99,6 +100,25 @@ def test_fixed_structures_are_filtered(tmp_path):
     con = store.connect(str(tmp_path / "s.sqlite"))
     _, det = run_pass(sc, con, "t")
     assert (det.reason == "fixed_structure").sum() == len(C.FIXED_STRUCTURES)
+
+
+def test_moving_ships_get_wider_gate_for_sar_shift():
+    from dvd.match import match_radius_m
+    still, fast = match_radius_m(100, 0, 0), match_radius_m(100, 10, 0)
+    assert still == C.MATCH_BASE_M + 50
+    assert fast - still == pytest.approx(C.SAR_RANGE_OVER_VELOCITY_S * 10 * C.KNOT_MS)   # ~566 m at 10 kn
+
+
+def test_matched_ship_beside_structure_is_not_filtered(tmp_path):
+    # a ship moored at one of the demo "platforms" broadcasts AIS: it must be matched, not hidden as a structure
+    sc = make_scene(12, n_ships=3)
+    lon, lat = C.FIXED_STRUCTURES[0]
+    ais = pd.DataFrame([dict(mmsi=999, time=sc.time - 60, lon=lon, lat=lat, sog=0.0, cog=0.0)])
+    con = store.connect(str(tmp_path / "m.sqlite"))
+    store.add_ais(con, ais)
+    _, det = run_pass(sc, con, "t")
+    at = det[haversine_m(det.lon.values, det.lat.values, lon, lat) < C.STRUCTURE_RADIUS_M]
+    assert (at.status == "matched").sum() == 1
 
 
 def test_parse_position_report():

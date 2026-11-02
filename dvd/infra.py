@@ -27,6 +27,7 @@ def fetch_infrastructure(aoi, path: str, pad: float = 0.02) -> int:
          f'way["seamark:type"]({bb});'
          f'node["seamark:type"]({bb});'
          f'node["man_made"~"^(lighthouse|offshore_platform|beacon|mast|tower)$"]({bb});'
+         f'node["power"="generator"]["generator:source"="wind"]({bb});'   # offshore wind turbines: classic false alarm
          f');out geom;')
     r = requests.post(OVERPASS, data={"data": q}, timeout=240,
                       headers={"User-Agent": "dark-vessel-detector/0.1 (research project)", "Accept": "application/json"})
@@ -40,12 +41,14 @@ def fetch_infrastructure(aoi, path: str, pad: float = 0.02) -> int:
 # (traffic lanes are exactly where ships are; submarine cables lie on the sea bed).
 VIRTUAL = re.compile(r"^(separation_|cable_|pipeline_|anchorage|anchor_berth|restricted_area|fairway|recommended_track|"
                      r"navigation_line|harbour|sea_area|production_area|dredged_area|precautionary_area|inshore_traffic_zone|"
-                     r"ferry_route|calling-in_point|radio_calling-in_point)")
+                     r"ferry_route|calling-in_point|radio_calling-in_point|recommended_traffic_lane|pipeline|pilot_boarding)")
 
 
 def _kind(tags: dict) -> str:
     if tags.get("bridge") and tags["bridge"] != "no":
         return "bridge"
+    if tags.get("generator:source") == "wind":
+        return "wind_turbine"
     return tags.get("man_made") or tags.get("seamark:type") or "structure"
 
 

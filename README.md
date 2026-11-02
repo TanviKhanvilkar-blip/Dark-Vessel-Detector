@@ -49,6 +49,28 @@ Tested on generated GeoTIFFs with both a plain geotransform and GCP georeferenci
 calibration interpolation is unit-tested; **not yet run on an actual Copernicus file**. Expect to tune `CFAR_THRESHOLD` on real data.
 Moving ships appear displaced along track in SAR (Doppler), which the matching gate does not yet model.
 
+## Validation area: Oresund (Copenhagen), first matched pass
+
+Mumbai gets ~1 pass every 12 days and almost no free live AIS, so the end-to-end match is demonstrated on the Oresund,
+which Sentinel-1 covers fully on most passes and where the Danish Maritime Authority publishes full historical AIS.
+(The Great Belt was tried first: on both available dates it sat on the swath edge, 21% and 72% covered.)
+
+```
+python -m dvd fetch-coast --region denmark && python -m dvd fetch-infra --region denmark
+python -m dvd import-dma --region denmark --at 2026-10-27T05:23:38          # one AIS day, ~620 MB, cut to the area +/- 1 h
+python -m dvd fetch-scene S1C_IW_GRDH_1SDV_20261027T052338_20261027T052403_010066_01417A --region denmark   # area crop only, no login
+python -m dvd run-scene scenes/20261027/<...>-vh-aoi.tiff --cal scenes/20261027/calibration-<...>.xml --region denmark --db denmark_hist.sqlite
+```
+
+Result, 27 Oct 2026 05:23 UTC: 79 ships broadcasting AIS inside the area at image time (11 moving); 68 of them (86%) had a radar
+detection within 300 m. After filtering: **26 ships matched to AIS, 4 candidates not publicly tracked** (none had any AIS report
+within 0.9 km at image time; all four are compact targets on open water). Lessons from the real data, now built in:
+- Structure and shore filters apply only to *unmatched* detections; before this, 62 moored ships at quays were thrown away.
+- Moving ships are imaged displaced along the satellite track (~110 s x their velocity toward the satellite, ~500 m at 10 kn),
+  so the match radius grows with speed. Stationary ships keep the tight radius.
+- 29 broadcasting ships (mostly small harbour craft) gave detections below the score threshold: the detector's real limit.
+- Offshore wind turbines (Middelgrunden) are now pulled from OpenStreetMap with the other fixed structures.
+
 ## Recording AIS for a pass
 
 aisstream has no history, so AIS must be recorded *while* the satellite passes.

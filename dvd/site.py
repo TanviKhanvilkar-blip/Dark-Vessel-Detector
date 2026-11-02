@@ -21,7 +21,7 @@ import pandas as pd
 from . import config as C
 from .live import ais_status, recording_box
 
-TITLES = {"mumbai": "Mumbai coast and harbour, India", "denmark": "Great Belt (Storebaelt), Denmark"}
+TITLES = {"mumbai": "Mumbai coast and harbour, India", "denmark": "Oresund, Copenhagen (Denmark/Sweden)"}
 NOTES = {
     "mumbai": "The project's target area. Sentinel-1 images it about once every 12 days, and free AIS comes only from "
               "coastal receivers, so many unmatched ships here are simply out of receiver range.",
