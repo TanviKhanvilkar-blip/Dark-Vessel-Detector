@@ -1,29 +1,116 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dark vessel detection</title><style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--muted:#5d6675;--line:#e1e4e9;--accent:#3b6ea5}
-@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1c2027;--ink:#e6e8eb;--muted:#9aa3b0;--line:#2c323b;--accent:#7aa7d9}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
-main{max-width:1060px;margin:0 auto;padding:16px}a{color:var(--accent)}h1{font-size:24px;margin:8px 0 4px}h2{font-size:18px;margin:24px 0 8px}
-nav{display:flex;gap:16px;flex-wrap:wrap;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line)}
-.muted{color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.big{font-size:26px;font-weight:600}.note{background:#fff7e0;color:#4a3b00;border:1px solid #ecd48a;border-radius:10px;padding:10px 14px}
-@media (prefers-color-scheme:dark){.note{background:#3a3110;color:#f3e3a6;border-color:#6b5a1d}}
-.map{height:480px;border-radius:10px;border:1px solid var(--line)}table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
-td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}td:first-child,th:first-child{text-align:left}
-.tablewrap{overflow-x:auto}.key span{display:inline-block;width:11px;height:11px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
-img{max-width:100%}.ok{color:#2e7d32}.bad{color:#c62828}
-</style></head><body><nav><a href="index.html">Overview</a><a href="mumbai/index.html">Mumbai</a><a href="denmark/index.html">Denmark</a><a href="demo/index.html">Simulation</a></nav><main><h1>Dark vessel detection</h1>
-<p>Radar satellites (Sentinel-1) see ships whether or not they announce themselves. AIS is what ships broadcast. This system detects
-ships in radar images with a CFAR detector, projects every AIS ship to the exact image time, pairs them with the Hungarian algorithm,
-and lists the ships that radar saw but AIS did not: candidates for review, never accusations.</p>
-<div class="note"><b>How to read a flag.</b> "Not publicly tracked" is not "switched off". Small boats often carry no public AIS, free AIS
-comes from coastal receivers with limited range, and ships under ~40 m are not reliably visible. Low-confidence flags are those the
-data cannot support (beyond receiver range, AIS feed gap, or no AIS recorded).</div>
-<h2>Areas</h2><div class="cards"><div class="card"><h2 style="margin-top:0"><a href="mumbai/index.html">Mumbai coast and harbour, India</a></h2>
-<div>1 satellite passes processed: 0 ships matched to AIS, 153 not publicly tracked</div>
-<div>0 ships broadcasting AIS in the last 30 min</div></div><div class="card"><h2 style="margin-top:0"><a href="denmark/index.html">Great Belt (Storebaelt), Denmark</a></h2>
-<div>0 satellite passes processed: 0 ships matched to AIS, 0 not publicly tracked</div>
-<div>6 ships broadcasting AIS in the last 30 min</div></div></div>
-<h2>Automatic runs</h2><p class="muted">The site is rebuilt on a schedule from the live AIS recording. Last update: 2026-11-02 04:27:21 UTC.</p>
-<div class="tablewrap"><table><tr><th>run (UTC)</th><th>mumbai: ships live</th><th>mumbai: msgs/h</th><th>denmark: ships live</th><th>denmark: msgs/h</th></tr><tr><td>2026-11-02 04:27 UTC</td><td>0</td><td>0</td><td>6</td><td>6</td></tr><tr><td>2026-11-02 04:26 UTC</td><td>0</td><td>0</td><td>4</td><td>4</td></tr></table></div>
-<p class="muted">Data: Copernicus Sentinel-1 (ESA), AIS via aisstream.io and the Danish Maritime Authority, maps and coastlines &copy; OpenStreetMap contributors.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><title>Dark Vessel Detection</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#05090d;--panel:#0a1218;--panel2:#0d1820;--line:#16303a;--ink:#d3ece9;--muted:#6d8c91;
+--green:#2ef2b0;--red:#ff4d5e;--amber:#ffb547;--cyan:#4fc3ff;--glow:0 0 12px rgba(46,242,176,.35);
+--mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;--sans:'Inter',system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;color:var(--ink);font:15px/1.6 var(--sans);background:
+ radial-gradient(1200px 500px at 70% -10%,rgba(46,242,176,.08),transparent 60%),
+ linear-gradient(rgba(46,242,176,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(46,242,176,.035) 1px,transparent 1px),var(--bg);
+ background-size:auto,44px 44px,44px 44px,auto;min-height:100vh}
+a{color:var(--green);text-decoration:none}a:hover{text-shadow:var(--glow)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.hud{border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(10,18,24,.95),rgba(5,9,13,.85));position:sticky;top:0;z-index:1000;backdrop-filter:blur(6px)}
+.hudrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.scope{width:52px;height:52px;border-radius:50%;position:relative;overflow:hidden;flex:none;border:1px solid rgba(46,242,176,.5);
+ background:repeating-radial-gradient(circle,transparent 0 9px,rgba(46,242,176,.22) 9px 10px),
+ linear-gradient(rgba(46,242,176,.25),rgba(46,242,176,.25)) center/1px 100% no-repeat,
+ linear-gradient(90deg,rgba(46,242,176,.25),rgba(46,242,176,.25)) center/100% 1px no-repeat,#03110c;box-shadow:var(--glow)}
+.sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(46,242,176,.65),rgba(46,242,176,0) 75deg,transparent);animation:spin 3.2s linear infinite}
+.blip{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--red);box-shadow:0 0 6px var(--red);animation:blink 3.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes blink{0%,60%{opacity:.15}70%{opacity:1}100%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){.sweep,.blip,.dot.live{animation:none}}
+.kicker{font:600 11px/1.2 var(--mono);letter-spacing:.18em;color:var(--muted)}
+.title{font:700 20px/1.2 var(--mono);letter-spacing:.06em;color:var(--ink)}
+.title b{color:var(--green);font-weight:700}
+.status{display:flex;gap:10px;flex-wrap:wrap;font:12px/1 var(--mono)}
+.pill{border:1px solid var(--line);background:var(--panel);padding:7px 10px;border-radius:999px;color:var(--muted);white-space:nowrap}
+.pill strong{color:var(--ink);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:0}
+.dot.live{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.6s ease-in-out infinite}.dot.off{background:var(--red)}
+@keyframes pulse{50%{opacity:.35}}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 0 0;margin-top:-1px}
+nav.tabs a{font:600 12px/1 var(--mono);letter-spacing:.12em;color:var(--muted);padding:12px 14px;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs a.on{color:var(--green);border-bottom-color:var(--green);text-shadow:var(--glow)}nav.tabs a:hover{color:var(--ink)}
+main{padding:24px 0 40px}
+h1{font:700 28px/1.2 var(--sans);margin:4px 0 6px;letter-spacing:-.01em}
+h2{font:600 12px/1 var(--mono);letter-spacing:.18em;color:var(--muted);margin:34px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{color:#a9c6c3;max-width:760px}.muted{color:var(--muted)}.mono{font-family:var(--mono)}
+.coords{font:12px/1.4 var(--mono);color:var(--muted);letter-spacing:.06em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.panel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:6px;padding:14px 16px;position:relative}
+.panel::before,.panel::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--green);opacity:.55}
+.panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0}.panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.label{font:600 10.5px/1.2 var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.value{font:600 30px/1.1 var(--mono);color:var(--green);text-shadow:var(--glow)}
+.value.red{color:var(--red);text-shadow:0 0 12px rgba(255,77,94,.35)}.value.cyan{color:var(--cyan);text-shadow:0 0 12px rgba(79,195,255,.35)}
+.value.small{font-size:16px}.ok{color:var(--green)}.bad{color:var(--red)}
+.alert{border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.07);border-radius:6px;padding:12px 16px;color:#f3dcb4}
+.alert b{color:var(--amber)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.step{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px}
+.step .n{font:700 11px/1 var(--mono);color:var(--green);letter-spacing:.14em}.step .t{font:600 14px/1.3 var(--sans);margin:6px 0 4px}
+.step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
+@media (max-width:760px){.flow{grid-template-columns:1fr 1fr}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
+ header.hud{position:static}.status .pill:nth-child(3){display:none}.map{height:420px}}
+.region{display:block;color:inherit}.region:hover{border-color:rgba(46,242,176,.5)}
+.region .rt{font:600 16px/1.3 var(--sans);color:var(--ink);margin-bottom:6px}.region .go{font:600 11px/1 var(--mono);color:var(--green);letter-spacing:.14em;margin-top:10px}
+.kv{display:flex;justify-content:space-between;font:13px/1.9 var(--mono);border-bottom:1px dashed var(--line)}.kv span:last-child{color:var(--ink)}
+.map{height:520px;border:1px solid var(--line);border-radius:6px;background:#0a0f13}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font:12px/1 var(--mono);color:var(--muted);margin:0 0 10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font:13px/1.4 var(--mono);background:var(--panel)}
+th{font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+td,th{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}td:first-child,th:first-child{text-align:left}
+tr:last-child td{border-bottom:0}tbody tr:hover td{background:rgba(46,242,176,.04)}
+.chart{border:1px solid var(--line);border-radius:6px;display:block;width:100%}
+ul.acq{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+ul.acq li{font:12px/1 var(--mono);border:1px solid var(--line);background:var(--panel);padding:8px 10px;border-radius:4px}
+footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--mono);color:var(--muted)}
+.leaflet-container{background:#0a0f13;font:12px var(--mono)}
+.radar-tiles{filter:invert(100%) hue-rotate(180deg) grayscale(70%) brightness(78%) contrast(118%)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0d1820;color:var(--ink);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.6)}
+.leaflet-popup-content b{color:var(--green)}.leaflet-popup-content img{border:1px solid var(--line);margin-top:6px;image-rendering:pixelated}
+.leaflet-control-layers,.leaflet-bar a{background:#0d1820!important;color:var(--ink)!important;border-color:var(--line)!important}
+.leaflet-control-attribution{background:rgba(5,9,13,.75)!important;color:var(--muted)!important}.leaflet-control-attribution a{color:var(--muted)}
+</style></head><body>
+<header class="hud"><div class="wrap"><div class="hudrow">
+ <a class="brand" href="index.html"><div class="scope"><div class="sweep"></div><span class="blip" style="left:32px;top:14px"></span><span class="blip" style="left:15px;top:33px;animation-delay:1.1s"></span></div>
+  <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
+ <div class="status"><span class="pill"><span class="dot live"></span>AIS FEED <strong>LIVE</strong></span>
+  <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
+  <span class="pill">UPDATED <strong>02 Nov 04:50</strong></span></div>
+</div><nav class="tabs"><a class="on" href="index.html">OVERVIEW</a><a class="" href="mumbai/index.html">MUMBAI</a><a class="" href="denmark/index.html">DENMARK</a><a class="" href="demo/index.html">SIMULATION</a></nav></div></header>
+<main class="wrap"><div class="coords">SYSTEM OVERVIEW</div>
+<h1>Ships the radar sees that nobody is tracking</h1>
+<p class="lede">Radar satellites see ships whether or not they announce themselves. AIS is what ships broadcast about themselves.
+This system compares the two after every Sentinel-1 pass and lists the ships that appear on radar with no matching AIS signal.</p>
+<div class="grid" style="margin-top:18px"><div class="panel"><div class="label">Satellite passes processed</div><div class="value ">1</div></div><div class="panel"><div class="label">Ships matched to AIS</div><div class="value ">0</div></div>
+<div class="panel"><div class="label">Not publicly tracked</div><div class="value red">153</div></div><div class="panel"><div class="label">Broadcasting now &middot; 30 min</div><div class="value cyan">33</div></div></div>
+<h2>Pipeline</h2><div class="flow"><div class="step"><div class="n">01</div><div class="t">Radar image</div><div class="d">Sentinel-1 sees every large ship, day or night, through cloud.</div></div><div class="step"><div class="n">02</div><div class="t">Detect</div><div class="d">CFAR finds bright targets on dark sea; land, bridges and buoys are masked.</div></div><div class="step"><div class="n">03</div><div class="t">Align AIS</div><div class="d">Each ship's last AIS report is moved along its course to the exact image time.</div></div><div class="step"><div class="n">04</div><div class="t">Match</div><div class="d">The Hungarian algorithm pairs radar targets with AIS ships within a speed-aware radius.</div></div><div class="step"><div class="n">05</div><div class="t">Flag</div><div class="d">Unmatched targets become candidates, with an honest confidence label.</div></div></div>
+<h2>Sectors</h2><div class="grid"><a class="panel region" href="mumbai/index.html"><div class="label">Sector // MUMBAI</div>
+<div class="rt">Mumbai coast and harbour, India</div>
+<div class="kv"><span>passes processed</span><span>1</span></div>
+<div class="kv"><span>ships matched to AIS</span><span class="ok">0</span></div>
+<div class="kv"><span>not publicly tracked</span><span class="bad">153</span></div>
+<div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">0</span></div>
+<div class="go">OPEN SECTOR &rarr;</div></a><a class="panel region" href="denmark/index.html"><div class="label">Sector // DENMARK</div>
+<div class="rt">Great Belt (Storebaelt), Denmark</div>
+<div class="kv"><span>passes processed</span><span>0</span></div>
+<div class="kv"><span>ships matched to AIS</span><span class="ok">0</span></div>
+<div class="kv"><span>not publicly tracked</span><span class="bad">0</span></div>
+<div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">33</span></div>
+<div class="go">OPEN SECTOR &rarr;</div></a></div>
+<h2>Read before trusting a flag</h2>
+<div class="alert"><b>"Not publicly tracked" is not "switched off".</b> Small boats often carry no public AIS, free AIS comes from coastal
+receivers with limited range, and ships under about 40 m are not reliably visible to the satellite. Low-confidence flags are the ones the
+data cannot support: beyond receiver range, during an AIS feed gap, or with no AIS recorded.</div>
+<h2>Automatic runs</h2><p class="muted mono" style="font-size:12.5px;margin-top:-4px">Rebuilt on a schedule from the live AIS recording. Newest first.</p>
+<div class="tablewrap"><table><thead><tr><th>run (UTC)</th><th>mumbai live</th><th>mumbai msg/h</th><th>denmark live</th><th>denmark msg/h</th></tr></thead><tbody><tr><td>2026-11-02 04:50</td><td>0</td><td>0</td><td>33</td><td>110</td></tr><tr><td>2026-11-02 04:49</td><td>0</td><td>0</td><td>33</td><td>110</td></tr><tr><td>2026-11-02 04:49</td><td>0</td><td>0</td><td>32</td><td>108</td></tr><tr><td>2026-11-02 04:48</td><td>0</td><td>0</td><td>32</td><td>106</td></tr><tr><td>2026-11-02 04:47</td><td>0</td><td>0</td><td>32</td><td>104</td></tr><tr><td>2026-11-02 04:47</td><td>0</td><td>0</td><td>32</td><td>98</td></tr><tr><td>2026-11-02 04:27</td><td>0</td><td>0</td><td>6</td><td>6</td></tr><tr><td>2026-11-02 04:26</td><td>0</td><td>0</td><td>4</td><td>4</td></tr></tbody></table></div></main>
+<footer><div class="wrap">Data: Copernicus Sentinel-1 (ESA) &middot; AIS via aisstream.io and the Danish Maritime Authority &middot;
+coastlines, structures and basemap &copy; OpenStreetMap contributors. Flags are candidates for review, not accusations.</div></footer>
+<script>(function(){const e=document.getElementById('utc');const t=()=>e.textContent=new Date().toISOString().slice(11,19);t();setInterval(t,1000);})();</script>
+</body></html>
