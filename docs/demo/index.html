@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dark vessel candidates - Mumbai-Gujarat coast</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+body{font:15px/1.5 system-ui,sans-serif;margin:0;color:#1d2330;background:#f6f7f9}
+header,section{max-width:1000px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:8px 0}#map{height:520px;border-radius:8px;border:1px solid #cfd4dc}
+table{border-collapse:collapse;width:100%;background:#fff}td,th{padding:6px 10px;border-bottom:1px solid #e3e6ea;text-align:right}
+th:first-child,td:first-child{text-align:left}.note{background:#fff7e0;border:1px solid #ecd48a;border-radius:8px;padding:10px 14px}
+.key span{display:inline-block;width:11px;height:11px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
+img{max-width:100%}
+</style></head><body>
+<header><h1>Ships seen by radar that were not publicly tracked</h1>
+<p>Latest pass: <b>S1-demo-4</b>. Candidates are for human review, not verdicts or accusations.</p>
+<div class="note"><b>Read before trusting a flag.</b> "Not tracked" is not "switched off". Free AIS comes from coastal receivers that
+reach roughly 18 km offshore, many boats carry no public AIS at all, and ships under ~40 m are not reliably seen.
+Orange = low confidence (beyond receiver range, or the AIS feed had a gap). Demo data is synthetic.</div></header>
+<section><div class="key"><span style="background:#2e7d32"></span>matched to AIS<span style="background:#d32f2f"></span>candidate (high confidence)<span style="background:#ef9a2f"></span>candidate (low confidence)</div>
+<div id="map"></div></section>
+<section><h2>Pass log</h2><table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>pass</th>
+      <th>time (UTC)</th>
+      <th>detections</th>
+      <th>matched</th>
+      <th>candidates</th>
+      <th>low conf.</th>
+      <th>match rate</th>
+      <th>AIS msgs</th>
+      <th>feed gap s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S1-demo-1</td>
+      <td>2026-05-28 20:26</td>
+      <td>26</td>
+      <td>15</td>
+      <td>11</td>
+      <td>5</td>
+      <td>0.58</td>
+      <td>483</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>S1-demo-2</td>
+      <td>2026-06-03 20:26</td>
+      <td>27</td>
+      <td>10</td>
+      <td>17</td>
+      <td>6</td>
+      <td>0.37</td>
+      <td>321</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>S1-demo-3</td>
+      <td>2026-06-09 20:26</td>
+      <td>26</td>
+      <td>13</td>
+      <td>13</td>
+      <td>2</td>
+      <td>0.50</td>
+      <td>398</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>S1-demo-4</td>
+      <td>2026-06-15 20:26</td>
+      <td>27</td>
+      <td>12</td>
+      <td>15</td>
+      <td>15</td>
+      <td>0.44</td>
+      <td>225</td>
+      <td>1500.0</td>
+    </tr>
+  </tbody>
+</table><h2>Monitoring</h2><img src="monitoring.png" alt="monitoring chart"></section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const D=[{"lon": 72.60181923076924, "lat": 19.071807692307694, "length_m": 138.66226920626715, "score": 0.9159785086084874, "shore_km": 6.8379470259856525, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.61790555555555, "lat": 19.06413888888889, "length_m": 74.43934025564988, "score": 0.9014323549428152, "shore_km": 5.160771882592013, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.47647, "lat": 19.03751, "length_m": 85.2991873832427, "score": 0.7606078121707412, "shore_km": 20.72329204629842, "status": "candidate", "reason": "beyond_ground_receiver_range,ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_2.png"}, {"lon": 72.53078888888889, "lat": 19.000233333333334, "length_m": 118.79742336578168, "score": 0.9425150590302401, "shore_km": 16.135390519014667, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.59514292929293, "lat": 19.036489393939394, "length_m": 265.3006594706246, "score": 0.9568496803057724, "shore_km": 8.241218564135728, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.57719, "lat": 19.004710000000003, "length_m": 46.42810930499717, "score": 0.8438115115730866, "shore_km": 11.354876688671164, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_6.png"}, {"lon": 72.49805, "lat": 18.95465, "length_m": 60.90405372750295, "score": 0.8700674021315828, "shore_km": 18.409994092136152, "status": "candidate", "reason": "beyond_ground_receiver_range,ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_8.png"}, {"lon": 72.47131666666667, "lat": 18.95146666666667, "length_m": 50.61523823110967, "score": 0.7393144441512918, "shore_km": 21.209313325245763, "status": "candidate", "reason": "beyond_ground_receiver_range,ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_9.png"}, {"lon": 72.53906875, "lat": 18.953278125, "length_m": 140.12279514237125, "score": 0.9505843290076328, "shore_km": 14.024412141499248, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_10.png"}, {"lon": 72.62553235294118, "lat": 18.99599705882353, "length_m": 122.98765411588347, "score": 0.9845488963473372, "shore_km": 7.213464662836855, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.6181, "lat": 18.9648, "length_m": 40.14506245483339, "score": 0.811360814308542, "shore_km": 6.277352235467418, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_12.png"}, {"lon": 72.50351363636364, "lat": 18.93913181818182, "length_m": 76.91161707349545, "score": 0.8934247124099611, "shore_km": 17.58716058133916, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.50589126984127, "lat": 18.922669841269844, "length_m": 297.7171449350496, "score": 0.8984056919827978, "shore_km": 17.225209781845233, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_15.png"}, {"lon": 72.6018, "lat": 18.936200000000003, "length_m": 58.052183284403206, "score": 0.9344912674019643, "shore_km": 7.003835258471664, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.58542142857144, "lat": 18.93012142857143, "length_m": 57.27562130147481, "score": 0.8619532137580962, "shore_km": 8.674050676236275, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.60291666666667, "lat": 18.899541666666668, "length_m": 87.25205034126658, "score": 0.9371833201113074, "shore_km": 6.884734050215944, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.52704090909091, "lat": 18.892422727272727, "length_m": 96.10558427092036, "score": 0.8840209715982021, "shore_km": 15.11718177653122, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_19.png"}, {"lon": 72.51972368421053, "lat": 18.879234210526317, "length_m": 116.53579416266656, "score": 0.9956394131000736, "shore_km": 16.139165363335252, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.534075, "lat": 18.848725, "length_m": 95.70912569218628, "score": 0.994769886083833, "shore_km": 15.581536532090462, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.59292500000001, "lat": 18.886775, "length_m": 100.04097265128814, "score": 0.9820316617894921, "shore_km": 8.239677617847741, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_22.png"}, {"lon": 72.65295, "lat": 18.873, "length_m": 94.35215432125625, "score": 0.970842973726521, "shore_km": 2.8275425760571538, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_23.png"}, {"lon": 72.63115, "lat": 18.865263333333335, "length_m": 113.39290867892244, "score": 0.9943786725335005, "shore_km": 5.29169482210957, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_24.png"}, {"lon": 72.62916276595745, "lat": 18.845926595744682, "length_m": 186.26733331344394, "score": 0.8296879454383619, "shore_km": 6.5325430536994125, "status": "matched", "reason": "", "confidence": "high", "crop": ""}, {"lon": 72.67042500000001, "lat": 18.85404, "length_m": 121.78386171989887, "score": 0.9812567118440045, "shore_km": 2.203432965466854, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_26.png"}, {"lon": 72.52305, "lat": 18.83145, "length_m": 58.798600321384846, "score": 0.8155500349972228, "shore_km": 17.32090650452306, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_27.png"}, {"lon": 72.5731196969697, "lat": 18.841940909090912, "length_m": 156.45016583254275, "score": 0.9047893065438574, "shore_km": 12.017690786896777, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_28.png"}, {"lon": 72.5849975, "lat": 18.826899166666667, "length_m": 295.36753397346035, "score": 0.9884814601230507, "shore_km": 10.688807556537666, "status": "candidate", "reason": "ais_feed_gap", "confidence": "low", "crop": "crops/S1-demo-4_29.png"}];const m=L.map('map').fitBounds([[18.8,72.45],[19.1,72.75]]);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(m);
+D.forEach(d=>{const c=d.status=='matched'?'#2e7d32':(d.confidence=='low'?'#ef9a2f':'#d32f2f');
+let h='<b>'+d.status+'</b><br>length ~'+d.length_m.toFixed(0)+' m, score '+d.score.toFixed(2)+'<br>'+d.shore_km.toFixed(1)+' km from shore';
+if(d.reason)h+='<br>caveat: '+d.reason.replaceAll('_',' ');if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
+L.circleMarker([d.lat,d.lon],{radius:d.status=='matched'?5:8,color:c,fillColor:c,fillOpacity:.7}).bindPopup(h).addTo(m);});
+</script></body></html>

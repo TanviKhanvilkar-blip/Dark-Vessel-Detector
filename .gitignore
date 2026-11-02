@@ -1,0 +1,25 @@
+# large inputs: satellite scenes, AIS archives, downloads
+measurement/
+calibration/
+scenes/
+*.SAFE/
+*.zip
+*.tiff
+*.tif
+data/dma/
+data/coast.geojson
+yolo_data/
+
+# databases and local outputs (the published site is docs/)
+*.sqlite
+*.sqlite-journal
+site/
+site*/
+!docs/
+
+# python / tools
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+.claude/

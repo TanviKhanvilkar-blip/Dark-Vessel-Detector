@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Great Belt (Storebaelt), Denmark</title><style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--muted:#5d6675;--line:#e1e4e9;--accent:#3b6ea5}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1c2027;--ink:#e6e8eb;--muted:#9aa3b0;--line:#2c323b;--accent:#7aa7d9}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1060px;margin:0 auto;padding:16px}a{color:var(--accent)}h1{font-size:24px;margin:8px 0 4px}h2{font-size:18px;margin:24px 0 8px}
+nav{display:flex;gap:16px;flex-wrap:wrap;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line)}
+.muted{color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.big{font-size:26px;font-weight:600}.note{background:#fff7e0;color:#4a3b00;border:1px solid #ecd48a;border-radius:10px;padding:10px 14px}
+@media (prefers-color-scheme:dark){.note{background:#3a3110;color:#f3e3a6;border-color:#6b5a1d}}
+.map{height:480px;border-radius:10px;border:1px solid var(--line)}table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
+td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}td:first-child,th:first-child{text-align:left}
+.tablewrap{overflow-x:auto}.key span{display:inline-block;width:11px;height:11px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
+img{max-width:100%}.ok{color:#2e7d32}.bad{color:#c62828}
+</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script></head><body><nav><a href="../index.html">Overview</a><a href="../mumbai/index.html">Mumbai</a><a href="../denmark/index.html">Denmark</a><a href="../demo/index.html">Simulation</a></nav><main><h1>Great Belt (Storebaelt), Denmark</h1><p class="muted">Validation area. Sentinel-1 images it almost daily and coastal AIS coverage is dense, so the full match between radar and AIS can be shown and checked.</p>
+<div class="cards">
+ <div class="card"><div class="muted">Live AIS</div><div><span class='ok'>recording</span>, last message 1 min ago</div></div>
+ <div class="card"><div class="muted">Ships broadcasting, last 30 min</div><div class="big">6</div></div>
+ <div class="card"><div class="muted">AIS messages, last hour</div><div class="big">6</div></div>
+ <div class="card"><div class="muted">Satellite passes processed</div><div class="big">0</div></div>
+</div>
+<h2>Map</h2><p class="muted">No satellite pass processed for this region yet. Switch layers at the top right.</p>
+<div class="key"><span style="background:#2e7d32"></span>matched to AIS<span style="background:#d32f2f"></span>not tracked, high confidence
+<span style="background:#ef9a2f"></span>not tracked, low confidence<span style="background:#3b6ea5"></span>live AIS position</div>
+<div id="map" class="map"></div><script>
+const D=[],LIVE=[{"lon": 10.989343333333332, "lat": 55.081905, "sog": 12.5, "age": 1}, {"lon": 11.06002, "lat": 55.17637, "sog": 10.3, "age": 1}, {"lon": 10.813618333333332, "lat": 55.29816833333334, "sog": 0.0, "age": 1}, {"lon": 10.964861666666668, "lat": 55.332271666666664, "sog": 0.0, "age": 1}, {"lon": 11.107538333333334, "lat": 55.34686, "sog": 0.0, "age": 1}, {"lon": 10.810326666666667, "lat": 55.29855666666666, "sog": 0.0, "age": 0}],B=[[55.2,10.85],[55.5,11.25]];const m=L.map('map').fitBounds(B);
+// re-fit once layout has settled: if the container had no size when the map was created, Leaflet falls back to zoom 0
+const refit=()=>{m.invalidateSize();m.fitBounds(B);};setTimeout(refit,0);window.addEventListener('load',refit);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(m);
+const det=L.layerGroup().addTo(m),live=L.layerGroup().addTo(m);
+D.forEach(d=>{const c=d.status=='matched'?'#2e7d32':(d.confidence=='low'?'#ef9a2f':'#d32f2f');
+let h='<b>'+(d.status=='matched'?'matched to AIS':'not publicly tracked')+'</b><br>length ~'+d.length_m.toFixed(0)+' m, score '+d.score.toFixed(2)+'<br>'+d.shore_km.toFixed(1)+' km from shore';
+if(d.reason)h+='<br>caveat: '+d.reason.replaceAll('_',' ').replaceAll(',',', ');if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
+L.circleMarker([d.lat,d.lon],{radius:d.status=='matched'?5:8,color:c,fillColor:c,fillOpacity:.75,weight:1}).bindPopup(h).addTo(det);});
+LIVE.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:3,color:'#3b6ea5',fillOpacity:.9,weight:1}).bindPopup('live AIS: '+p.sog+' kn, '+p.age+' min ago').addTo(live));
+L.control.layers(null,{'radar detections (selected pass)':det,'live AIS, last 30 min':live}).addTo(m);
+</script>
+<h2>Pass log</h2><p class='muted'>None yet.</p>
+<h2>Monitoring</h2><img src="charts.png" alt="AIS messages per hour and ships per pass">
+<h2>Recent Sentinel-1 acquisitions over this area</h2><ul><li>catalogue unavailable</li></ul>
+<p class="muted">Feed gaps in the last 24 h: 0 (0 min).</p></main></body></html>

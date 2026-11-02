@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dark vessel detection</title><style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--muted:#5d6675;--line:#e1e4e9;--accent:#3b6ea5}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1c2027;--ink:#e6e8eb;--muted:#9aa3b0;--line:#2c323b;--accent:#7aa7d9}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1060px;margin:0 auto;padding:16px}a{color:var(--accent)}h1{font-size:24px;margin:8px 0 4px}h2{font-size:18px;margin:24px 0 8px}
+nav{display:flex;gap:16px;flex-wrap:wrap;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line)}
+.muted{color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.big{font-size:26px;font-weight:600}.note{background:#fff7e0;color:#4a3b00;border:1px solid #ecd48a;border-radius:10px;padding:10px 14px}
+@media (prefers-color-scheme:dark){.note{background:#3a3110;color:#f3e3a6;border-color:#6b5a1d}}
+.map{height:480px;border-radius:10px;border:1px solid var(--line)}table{border-collapse:collapse;width:100%;background:var(--card);font-size:14px}
+td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}td:first-child,th:first-child{text-align:left}
+.tablewrap{overflow-x:auto}.key span{display:inline-block;width:11px;height:11px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
+img{max-width:100%}.ok{color:#2e7d32}.bad{color:#c62828}
+</style></head><body><nav><a href="index.html">Overview</a><a href="mumbai/index.html">Mumbai</a><a href="denmark/index.html">Denmark</a><a href="demo/index.html">Simulation</a></nav><main><h1>Dark vessel detection</h1>
+<p>Radar satellites (Sentinel-1) see ships whether or not they announce themselves. AIS is what ships broadcast. This system detects
+ships in radar images with a CFAR detector, projects every AIS ship to the exact image time, pairs them with the Hungarian algorithm,
+and lists the ships that radar saw but AIS did not: candidates for review, never accusations.</p>
+<div class="note"><b>How to read a flag.</b> "Not publicly tracked" is not "switched off". Small boats often carry no public AIS, free AIS
+comes from coastal receivers with limited range, and ships under ~40 m are not reliably visible. Low-confidence flags are those the
+data cannot support (beyond receiver range, AIS feed gap, or no AIS recorded).</div>
+<h2>Areas</h2><div class="cards"><div class="card"><h2 style="margin-top:0"><a href="mumbai/index.html">Mumbai coast and harbour, India</a></h2>
+<div>1 satellite passes processed: 0 ships matched to AIS, 153 not publicly tracked</div>
+<div>0 ships broadcasting AIS in the last 30 min</div></div><div class="card"><h2 style="margin-top:0"><a href="denmark/index.html">Great Belt (Storebaelt), Denmark</a></h2>
+<div>0 satellite passes processed: 0 ships matched to AIS, 0 not publicly tracked</div>
+<div>6 ships broadcasting AIS in the last 30 min</div></div></div>
+<h2>Automatic runs</h2><p class="muted">The site is rebuilt on a schedule from the live AIS recording. Last update: 2026-11-02 04:27:21 UTC.</p>
+<div class="tablewrap"><table><tr><th>run (UTC)</th><th>mumbai: ships live</th><th>mumbai: msgs/h</th><th>denmark: ships live</th><th>denmark: msgs/h</th></tr><tr><td>2026-11-02 04:27 UTC</td><td>0</td><td>0</td><td>6</td><td>6</td></tr><tr><td>2026-11-02 04:26 UTC</td><td>0</td><td>0</td><td>4</td><td>4</td></tr></table></div>
+<p class="muted">Data: Copernicus Sentinel-1 (ESA), AIS via aisstream.io and the Danish Maritime Authority, maps and coastlines &copy; OpenStreetMap contributors.</p></main></body></html>
