@@ -364,8 +364,8 @@ pylon, pier, wind turbine, buoy or sea clutter. It was designed and trained from
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr>{arch}</tbody></table></div>
 <p class="muted" style="font-size:13px">Each convolution slides 3 &times; 3 filters over the chip; BatchNorm keeps activations in a stable range; ReLU
-(max(0, x)) adds non-linearity; max-pooling halves the size so deeper layers see larger areas (a neuron in block 4 sees 31 &times; 31 px,
-about 300 m, enough for a whole ship). Global average pooling makes the decision independent of exactly where the target sits.
+(max(0, x)) adds non-linearity; max-pooling halves the size so deeper layers see larger areas (a neuron in block 4 sees 38 &times; 38 px,
+about 380 m, enough for a whole ship). Global average pooling makes the decision independent of exactly where the target sits.
 The two fully connected layers turn the 64 features into one number; the sigmoid squashes it to a probability between 0 and 1.</p>
 <h2>Training data: labelled by AIS, not by hand</h2>
 <div class="flow" style="grid-template-columns:repeat(3,1fr)">

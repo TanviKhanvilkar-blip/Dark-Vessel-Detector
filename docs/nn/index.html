@@ -83,7 +83,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--
   <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
  <div class="status"><span class="pill"><span class="dot live"></span>AIS FEED <strong>LIVE</strong></span>
   <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
-  <span class="pill">UPDATED <strong>02 Nov 13:21</strong></span></div>
+  <span class="pill">UPDATED <strong>02 Nov 13:34</strong></span></div>
 </div><nav class="tabs"><a class="" href="../index.html">OVERVIEW</a><a class="" href="../mumbai/index.html">MUMBAI</a><a class="" href="../denmark/index.html">DENMARK</a><a class="on" href="../nn/index.html">NEURAL NET</a><a class="" href="../demo/index.html">SIMULATION</a></nav></div></header>
 <main class="wrap"><div class="coords">NEURAL NETWORK // SHIPCNN</div>
 <h1>ShipCNN: our own convolutional network that decides "is this a ship?"</h1>
@@ -96,8 +96,8 @@ pylon, pier, wind turbine, buoy or sea clutter. It was designed and trained from
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr><tr><td>1. Conv 3x3, 16 filters + BatchNorm + MaxPool 2x2</td><td>16 x 32 x 32</td><td>ReLU</td><td>192</td></tr><tr><td>2. Conv 3x3, 32 filters + BatchNorm + MaxPool 2x2</td><td>32 x 16 x 16</td><td>ReLU</td><td>4,704</td></tr><tr><td>3. Conv 3x3, 64 filters + BatchNorm + MaxPool 2x2</td><td>64 x 8 x 8</td><td>ReLU</td><td>18,624</td></tr><tr><td>4. Conv 3x3, 64 filters + BatchNorm</td><td>64 x 8 x 8</td><td>ReLU</td><td>37,056</td></tr><tr><td>5. Global average pool</td><td>64 x 1 x 1</td><td>-</td><td>0</td></tr><tr><td>6. Fully connected + Dropout 0.3</td><td>32</td><td>ReLU</td><td>2,080</td></tr><tr><td>7. Output</td><td>1</td><td>Sigmoid (P(ship))</td><td>33</td></tr></tbody></table></div>
 <p class="muted" style="font-size:13px">Each convolution slides 3 &times; 3 filters over the chip; BatchNorm keeps activations in a stable range; ReLU
-(max(0, x)) adds non-linearity; max-pooling halves the size so deeper layers see larger areas (a neuron in block 4 sees 31 &times; 31 px,
-about 300 m, enough for a whole ship). Global average pooling makes the decision independent of exactly where the target sits.
+(max(0, x)) adds non-linearity; max-pooling halves the size so deeper layers see larger areas (a neuron in block 4 sees 38 &times; 38 px,
+about 380 m, enough for a whole ship). Global average pooling makes the decision independent of exactly where the target sits.
 The two fully connected layers turn the 64 features into one number; the sigmoid squashes it to a probability between 0 and 1.</p>
 <h2>Training data: labelled by AIS, not by hand</h2>
 <div class="flow" style="grid-template-columns:repeat(3,1fr)">
