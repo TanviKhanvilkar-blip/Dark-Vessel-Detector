@@ -80,10 +80,10 @@ footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--
 <header class="hud"><div class="wrap"><div class="hudrow">
  <a class="brand" href="../index.html"><div class="scope"><div class="sweep"></div><span class="blip" style="left:32px;top:14px"></span><span class="blip" style="left:15px;top:33px;animation-delay:1.1s"></span></div>
   <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
- <div class="status"><span class="pill"><span class="dot live"></span>AIS FEED <strong>LIVE</strong></span>
+ <div class="status"><span class="pill"><span class="dot off"></span>AIS FEED <strong>OFFLINE</strong></span>
   <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
-  <span class="pill">UPDATED <strong>02 Nov 06:48</strong></span></div>
-</div><nav class="tabs"><a class="" href="../index.html">OVERVIEW</a><a class="" href="../mumbai/index.html">MUMBAI</a><a class="" href="../denmark/index.html">DENMARK</a><a class="on" href="../demo/index.html">SIMULATION</a></nav></div></header>
+  <span class="pill">UPDATED <strong>02 Nov 07:39</strong></span></div>
+</div><nav class="tabs"><a class="" href="../index.html">OVERVIEW</a><a class="" href="../mumbai/index.html">MUMBAI</a><a class="" href="../denmark/index.html">DENMARK</a><a class="" href="../nn/index.html">NEURAL NET</a><a class="on" href="../demo/index.html">SIMULATION</a></nav></div></header>
 <main class="wrap"><div class="coords">SIMULATION // SYNTHETIC SCENES WITH KNOWN GROUND TRUTH</div>
 <h1>Simulation: the whole pipeline with a known answer</h1>
 <p class="lede">Four synthetic Sentinel-1-like scenes with planted ships, simulated AIS, two fixed platforms, rougher sea in pass 3 and an
@@ -106,7 +106,8 @@ L.rectangle(B,{color:'#2ef2b0',weight:1,dashArray:'4 6',fill:false,opacity:.6}).
 const det=L.layerGroup().addTo(m),live=L.layerGroup().addTo(m);
 D.forEach(d=>{const c=d.status=='matched'?'#2ef2b0':(d.confidence=='low'?'#ffb547':'#ff4d5e');
 let h='<b>'+(d.status=='matched'?'MATCHED TO AIS':'NOT PUBLICLY TRACKED')+'</b><br>length ~'+d.length_m.toFixed(0)+' m &middot; score '+d.score.toFixed(2)+'<br>'+d.shore_km.toFixed(1)+' km from shore';
-if(d.reason)h+='<br><span style="color:#ffb547">caveat: '+d.reason.replaceAll('_',' ').replaceAll(',',', ')+'</span>';if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
+if(d.ship_prob!==''&&d.ship_prob!==null)h+='<br>ShipCNN P(ship) '+Number(d.ship_prob).toFixed(2);
+if(d.reason)h+='<br><span style="color:#ffb547">caveat:'+d.reason.replaceAll('_',' ').replaceAll(',',', ')+'</span>';if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
 L.circleMarker([d.lat,d.lon],{radius:d.status=='matched'?4.5:7,color:c,fillColor:c,fillOpacity:.85,weight:d.status=='matched'?1:2,opacity:1}).bindPopup(h).addTo(det);});
 LIVE.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:3,color:'#4fc3ff',fillColor:'#4fc3ff',fillOpacity:.9,weight:1}).bindPopup('<b>LIVE AIS</b><br>'+p.sog+' kn &middot; '+p.age+' min ago').addTo(live));
 L.control.layers(null,{'Radar detections (selected pass)':det,'Live AIS, last 30 min':live},{collapsed:false}).addTo(m);

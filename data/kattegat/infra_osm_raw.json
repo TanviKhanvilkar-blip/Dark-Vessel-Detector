@@ -1,0 +1,1863 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-11-02T06:52:26Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1118387359,
+  "lat": 56.7164400,
+  "lon": 11.5156195,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "man_made": "mast",
+    "seamark:landmark:category": "mast",
+    "seamark:landmark:function": "television",
+    "seamark:type": "landmark",
+    "source": "Fugro (2005)",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 1125462965,
+  "lat": 56.7146642,
+  "lon": 11.5154255,
+  "tags": {
+    "amenity": "toilets",
+    "check_date": "2024-08-15",
+    "fee": "no",
+    "female": "yes",
+    "male": "yes",
+    "seamark:small_craft_facility:category": "toilets;showers",
+    "seamark:type": "small_craft_facility",
+    "shower": "yes",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1373998478,
+  "lat": 56.7374244,
+  "lon": 11.6504509,
+  "tags": {
+    "note": "This is a landmark and not merely a light_major!",
+    "seamark:landmark:category": "tower",
+    "seamark:landmark:colour": "white",
+    "seamark:landmark:construction": "masonry",
+    "seamark:light:1:character": "Fl",
+    "seamark:light:1:colour": "white",
+    "seamark:light:1:height": "40",
+    "seamark:light:1:period": "15",
+    "seamark:light:1:range": "14",
+    "seamark:light:1:sector_end": "53",
+    "seamark:light:1:sector_start": "76",
+    "seamark:light:1:sequence": "0.2+(14.8)",
+    "seamark:light:reference": "C 0164",
+    "seamark:name": "Anholt",
+    "seamark:type": "landmark"
+  }
+},
+{
+  "type": "node",
+  "id": 1535671774,
+  "lat": 56.7158000,
+  "lon": 11.5106167,
+  "tags": {
+    "seamark:light:1:character": "F",
+    "seamark:light:1:colour": "red",
+    "seamark:light:1:height": "6",
+    "seamark:light:1:sector_end": "99",
+    "seamark:light:1:sector_start": "254",
+    "seamark:light:reference": "C 0170",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535671943,
+  "lat": 56.7155667,
+  "lon": 11.5096833,
+  "tags": {
+    "seamark:light:1:character": "F",
+    "seamark:light:1:colour": "green",
+    "seamark:light:1:height": "6",
+    "seamark:light:1:sector_end": "302",
+    "seamark:light:1:sector_start": "354",
+    "seamark:light:reference": "C 0172",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535672072,
+  "lat": 56.7141101,
+  "lon": 11.5082643,
+  "tags": {
+    "seamark:light:1:character": "F",
+    "seamark:light:1:colour": "green",
+    "seamark:light:1:height": "8",
+    "seamark:light:1:range": "4",
+    "seamark:light:1:sector_end": "260",
+    "seamark:light:1:sector_start": "345",
+    "seamark:light:reference": "C 0168",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535672182,
+  "lat": 56.7145807,
+  "lon": 11.5077149,
+  "tags": {
+    "seamark:light:1:character": "Fl",
+    "seamark:light:1:colour": "red",
+    "seamark:light:1:height": "8",
+    "seamark:light:1:period": "3",
+    "seamark:light:1:range": "4.5",
+    "seamark:light:1:sector_end": "360",
+    "seamark:light:1:sector_start": "0",
+    "seamark:light:reference": "C 0166",
+    "seamark:name": "Anholt Havn",
+    "seamark:type": "light_minor",
+    "source": "http://www.sjofartsverket.se/upload/Ufs/2013/Nr%20474.pdf"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962153,
+  "lat": 56.5547563,
+  "lon": 11.2833648,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "yellow",
+    "seamark:light:group": "3",
+    "seamark:light:period": "10",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962156,
+  "lat": 56.5593785,
+  "lon": 11.2934008,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962159,
+  "lat": 56.5640476,
+  "lon": 11.3033277,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962162,
+  "lat": 56.5675659,
+  "lon": 11.2900042,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962163,
+  "lat": 56.5686594,
+  "lon": 11.3130142,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962168,
+  "lat": 56.5733987,
+  "lon": 11.3231333,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "yellow",
+    "seamark:light:group": "3",
+    "seamark:light:period": "10",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962169,
+  "lat": 56.5736332,
+  "lon": 11.2818502,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962170,
+  "lat": 56.5771604,
+  "lon": 11.3142551,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962175,
+  "lat": 56.5810882,
+  "lon": 11.3052679,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962177,
+  "lat": 56.5851898,
+  "lon": 11.2967921,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962182,
+  "lat": 56.5895041,
+  "lon": 11.2884664,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "yellow",
+    "seamark:light:group": "3",
+    "seamark:light:period": "10",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 2639962186,
+  "lat": 56.5939947,
+  "lon": 11.2804617,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "3.6 MW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "141.6",
+    "height:hub": "81.6",
+    "manufacturer": "Siemens",
+    "manufacturer:wikidata": "Q820588",
+    "model": "SWT-3.6-120",
+    "note": "position only approximate",
+    "offshore": "yes",
+    "operator": "Ørsted",
+    "operator:wikidata": "Q1241260",
+    "power": "generator",
+    "rotor:diameter": "120",
+    "rotor:swept_area": "11300",
+    "seamark:landmark:category": "windmotor",
+    "seamark:type": "landmark",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 3070133717,
+  "lat": 56.7157759,
+  "lon": 11.5139838,
+  "tags": {
+    "fvst:navnelbnr": "1395948",
+    "name": "Købmanden ved havnen",
+    "opening_hours": "Mo-Su 07:30-12:00,15:00-19:00",
+    "ref:DK:cvr": "44362937",
+    "ref:DK:cvr:pnummer": "1029730918",
+    "seamark:small_craft_facility:category": "provisions",
+    "seamark:type": "small_craft_facility",
+    "shop": "convenience",
+    "source": "letkøb.dk"
+  }
+},
+{
+  "type": "node",
+  "id": 4101469488,
+  "lat": 56.7157763,
+  "lon": 11.5108089,
+  "tags": {
+    "harbour": "yes",
+    "name": "Anholt Havn",
+    "port_of_entry": "no",
+    "seamark:harbour:category": "ferry",
+    "seamark:type": "harbour"
+  }
+},
+{
+  "type": "node",
+  "id": 4101472519,
+  "lat": 56.7146502,
+  "lon": 11.5154035,
+  "tags": {
+    "seamark:building:function": "harbour_master",
+    "seamark:type": "building"
+  }
+},
+{
+  "type": "node",
+  "id": 4102265510,
+  "lat": 56.7160564,
+  "lon": 11.5087473,
+  "tags": {
+    "seamark:buoy_lateral:category": "port",
+    "seamark:buoy_lateral:colour": "red",
+    "seamark:buoy_lateral:shape": "spar",
+    "seamark:buoy_lateral:system": "iala-a",
+    "seamark:type": "buoy_lateral"
+  }
+},
+{
+  "type": "node",
+  "id": 4102265511,
+  "lat": 56.7160801,
+  "lon": 11.5093323,
+  "tags": {
+    "seamark:buoy_lateral:category": "port",
+    "seamark:buoy_lateral:colour": "red",
+    "seamark:buoy_lateral:shape": "spar",
+    "seamark:buoy_lateral:system": "iala-a",
+    "seamark:type": "buoy_lateral"
+  }
+},
+{
+  "type": "node",
+  "id": 4102265512,
+  "lat": 56.7164378,
+  "lon": 11.5107083,
+  "tags": {
+    "seamark:rescue_station:category": "lifeboat",
+    "seamark:type": "rescue_station"
+  }
+},
+{
+  "type": "node",
+  "id": 4107790753,
+  "lat": 56.5725500,
+  "lon": 11.3336833,
+  "tags": {
+    "seamark:buoy_special_purpose:colour": "yellow",
+    "seamark:buoy_special_purpose:shape": "spar",
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "yellow",
+    "seamark:light:group": "3",
+    "seamark:light:period": "10",
+    "seamark:type": "buoy_special_purpose"
+  }
+},
+{
+  "type": "node",
+  "id": 4107794339,
+  "lat": 56.6450000,
+  "lon": 11.4314500,
+  "tags": {
+    "seamark:buoy_cardinal:category": "south",
+    "seamark:buoy_cardinal:colour": "yellow;black",
+    "seamark:buoy_cardinal:colour_pattern": "horizontal",
+    "seamark:buoy_cardinal:shape": "pillar",
+    "seamark:light:character": "Q+LFl",
+    "seamark:light:colour": "white",
+    "seamark:light:group": "6",
+    "seamark:light:period": "15",
+    "seamark:topmark:colour": "black",
+    "seamark:topmark:shape": "2 cones down",
+    "seamark:type": "buoy_cardinal"
+  }
+},
+{
+  "type": "node",
+  "id": 4107795695,
+  "lat": 56.7837833,
+  "lon": 11.3743667,
+  "tags": {
+    "seamark:buoy_cardinal:category": "west",
+    "seamark:buoy_cardinal:colour": "yellow;black;yellow",
+    "seamark:buoy_cardinal:colour_pattern": "horizontal",
+    "seamark:buoy_cardinal:shape": "pillar",
+    "seamark:topmark:colour": "black",
+    "seamark:topmark:shape": "2 cones point together",
+    "seamark:type": "buoy_cardinal"
+  }
+},
+{
+  "type": "node",
+  "id": 4759453296,
+  "lat": 56.7043933,
+  "lon": 11.5418187,
+  "tags": {
+    "man_made": "mast",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 11813368202,
+  "lat": 56.7155868,
+  "lon": 11.5137880,
+  "tags": {
+    "seamark:small_craft_facility:category": "fuel_station",
+    "seamark:type": "small_craft_facility",
+    "waterway": "fuel"
+  }
+},
+{
+  "type": "way",
+  "id": 57780910,
+  "bounds": {
+    "minlat": 56.4086507,
+    "minlon": 10.9256382,
+    "maxlat": 56.7159128,
+    "maxlon": 11.5118279
+  },
+  "nodes": [
+    1414518095,
+    564860803,
+    564860796,
+    564860791,
+    7176810022,
+    11990800308,
+    11990800309,
+    11990800310,
+    11990800311,
+    11990800312,
+    11990800313,
+    11990800314,
+    11990800315,
+    11990800316,
+    11990800317,
+    11990800318,
+    11990800319,
+    11990800320,
+    11990800321,
+    11990800322,
+    11990800323,
+    11990800324,
+    11990800325,
+    11990800326,
+    11990800327,
+    11990800328,
+    11990800329,
+    11990800330,
+    11990800332,
+    11990800331,
+    11990800333,
+    11990800334,
+    11990800335,
+    11990800336,
+    11990800337,
+    11990800338,
+    11990800339,
+    11990800340,
+    11990800341,
+    11990800342,
+    11990800343,
+    11990800344,
+    11990800345,
+    11990800346,
+    11990800347,
+    11990800348,
+    4104857678,
+    564863141,
+    4101472523,
+    4101472524,
+    564863143,
+    4101569622,
+    4101472540,
+    4101569623,
+    4101557885,
+    1081726636,
+    4101557883,
+    4101557881,
+    4101557879,
+    4101557878,
+    4101557880,
+    4101557882,
+    4101557884,
+    4101557886,
+    4101557887,
+    4101557877
+  ],
+  "geometry": [
+    { "lat": 56.4086507, "lon": 10.9256382 },
+    { "lat": 56.4106558, "lon": 10.9275875 },
+    { "lat": 56.4134751, "lon": 10.9300272 },
+    { "lat": 56.4173822, "lon": 10.9363150 },
+    { "lat": 56.4233148, "lon": 10.9506628 },
+    { "lat": 56.4291915, "lon": 10.9657859 },
+    { "lat": 56.4475892, "lon": 11.0179027 },
+    { "lat": 56.4532670, "lon": 11.0332719 },
+    { "lat": 56.4574422, "lon": 11.0444623 },
+    { "lat": 56.4616384, "lon": 11.0558441 },
+    { "lat": 56.4690935, "lon": 11.0759672 },
+    { "lat": 56.4760525, "lon": 11.0947701 },
+    { "lat": 56.4834726, "lon": 11.1176111 },
+    { "lat": 56.4898484, "lon": 11.1375939 },
+    { "lat": 56.4946645, "lon": 11.1524781 },
+    { "lat": 56.5003613, "lon": 11.1699632 },
+    { "lat": 56.5052621, "lon": 11.1851107 },
+    { "lat": 56.5128268, "lon": 11.2022408 },
+    { "lat": 56.5190581, "lon": 11.2163676 },
+    { "lat": 56.5249446, "lon": 11.2296591 },
+    { "lat": 56.5324625, "lon": 11.2466093 },
+    { "lat": 56.5393657, "lon": 11.2621520 },
+    { "lat": 56.5474390, "lon": 11.2775950 },
+    { "lat": 56.5533425, "lon": 11.2888326 },
+    { "lat": 56.5598675, "lon": 11.3012273 },
+    { "lat": 56.5662090, "lon": 11.3132421 },
+    { "lat": 56.5745555, "lon": 11.3289108 },
+    { "lat": 56.5912428, "lon": 11.3501712 },
+    { "lat": 56.5962922, "lon": 11.3564274 },
+    { "lat": 56.6021992, "lon": 11.3622551 },
+    { "lat": 56.6079871, "lon": 11.3679057 },
+    { "lat": 56.6191636, "lon": 11.3788784 },
+    { "lat": 56.6212207, "lon": 11.3809686 },
+    { "lat": 56.6241561, "lon": 11.3837302 },
+    { "lat": 56.6305940, "lon": 11.3894103 },
+    { "lat": 56.6592022, "lon": 11.4142201 },
+    { "lat": 56.6648842, "lon": 11.4184552 },
+    { "lat": 56.6705670, "lon": 11.4226973 },
+    { "lat": 56.6764680, "lon": 11.4271911 },
+    { "lat": 56.6832541, "lon": 11.4322221 },
+    { "lat": 56.6888336, "lon": 11.4364588 },
+    { "lat": 56.6943666, "lon": 11.4405568 },
+    { "lat": 56.6989221, "lon": 11.4497210 },
+    { "lat": 56.7039608, "lon": 11.4601456 },
+    { "lat": 56.7080373, "lon": 11.4739731 },
+    { "lat": 56.7134641, "lon": 11.5037840 },
+    { "lat": 56.7140599, "lon": 11.5072280 },
+    { "lat": 56.7147463, "lon": 11.5088594 },
+    { "lat": 56.7152766, "lon": 11.5089669 },
+    { "lat": 56.7154709, "lon": 11.5090957 },
+    { "lat": 56.7156766, "lon": 11.5093019 },
+    { "lat": 56.7157413, "lon": 11.5094521 },
+    { "lat": 56.7157800, "lon": 11.5096267 },
+    { "lat": 56.7157796, "lon": 11.5098625 },
+    { "lat": 56.7157491, "lon": 11.5100845 },
+    { "lat": 56.7156825, "lon": 11.5103298 },
+    { "lat": 56.7155886, "lon": 11.5105780 },
+    { "lat": 56.7155327, "lon": 11.5108462 },
+    { "lat": 56.7154620, "lon": 11.5113183 },
+    { "lat": 56.7154502, "lon": 11.5114926 },
+    { "lat": 56.7154856, "lon": 11.5116643 },
+    { "lat": 56.7155739, "lon": 11.5117501 },
+    { "lat": 56.7156740, "lon": 11.5118279 },
+    { "lat": 56.7157608, "lon": 11.5117501 },
+    { "lat": 56.7158079, "lon": 11.5115892 },
+    { "lat": 56.7159128, "lon": 11.5108817 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "duration": "02:45",
+    "foot": "yes",
+    "hgv": "yes",
+    "maxlength": "6",
+    "motor_vehicle": "yes",
+    "name": "Anholtfærgen",
+    "operator": "Grenaa-Anholt Færgefart",
+    "route": "ferry",
+    "seamark:ferry_route:category": "free",
+    "seamark:type": "ferry_route",
+    "website": "https://www.anholtfergen.dk/"
+  }
+},
+{
+  "type": "way",
+  "id": 93299940,
+  "bounds": {
+    "minlat": 56.7148547,
+    "minlon": 11.5139147,
+    "maxlat": 56.7152215,
+    "maxlon": 11.5145882
+  },
+  "nodes": [
+    5786969848,
+    1081726646,
+    1081726663,
+    12137011692,
+    12137011691,
+    12137011690,
+    5786969848
+  ],
+  "geometry": [
+    { "lat": 56.7148684, "lon": 11.5145882 },
+    { "lat": 56.7148877, "lon": 11.5143603 },
+    { "lat": 56.7152215, "lon": 11.5139521 },
+    { "lat": 56.7152094, "lon": 11.5139147 },
+    { "lat": 56.7148748, "lon": 11.5143266 },
+    { "lat": 56.7148547, "lon": 11.5145852 },
+    { "lat": 56.7148684, "lon": 11.5145882 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yachts"
+  }
+},
+{
+  "type": "way",
+  "id": 93299942,
+  "bounds": {
+    "minlat": 56.7139581,
+    "minlon": 11.5103917,
+    "maxlat": 56.7152491,
+    "maxlon": 11.5119680
+  },
+  "nodes": [
+    6312465837,
+    8505065542,
+    8505065544,
+    8505065546,
+    8505065540,
+    8505065548,
+    8505065550,
+    1081726676
+  ],
+  "geometry": [
+    { "lat": 56.7139581, "lon": 11.5119680 },
+    { "lat": 56.7141543, "lon": 11.5117284 },
+    { "lat": 56.7143758, "lon": 11.5114580 },
+    { "lat": 56.7146281, "lon": 11.5111499 },
+    { "lat": 56.7148055, "lon": 11.5109333 },
+    { "lat": 56.7150283, "lon": 11.5106613 },
+    { "lat": 56.7152098, "lon": 11.5104397 },
+    { "lat": 56.7152491, "lon": 11.5103917 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 93299944,
+  "bounds": {
+    "minlat": 56.7143017,
+    "minlon": 11.5124675,
+    "maxlat": 56.7151983,
+    "maxlon": 11.5134923
+  },
+  "nodes": [
+    6312465839,
+    4941363428,
+    1081726647
+  ],
+  "geometry": [
+    { "lat": 56.7143017, "lon": 11.5134923 },
+    { "lat": 56.7143375, "lon": 11.5134507 },
+    { "lat": 56.7151983, "lon": 11.5124675 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yes",
+    "name": "Bro 200",
+    "source": "Fugro"
+  }
+},
+{
+  "type": "way",
+  "id": 93299945,
+  "bounds": {
+    "minlat": 56.7144564,
+    "minlon": 11.5131086,
+    "maxlat": 56.7153558,
+    "maxlon": 11.5141151
+  },
+  "nodes": [
+    6312465835,
+    1081726633
+  ],
+  "geometry": [
+    { "lat": 56.7144564, "lon": 11.5141151 },
+    { "lat": 56.7153558, "lon": 11.5131086 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yachts",
+    "name": "Bro 300",
+    "source": "Fugro"
+  }
+},
+{
+  "type": "way",
+  "id": 93299946,
+  "bounds": {
+    "minlat": 56.7141178,
+    "minlon": 11.5117302,
+    "maxlat": 56.7149966,
+    "maxlon": 11.5127479
+  },
+  "nodes": [
+    6312465838,
+    1081726678
+  ],
+  "geometry": [
+    { "lat": 56.7141178, "lon": 11.5127479 },
+    { "lat": 56.7149966, "lon": 11.5117302 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yachts",
+    "name": "Bro 100",
+    "source": "Fugro"
+  }
+},
+{
+  "type": "way",
+  "id": 127985260,
+  "bounds": {
+    "minlat": 56.7165583,
+    "minlon": 11.5190130,
+    "maxlat": 56.7166049,
+    "maxlon": 11.5190987
+  },
+  "nodes": [
+    1415303324,
+    1415303321,
+    1415303319,
+    1415303311,
+    1415303309,
+    1415303306,
+    1415303304,
+    1415303303,
+    1415303305,
+    1415303307,
+    1415303318,
+    1415303320,
+    1415303323,
+    1415303326,
+    1415303324
+  ],
+  "geometry": [
+    { "lat": 56.7166044, "lon": 11.5190439 },
+    { "lat": 56.7165978, "lon": 11.5190238 },
+    { "lat": 56.7165891, "lon": 11.5190142 },
+    { "lat": 56.7165763, "lon": 11.5190130 },
+    { "lat": 56.7165696, "lon": 11.5190177 },
+    { "lat": 56.7165643, "lon": 11.5190253 },
+    { "lat": 56.7165585, "lon": 11.5190439 },
+    { "lat": 56.7165583, "lon": 11.5190651 },
+    { "lat": 56.7165624, "lon": 11.5190812 },
+    { "lat": 56.7165692, "lon": 11.5190925 },
+    { "lat": 56.7165818, "lon": 11.5190987 },
+    { "lat": 56.7165925, "lon": 11.5190937 },
+    { "lat": 56.7166001, "lon": 11.5190823 },
+    { "lat": 56.7166049, "lon": 11.5190625 },
+    { "lat": 56.7166044, "lon": 11.5190439 }
+  ],
+  "tags": {
+    "building": "yes",
+    "communication:CRSD": "yes",
+    "communication:radio": "yes",
+    "loc_name": "Radartårnet",
+    "man_made": "tower",
+    "monitoring:weather": "yes",
+    "monitoring_station": "yes",
+    "ref:wmo": "6079",
+    "seamark:landmark:category": "tower",
+    "seamark:landmark:function": "radar",
+    "seamark:type": "landmark",
+    "tower:construction": "freestanding",
+    "tower:type": "radar"
+  }
+},
+{
+  "type": "way",
+  "id": 197341634,
+  "bounds": {
+    "minlat": 56.4999617,
+    "minlon": 11.1323333,
+    "maxlat": 56.7031000,
+    "maxlon": 11.3258617
+  },
+  "nodes": [
+    2075935650,
+    5291043872,
+    2075935612,
+    2075935609,
+    5291043871,
+    2075935653,
+    2075935650
+  ],
+  "geometry": [
+    { "lat": 56.7031000, "lon": 11.1323333 },
+    { "lat": 56.6015869, "lon": 11.1514115 },
+    { "lat": 56.4999617, "lon": 11.1704595 },
+    { "lat": 56.5718980, "lon": 11.3258617 },
+    { "lat": 56.6370050, "lon": 11.2577638 },
+    { "lat": 56.7021174, "lon": 11.1895426 },
+    { "lat": 56.7031000, "lon": 11.1323333 }
+  ],
+  "tags": {
+    "name": "Anholt Havmøllepark",
+    "name:etymology:wikidata": "Q216845",
+    "operator": "Ørsted;PensionDanmark;AIP",
+    "plant:method": "wind_turbine",
+    "plant:output:electricity": "400 MW",
+    "plant:source": "wind",
+    "power": "plant",
+    "ref:EU:ENTSOE_EIC": "45W000000000022W",
+    "seamark:production_area:category": "wind_farm",
+    "seamark:type": "production_area",
+    "source": "Dong Energy",
+    "start_date": "2013",
+    "wikidata": "Q1699945",
+    "wikipedia": "da:Anholt Havmøllepark"
+  }
+},
+{
+  "type": "way",
+  "id": 408150399,
+  "bounds": {
+    "minlat": 56.7153068,
+    "minlon": 11.5137183,
+    "maxlat": 56.7155747,
+    "maxlon": 11.5140075
+  },
+  "nodes": [
+    8502577219,
+    1081726674,
+    8502577218,
+    8502577217,
+    4931263178,
+    8502577219
+  ],
+  "geometry": [
+    { "lat": 56.7155747, "lon": 11.5137183 },
+    { "lat": 56.7153068, "lon": 11.5139680 },
+    { "lat": 56.7153180, "lon": 11.5140075 },
+    { "lat": 56.7155680, "lon": 11.5137780 },
+    { "lat": 56.7155705, "lon": 11.5137541 },
+    { "lat": 56.7155747, "lon": 11.5137183 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier",
+    "surface": "wood"
+  }
+},
+{
+  "type": "way",
+  "id": 408163526,
+  "bounds": {
+    "minlat": 56.7160726,
+    "minlon": 11.5100424,
+    "maxlat": 56.7163780,
+    "maxlon": 11.5106584
+  },
+  "nodes": [
+    4101559304,
+    1118387385,
+    4101559300
+  ],
+  "geometry": [
+    { "lat": 56.7163780, "lon": 11.5106584 },
+    { "lat": 56.7162371, "lon": 11.5103721 },
+    { "lat": 56.7160726, "lon": 11.5100424 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 408163527,
+  "bounds": {
+    "minlat": 56.7159018,
+    "minlon": 11.5099336,
+    "maxlat": 56.7160784,
+    "maxlon": 11.5102997
+  },
+  "nodes": [
+    4101559298,
+    4101559296,
+    4101557888,
+    4101559289,
+    4101559299,
+    4101559300,
+    4101559301,
+    4101559298
+  ],
+  "geometry": [
+    { "lat": 56.7160269, "lon": 11.5099336 },
+    { "lat": 56.7160136, "lon": 11.5099524 },
+    { "lat": 56.7159018, "lon": 11.5102729 },
+    { "lat": 56.7159165, "lon": 11.5102997 },
+    { "lat": 56.7160659, "lon": 11.5100583 },
+    { "lat": 56.7160726, "lon": 11.5100424 },
+    { "lat": 56.7160784, "lon": 11.5100288 },
+    { "lat": 56.7160269, "lon": 11.5099336 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 500790076,
+  "bounds": {
+    "minlat": 56.7373715,
+    "minlon": 11.6494069,
+    "maxlat": 56.7376009,
+    "maxlon": 11.6496718
+  },
+  "nodes": [
+    4917651562,
+    4917651560,
+    4917919183,
+    4917651559,
+    4917651561,
+    8498921706,
+    4917651562
+  ],
+  "geometry": [
+    { "lat": 56.7375885, "lon": 11.6494069 },
+    { "lat": 56.7376009, "lon": 11.6494465 },
+    { "lat": 56.7375004, "lon": 11.6495508 },
+    { "lat": 56.7373839, "lon": 11.6496718 },
+    { "lat": 56.7373715, "lon": 11.6496322 },
+    { "lat": 56.7374847, "lon": 11.6495147 },
+    { "lat": 56.7375885, "lon": 11.6494069 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790077,
+  "bounds": {
+    "minlat": 56.7375489,
+    "minlon": 11.6497936,
+    "maxlat": 56.7377302,
+    "maxlon": 11.6499502
+  },
+  "nodes": [
+    4917651564,
+    4917651558,
+    1126000787,
+    4917651557,
+    4917651563,
+    8498921707,
+    4917651564
+  ],
+  "geometry": [
+    { "lat": 56.7377218, "lon": 11.6497936 },
+    { "lat": 56.7377302, "lon": 11.6498362 },
+    { "lat": 56.7376193, "lon": 11.6499093 },
+    { "lat": 56.7375573, "lon": 11.6499502 },
+    { "lat": 56.7375489, "lon": 11.6499076 },
+    { "lat": 56.7376088, "lon": 11.6498676 },
+    { "lat": 56.7377218, "lon": 11.6497936 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790078,
+  "bounds": {
+    "minlat": 56.7375778,
+    "minlon": 11.6500602,
+    "maxlat": 56.7377944,
+    "maxlon": 11.6501589
+  },
+  "nodes": [
+    4917651566,
+    4917651556,
+    8498921709,
+    4917651555,
+    4917651565,
+    8498921708,
+    4917651566
+  ],
+  "geometry": [
+    { "lat": 56.7377911, "lon": 11.6500602 },
+    { "lat": 56.7377944, "lon": 11.6500985 },
+    { "lat": 56.7376449, "lon": 11.6501408 },
+    { "lat": 56.7375811, "lon": 11.6501589 },
+    { "lat": 56.7375778, "lon": 11.6501206 },
+    { "lat": 56.7376417, "lon": 11.6501025 },
+    { "lat": 56.7377911, "lon": 11.6500602 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790079,
+  "bounds": {
+    "minlat": 56.7376123,
+    "minlon": 11.6503603,
+    "maxlat": 56.7378081,
+    "maxlon": 11.6504378
+  },
+  "nodes": [
+    4917651568,
+    4917651554,
+    1125998954,
+    4917651553,
+    4917651567,
+    8498921710,
+    4917651568
+  ],
+  "geometry": [
+    { "lat": 56.7378057, "lon": 11.6503603 },
+    { "lat": 56.7378081, "lon": 11.6504002 },
+    { "lat": 56.7376704, "lon": 11.6504270 },
+    { "lat": 56.7376146, "lon": 11.6504378 },
+    { "lat": 56.7376123, "lon": 11.6503979 },
+    { "lat": 56.7376671, "lon": 11.6503877 },
+    { "lat": 56.7378057, "lon": 11.6503603 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790080,
+  "bounds": {
+    "minlat": 56.7376124,
+    "minlon": 11.6506804,
+    "maxlat": 56.7377902,
+    "maxlon": 11.6507451
+  },
+  "nodes": [
+    4917651570,
+    4917651552,
+    1126000131,
+    4917651551,
+    4917651569,
+    8498921711,
+    4917651570
+  ],
+  "geometry": [
+    { "lat": 56.7377890, "lon": 11.6506804 },
+    { "lat": 56.7377902, "lon": 11.6507304 },
+    { "lat": 56.7376844, "lon": 11.6507401 },
+    { "lat": 56.7376137, "lon": 11.6507451 },
+    { "lat": 56.7376124, "lon": 11.6506951 },
+    { "lat": 56.7376849, "lon": 11.6506924 },
+    { "lat": 56.7377890, "lon": 11.6506804 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790081,
+  "bounds": {
+    "minlat": 56.7375300,
+    "minlon": 11.6511281,
+    "maxlat": 56.7377617,
+    "maxlon": 11.6511974
+  },
+  "nodes": [
+    4917651572,
+    4917651550,
+    8498921719,
+    4917651549,
+    4917651571,
+    3582488633,
+    4917651572
+  ],
+  "geometry": [
+    { "lat": 56.7377617, "lon": 11.6511552 },
+    { "lat": 56.7377610, "lon": 11.6511281 },
+    { "lat": 56.7376429, "lon": 11.6511384 },
+    { "lat": 56.7375308, "lon": 11.6511623 },
+    { "lat": 56.7375300, "lon": 11.6511974 },
+    { "lat": 56.7376208, "lon": 11.6511726 },
+    { "lat": 56.7377617, "lon": 11.6511552 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790082,
+  "bounds": {
+    "minlat": 56.7371589,
+    "minlon": 11.6515389,
+    "maxlat": 56.7376831,
+    "maxlon": 11.6516186
+  },
+  "nodes": [
+    4917651574,
+    4917651548,
+    3582488624,
+    4917251771,
+    4917651547,
+    8498921718,
+    4917651573,
+    4917919182,
+    4917651574
+  ],
+  "geometry": [
+    { "lat": 56.7376829, "lon": 11.6515389 },
+    { "lat": 56.7376831, "lon": 11.6515797 },
+    { "lat": 56.7375767, "lon": 11.6515891 },
+    { "lat": 56.7374093, "lon": 11.6516152 },
+    { "lat": 56.7372457, "lon": 11.6516145 },
+    { "lat": 56.7371589, "lon": 11.6516186 },
+    { "lat": 56.7371598, "lon": 11.6515563 },
+    { "lat": 56.7375767, "lon": 11.6515448 },
+    { "lat": 56.7376829, "lon": 11.6515389 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 500790083,
+  "bounds": {
+    "minlat": 56.7373172,
+    "minlon": 11.6521087,
+    "maxlat": 56.7374830,
+    "maxlon": 11.6525367
+  },
+  "nodes": [
+    4917651578,
+    4917651576,
+    4917651575,
+    4917651577,
+    4917919180,
+    4917919179,
+    4917651578
+  ],
+  "geometry": [
+    { "lat": 56.7374544, "lon": 11.6521087 },
+    { "lat": 56.7374830, "lon": 11.6521417 },
+    { "lat": 56.7373458, "lon": 11.6525367 },
+    { "lat": 56.7373172, "lon": 11.6525037 },
+    { "lat": 56.7373413, "lon": 11.6524295 },
+    { "lat": 56.7374136, "lon": 11.6522262 },
+    { "lat": 56.7374544, "lon": 11.6521087 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 503890928,
+  "bounds": {
+    "minlat": 56.7152785,
+    "minlon": 11.5140159,
+    "maxlat": 56.7155365,
+    "maxlon": 11.5145613
+  },
+  "nodes": [
+    4941365546,
+    4941365547,
+    22789898,
+    8498934080,
+    4101472525,
+    4941365542,
+    4941365543,
+    4941365546
+  ],
+  "geometry": [
+    { "lat": 56.7153021, "lon": 11.5145613 },
+    { "lat": 56.7155240, "lon": 11.5140813 },
+    { "lat": 56.7155365, "lon": 11.5140159 },
+    { "lat": 56.7155258, "lon": 11.5140279 },
+    { "lat": 56.7155111, "lon": 11.5140514 },
+    { "lat": 56.7152785, "lon": 11.5145215 },
+    { "lat": 56.7152899, "lon": 11.5145419 },
+    { "lat": 56.7153021, "lon": 11.5145613 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 674059701,
+  "bounds": {
+    "minlat": 56.7139331,
+    "minlon": 11.5099349,
+    "maxlat": 56.7159519,
+    "maxlon": 11.5145838
+  },
+  "nodes": [
+    22789901,
+    8498934081,
+    8502577219,
+    4931263178,
+    8502577217,
+    22789898,
+    8498934080,
+    4101472525,
+    4941365542,
+    8498934078,
+    4941365540,
+    8498934079,
+    4941365539,
+    8498934076,
+    8498934077,
+    4941363432,
+    4941363430,
+    4941363428,
+    4111358146,
+    22789888,
+    6312465837,
+    4101472499,
+    4101472500,
+    343498893,
+    8499196534,
+    1081726635,
+    1081726672,
+    1081726679,
+    8498934082,
+    1081726637,
+    22789903,
+    22789901
+  ],
+  "geometry": [
+    { "lat": 56.7159519, "lon": 11.5109052 },
+    { "lat": 56.7156413, "lon": 11.5132239 },
+    { "lat": 56.7155747, "lon": 11.5137183 },
+    { "lat": 56.7155705, "lon": 11.5137541 },
+    { "lat": 56.7155680, "lon": 11.5137780 },
+    { "lat": 56.7155365, "lon": 11.5140159 },
+    { "lat": 56.7155258, "lon": 11.5140279 },
+    { "lat": 56.7155111, "lon": 11.5140514 },
+    { "lat": 56.7152785, "lon": 11.5145215 },
+    { "lat": 56.7152229, "lon": 11.5145577 },
+    { "lat": 56.7151644, "lon": 11.5145838 },
+    { "lat": 56.7150687, "lon": 11.5145838 },
+    { "lat": 56.7149775, "lon": 11.5145543 },
+    { "lat": 56.7147949, "lon": 11.5144752 },
+    { "lat": 56.7147191, "lon": 11.5144484 },
+    { "lat": 56.7146485, "lon": 11.5143773 },
+    { "lat": 56.7145771, "lon": 11.5142727 },
+    { "lat": 56.7143375, "lon": 11.5134507 },
+    { "lat": 56.7142540, "lon": 11.5131301 },
+    { "lat": 56.7141487, "lon": 11.5127103 },
+    { "lat": 56.7139581, "lon": 11.5119680 },
+    { "lat": 56.7139463, "lon": 11.5119278 },
+    { "lat": 56.7139562, "lon": 11.5119137 },
+    { "lat": 56.7139331, "lon": 11.5118171 },
+    { "lat": 56.7153433, "lon": 11.5101381 },
+    { "lat": 56.7155361, "lon": 11.5099349 },
+    { "lat": 56.7155714, "lon": 11.5099483 },
+    { "lat": 56.7157944, "lon": 11.5105699 },
+    { "lat": 56.7157946, "lon": 11.5105904 },
+    { "lat": 56.7158875, "lon": 11.5107731 },
+    { "lat": 56.7158732, "lon": 11.5108703 },
+    { "lat": 56.7159519, "lon": 11.5109052 }
+  ],
+  "tags": {
+    "leisure": "marina",
+    "name": "Anholt havn",
+    "name:da": "Anholt havn",
+    "name:de": "Hafen Anholt",
+    "seamark:harbour:category": "marina",
+    "seamark:type": "harbour",
+    "website": "https://www.anholthavn.dk/"
+  }
+},
+{
+  "type": "way",
+  "id": 742314592,
+  "bounds": {
+    "minlat": 56.7203657,
+    "minlon": 11.5215650,
+    "maxlat": 56.7208209,
+    "maxlon": 11.5225178
+  },
+  "nodes": [
+    6949403443,
+    6949403435,
+    7157456465,
+    6949403434,
+    6949403442,
+    4917575386,
+    7157456467,
+    6949403443
+  ],
+  "geometry": [
+    { "lat": 56.7208209, "lon": 11.5216380 },
+    { "lat": 56.7207734, "lon": 11.5215650 },
+    { "lat": 56.7205991, "lon": 11.5219698 },
+    { "lat": 56.7203657, "lon": 11.5224448 },
+    { "lat": 56.7204132, "lon": 11.5225178 },
+    { "lat": 56.7204743, "lon": 11.5223859 },
+    { "lat": 56.7206324, "lon": 11.5220066 },
+    { "lat": 56.7208209, "lon": 11.5216380 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 742314593,
+  "bounds": {
+    "minlat": 56.7198324,
+    "minlon": 11.5184891,
+    "maxlat": 56.7202307,
+    "maxlon": 11.5194610
+  },
+  "nodes": [
+    6949403445,
+    6949403441,
+    7157456463,
+    7157456464,
+    6949403440,
+    6949403444,
+    6949403445
+  ],
+  "geometry": [
+    { "lat": 56.7198907, "lon": 11.5184891 },
+    { "lat": 56.7198324, "lon": 11.5185624 },
+    { "lat": 56.7199725, "lon": 11.5189329 },
+    { "lat": 56.7200412, "lon": 11.5191145 },
+    { "lat": 56.7201723, "lon": 11.5194610 },
+    { "lat": 56.7202307, "lon": 11.5193877 },
+    { "lat": 56.7198907, "lon": 11.5184891 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 742314594,
+  "bounds": {
+    "minlat": 56.7180256,
+    "minlon": 11.5135485,
+    "maxlat": 56.7183629,
+    "maxlon": 11.5143473
+  },
+  "nodes": [
+    6949403447,
+    6949403437,
+    4926894985,
+    3582488474,
+    6949403436,
+    6949403446,
+    6949403447
+  ],
+  "geometry": [
+    { "lat": 56.7183629, "lon": 11.5142700 },
+    { "lat": 56.7183023, "lon": 11.5143473 },
+    { "lat": 56.7181915, "lon": 11.5140299 },
+    { "lat": 56.7181613, "lon": 11.5139589 },
+    { "lat": 56.7180256, "lon": 11.5136257 },
+    { "lat": 56.7180862, "lon": 11.5135485 },
+    { "lat": 56.7183629, "lon": 11.5142700 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 742314595,
+  "bounds": {
+    "minlat": 56.7186993,
+    "minlon": 11.5153670,
+    "maxlat": 56.7190886,
+    "maxlon": 11.5163455
+  },
+  "nodes": [
+    6949403449,
+    6949403439,
+    3582488478,
+    3582488479,
+    6949403438,
+    6949403448,
+    6949403449
+  ],
+  "geometry": [
+    { "lat": 56.7187589, "lon": 11.5153670 },
+    { "lat": 56.7186993, "lon": 11.5154390 },
+    { "lat": 56.7188222, "lon": 11.5157989 },
+    { "lat": 56.7188781, "lon": 11.5159410 },
+    { "lat": 56.7190290, "lon": 11.5163455 },
+    { "lat": 56.7190886, "lon": 11.5162736 },
+    { "lat": 56.7187589, "lon": 11.5153670 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 921725353,
+  "bounds": {
+    "minlat": 56.7160702,
+    "minlon": 11.5081980,
+    "maxlat": 56.7163160,
+    "maxlon": 11.5087231
+  },
+  "nodes": [
+    10281452959,
+    8557289182,
+    8557289183
+  ],
+  "geometry": [
+    { "lat": 56.7163160, "lon": 11.5081980 },
+    { "lat": 56.7162883, "lon": 11.5082556 },
+    { "lat": 56.7160702, "lon": 11.5087231 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 996313336,
+  "bounds": {
+    "minlat": 56.3975000,
+    "minlon": 11.0998333,
+    "maxlat": 56.5535000,
+    "maxlon": 11.6980000
+  },
+  "nodes": [
+    7235253086,
+    10186692305,
+    10186692308,
+    9199956872
+  ],
+  "geometry": [
+    { "lat": 56.3975000, "lon": 11.0998333 },
+    { "lat": 56.4495712, "lon": 11.2992222 },
+    { "lat": 56.5015712, "lon": 11.4986111 },
+    { "lat": 56.5535000, "lon": 11.6980000 }
+  ],
+  "tags": {
+    "seamark:name": "Route D",
+    "seamark:type": "navigation_line"
+  }
+},
+{
+  "type": "way",
+  "id": 996617994,
+  "bounds": {
+    "minlat": 56.4040748,
+    "minlon": 11.1123411,
+    "maxlat": 56.5559168,
+    "maxlon": 11.6954664
+  },
+  "nodes": [
+    9202418854,
+    10186692307,
+    10186692304,
+    9202418851
+  ],
+  "geometry": [
+    { "lat": 56.5559168, "lon": 11.6954664 },
+    { "lat": 56.5053703, "lon": 11.5010913 },
+    { "lat": 56.4547563, "lon": 11.3067162 },
+    { "lat": 56.4040748, "lon": 11.1123411 }
+  ],
+  "tags": {
+    "seamark:type": "recommended_traffic_lane"
+  }
+},
+{
+  "type": "way",
+  "id": 996617995,
+  "bounds": {
+    "minlat": 56.3983764,
+    "minlon": 11.1137779,
+    "maxlat": 56.5509660,
+    "maxlon": 11.7001012
+  },
+  "nodes": [
+    9202418852,
+    10186692306,
+    10186692309,
+    9202418853
+  ],
+  "geometry": [
+    { "lat": 56.3983764, "lon": 11.1137779 },
+    { "lat": 56.4493078, "lon": 11.3092190 },
+    { "lat": 56.5001709, "lon": 11.5046601 },
+    { "lat": 56.5509660, "lon": 11.7001012 }
+  ],
+  "tags": {
+    "seamark:type": "recommended_traffic_lane"
+  }
+},
+{
+  "type": "way",
+  "id": 1113440279,
+  "bounds": {
+    "minlat": 56.3711667,
+    "minlon": 11.4765000,
+    "maxlat": 56.7283333,
+    "maxlon": 11.9113333
+  },
+  "nodes": [
+    9199956873,
+    10186692302,
+    10186692301,
+    10186692300,
+    10186692299,
+    10186692298,
+    10186692303
+  ],
+  "geometry": [
+    { "lat": 56.7283333, "lon": 11.9113333 },
+    { "lat": 56.6690395, "lon": 11.8388611 },
+    { "lat": 56.6096521, "lon": 11.7663889 },
+    { "lat": 56.5501713, "lon": 11.6939167 },
+    { "lat": 56.4905968, "lon": 11.6214444 },
+    { "lat": 56.4309286, "lon": 11.5489722 },
+    { "lat": 56.3711667, "lon": 11.4765000 }
+  ],
+  "tags": {
+    "seamark:name": "Route T",
+    "seamark:recommended_track:traffic_flow": "two-way",
+    "seamark:type": "recommended_track"
+  }
+},
+{
+  "type": "way",
+  "id": 1214984613,
+  "bounds": {
+    "minlat": 56.7140568,
+    "minlon": 11.5113999,
+    "maxlat": 56.7141185,
+    "maxlon": 11.5115758
+  },
+  "nodes": [
+    11256948253,
+    11256948252
+  ],
+  "geometry": [
+    { "lat": 56.7140568, "lon": 11.5113999 },
+    { "lat": 56.7141185, "lon": 11.5115758 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 1214984614,
+  "bounds": {
+    "minlat": 56.7147103,
+    "minlon": 11.5106054,
+    "maxlat": 56.7147735,
+    "maxlon": 11.5107856
+  },
+  "nodes": [
+    11256948255,
+    11256948254
+  ],
+  "geometry": [
+    { "lat": 56.7147103, "lon": 11.5106054 },
+    { "lat": 56.7147735, "lon": 11.5107856 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 1214984615,
+  "bounds": {
+    "minlat": 56.7140015,
+    "minlon": 11.5097411,
+    "maxlat": 56.7154213,
+    "maxlon": 11.5114671
+  },
+  "nodes": [
+    11256948257,
+    11256948253,
+    11256948255,
+    11256948256
+  ],
+  "geometry": [
+    { "lat": 56.7140015, "lon": 11.5114671 },
+    { "lat": 56.7140568, "lon": 11.5113999 },
+    { "lat": 56.7147103, "lon": 11.5106054 },
+    { "lat": 56.7154213, "lon": 11.5097411 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 1311169354,
+  "bounds": {
+    "minlat": 56.7152995,
+    "minlon": 11.5140407,
+    "maxlat": 56.7154946,
+    "maxlon": 11.5144629
+  },
+  "nodes": [
+    12137011698,
+    12137011697,
+    12137011696,
+    12137011695,
+    12137011694,
+    12137011693,
+    12137011698
+  ],
+  "geometry": [
+    { "lat": 56.7154946, "lon": 11.5140715 },
+    { "lat": 56.7153381, "lon": 11.5143815 },
+    { "lat": 56.7153671, "lon": 11.5144350 },
+    { "lat": 56.7153542, "lon": 11.5144629 },
+    { "lat": 56.7152995, "lon": 11.5143595 },
+    { "lat": 56.7154793, "lon": 11.5140407 },
+    { "lat": 56.7154946, "lon": 11.5140715 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "surface": "wood"
+  }
+}
+
+  ]
+}

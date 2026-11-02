@@ -223,7 +223,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="
 def page(title: str, body: str, depth: int = 0, leaflet: bool = False, active: str = "overview", feed: dict | None = None) -> str:
     up = "../" * depth
     tabs = [("overview", f"{up}index.html", "OVERVIEW")] + [(r, f"{up}{r}/index.html", r.upper()) for r in C.REGIONS] + \
-           [("demo", f"{up}demo/index.html", "SIMULATION")]
+           [("nn", f"{up}nn/index.html", "NEURAL NET"), ("demo", f"{up}demo/index.html", "SIMULATION")]
     nav = "".join(f'<a class="{"on" if k == active else ""}" href="{href}">{label}</a>' for k, href, label in tabs)
     feed = feed or {}
     dot = "live" if feed.get("live") else "off"
@@ -258,7 +258,8 @@ L.rectangle(B,{color:'#2ef2b0',weight:1,dashArray:'4 6',fill:false,opacity:.6}).
 const det=L.layerGroup().addTo(m),live=L.layerGroup().addTo(m);
 D.forEach(d=>{const c=d.status=='matched'?'#2ef2b0':(d.confidence=='low'?'#ffb547':'#ff4d5e');
 let h='<b>'+(d.status=='matched'?'MATCHED TO AIS':'NOT PUBLICLY TRACKED')+'</b><br>length ~'+d.length_m.toFixed(0)+' m &middot; score '+d.score.toFixed(2)+'<br>'+d.shore_km.toFixed(1)+' km from shore';
-if(d.reason)h+='<br><span style="color:#ffb547">caveat: '+d.reason.replaceAll('_',' ').replaceAll(',',', ')+'</span>';if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
+if(d.ship_prob!==''&&d.ship_prob!==null)h+='<br>ShipCNN P(ship) '+Number(d.ship_prob).toFixed(2);
+if(d.reason)h+='<br><span style="color:#ffb547">caveat:'+d.reason.replaceAll('_',' ').replaceAll(',',', ')+'</span>';if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
 L.circleMarker([d.lat,d.lon],{radius:d.status=='matched'?4.5:7,color:c,fillColor:c,fillOpacity:.85,weight:d.status=='matched'?1:2,opacity:1}).bindPopup(h).addTo(det);});
 LIVE.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:3,color:'#4fc3ff',fillColor:'#4fc3ff',fillOpacity:.9,weight:1}).bindPopup('<b>LIVE AIS</b><br>'+p.sog+' kn &middot; '+p.age+' min ago').addTo(live));
 L.control.layers(null,{'Radar detections (selected pass)':det,'Live AIS, last 30 min':live},{collapsed:false}).addTo(m);
@@ -280,7 +281,8 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
     if len(rp):
         latest = rp.iloc[-1]
         d = dets[(dets.pass_id == latest.pass_id) & (dets.status != "filtered")]
-        data = d[["lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop"]].fillna("").to_dict("records")
+        data = d.reindex(columns=["lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop",
+                                  "ship_prob"]).astype(object).fillna("").to_dict("records")
         shown = f"Showing pass <span class='mono'>{html.escape(latest.pass_id)}</span> &middot; {utc(latest.time)}"
         n_m, n_c = int(latest.n_matched), int(latest.n_candidates)
     else:
@@ -323,6 +325,80 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
         f.write(page(TITLES[region], body, depth=1, leaflet=True, active=region, feed=feed))
     return dict(region=region, passes=len(rp), live=len(live), st=st,
                 matched=int(rp.n_matched.sum()) if len(rp) else 0, cands=int(rp.n_candidates.sum()) if len(rp) else 0)
+
+
+def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "ship_cnn_report.json")) -> dict | None:
+    """The neural network: architecture, how it was trained, and how it scores on the held-out Oresund."""
+    if not os.path.exists(report_path):
+        return None
+    rep = json.load(open(report_path))
+    os.makedirs(out, exist_ok=True)
+    arch = "".join(f"<tr><td>{html.escape(r['layer'])}</td><td>{r['output']}</td><td>{html.escape(r['activation'])}</td>"
+                   f"<td>{r['weights']:,}</td></tr>" for r in rep["architecture"])
+    t, h, b = rep["test"]["cnn"], rep["test"].get("cnn_at_0_5", rep["test"]["cnn"]), rep["test"]["cfar"]
+    thr = rep.get("threshold", 0.5)
+
+    def row(name, k, fmt="{:.3f}"):
+        return (f"<tr><td>{name}</td><td class='ok'>{fmt.format(t[k])}</td><td>{fmt.format(h[k])}</td>"
+                f"<td>{fmt.format(b[k])}</td></tr>")
+
+    comp = "".join(row(n, k) for n, k in [("Accuracy", "accuracy"), ("Precision", "precision"), ("Recall", "recall"),
+                                         ("F1 score", "f1"), ("ROC-AUC", "roc_auc")])
+    comp += "".join(row(n, k, "{:d}") for n, k in [("True positives (ships found)", "tp"), ("False positives", "fp"),
+                                                  ("True negatives", "tn"), ("False negatives (ships missed)", "fn")])
+    counts = lambda d: ", ".join(f"{v} {k}" for k, v in d.items())
+    tr = rep["training"]
+    body = f"""<div class="coords">NEURAL NETWORK // SHIPCNN</div>
+<h1>ShipCNN: our own convolutional network that decides "is this a ship?"</h1>
+<p class="lede">The detector has two stages. CFAR proposes every bright target on the sea. ShipCNN then looks at a 64 &times; 64 pixel
+radar chip around each target (640 m &times; 640 m at 10 m per pixel) and outputs the probability that it is a ship rather than a bridge
+pylon, pier, wind turbine, buoy or sea clutter. It was designed and trained from scratch in PyTorch for this project.</p>
+<div class="grid">{readout("Weights (parameters)", f"{rep['weights']:,}")}{readout("Layers with weights", 6)}
+{readout("Test F1 &middot; Oresund", f"{t['f1']:.2f}")}{readout("Test ROC-AUC", f"{t['roc_auc']:.2f}", "cyan")}</div>
+<h2>Architecture</h2>
+<div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
+<tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr>{arch}</tbody></table></div>
+<p class="muted" style="font-size:13px">Each convolution slides 3 &times; 3 filters over the chip; BatchNorm keeps activations in a stable range; ReLU
+(max(0, x)) adds non-linearity; max-pooling halves the size so deeper layers see larger areas (a neuron in block 4 sees 31 &times; 31 px,
+about 300 m, enough for a whole ship). Global average pooling makes the decision independent of exactly where the target sits.
+The two fully connected layers turn the 64 features into one number; the sigmoid squashes it to a probability between 0 and 1.</p>
+<h2>Training data: labelled by AIS, not by hand</h2>
+<div class="flow" style="grid-template-columns:repeat(3,1fr)">
+<div class="step"><div class="n">SHIP = 1</div><div class="t">AIS-matched targets</div><div class="d">A radar target paired with a ship broadcasting AIS at the image time.</div></div>
+<div class="step"><div class="n">NOT SHIP = 0</div><div class="t">Structures and open sea</div><div class="d">Targets on mapped bridges, piers, turbines and buoys with no AIS ship within 300 m, plus random open-sea patches.</div></div>
+<div class="step"><div class="n">EXCLUDED</div><div class="t">Everything else</div><div class="d">Unmatched targets could be boats without AIS, so they are not used for training at all.</div></div></div>
+<p class="muted mono" style="font-size:12.5px">Train ({', '.join(rep['data']['train_areas'])}): {counts(rep['data']['train'])}<br>
+Validation (same straits, different locations): {counts(rep['data']['validation'])}<br>
+Test, {rep['data']['test_area']}: {counts(rep['data']['test'])}</p>
+<p class="muted" style="font-size:13px">Training: {tr['optimizer']}, {tr['loss']}, batch {tr['batch']}, {tr['epochs']} epochs (weights kept from epoch
+{tr['best_epoch']}, the lowest validation loss), augmentation: {tr['augmentation']}.</p>
+<img class="chart" src="training.png" alt="training and validation loss and accuracy per epoch">
+<h2>Results on the held-out Oresund</h2>
+<p class="muted" style="font-size:13px">The network never saw the Oresund during training. Baseline = the pipeline without a neural network: every CFAR target
+that passes the brightness and size rules counts as a ship. Its recall is 1.0 by construction (ship labels only exist for targets CFAR
+accepts), so the fair comparison is the second table.</p>
+<div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g} (operating)</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
+<tbody>{comp}</tbody></table></div>
+<h2>Where the network matters: targets CFAR accepts as ships</h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>threshold {thr:g} (operating)</th><th>threshold 0.5</th></tr></thead><tbody>
+{"".join(f"<tr><td>{n}</td><td>{w[k] if isinstance(w[k], int) else f'{w[k]:.2f}'}</td><td>{w5[k] if isinstance(w5[k], int) else f'{w5[k]:.2f}'}</td></tr>"
+         for n, k in [("Targets CFAR accepts", "targets"), ("of which real ships (AIS)", "ships"), ("of which not ships", "non_ships"),
+                      ("Non-ships removed by ShipCNN", "non_ships_removed"), ("Real ships wrongly removed", "ships_lost"),
+                      ("Precision without the network", "precision_before"), ("Precision with the network", "precision_after")]
+         for w, w5 in [(rep["where_it_matters"], rep.get("where_it_matters_at_0_5", rep["where_it_matters"]))])}
+</tbody></table></div>
+<p class="muted" style="font-size:13px">Choosing the threshold is a cost decision. Missing a real dark ship is worse than a false alarm, so the
+operating threshold ({thr:g}) is the highest one that still keeps 90% of ships <b>on the validation set</b> (it was never tuned on the test
+set). A threshold of 0.5 removes more non-ships but loses more real ships.</p>
+<img class="chart" src="confusion.png" alt="confusion matrices" style="margin-top:12px;max-width:760px">
+<h2>What the network sees</h2><p class="muted" style="font-size:13px">Random test chips from the Oresund with the network's P(ship), including its mistakes.</p>
+<img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px">
+<div class="alert" style="margin-top:16px"><b>Limits.</b> Labels come from AIS, so small boats without AIS never appear as "ship" in training and
+the network may under-rate them. "Not ship" examples are mostly mapped structures and open sea; unmapped clutter is not represented.
+The test set is one strait on two days.</div>"""
+    with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
+        f.write(page("ShipCNN neural network", body, depth=1, active="nn", feed=feed))
+    return rep
 
 
 def demo_page(demo_dir: str, out: str, feed: dict) -> None:
@@ -395,6 +471,7 @@ def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = 
 
     if demo_dir and os.path.exists(os.path.join(demo_dir, "dvd.sqlite")):
         demo_page(demo_dir, os.path.join(out, "demo"), feed)
+    nn_page(os.path.join(out, "nn"), feed)
 
     log_path = os.path.join(out, "runlog.json")
     try:

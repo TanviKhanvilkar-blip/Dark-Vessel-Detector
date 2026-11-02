@@ -45,7 +45,7 @@ def demo(out: str) -> None:
 
 
 def region_aoi(a):
-    return tuple(a.aoi) if getattr(a, "aoi", None) else C.REGIONS[a.region]
+    return tuple(a.aoi) if getattr(a, "aoi", None) else C.ALL_AREAS[a.region]
 
 
 def region_file(region: str, name: str) -> str | None:
@@ -68,7 +68,7 @@ def run_scene(a) -> None:
     scene = load_scene(a.tiff, aoi=aoi, calibration_xml=a.cal, land_geojson=land, time=a.time)
     con = store.connect(a.db)
     pass_id = a.pass_id or os.path.basename(a.tiff).split(".")[0][:40]
-    summary, det = run_pass(scene, con, pass_id, out_dir=out, detector=a.detector, structures=structures)
+    summary, det = run_pass(scene, con, pass_id, out_dir=out, detector=a.detector, structures=structures, use_cnn=a.cnn)
     print({k: summary[k] for k in ("n_det", "n_matched", "n_candidates", "n_low_conf", "n_filtered", "ais_msgs", "ais_gap_s")})
     print("filtered:", det[det.status == "filtered"].reason.value_counts().to_dict())
     if summary["ais_msgs"] == 0:
@@ -86,7 +86,7 @@ def main() -> None:
     sub = p.add_subparsers(dest="cmd", required=True)
 
     def area_args(sp, all_ok=False):
-        choices = list(C.REGIONS) + (["all"] if all_ok else [])
+        choices = (list(C.REGIONS) + ["all"]) if all_ok else list(C.ALL_AREAS)   # training areas only where a single area is meant
         sp.add_argument("--region", choices=choices, default="all" if all_ok else "mumbai")
         sp.add_argument("--aoi", type=float, nargs=4, metavar=("WEST", "SOUTH", "EAST", "NORTH"), help="override the region's box")
 
@@ -119,11 +119,15 @@ def main() -> None:
     b.add_argument("--no-catalogue", action="store_true", help="skip the Copernicus catalogue check")
     s.add_argument("--time", type=float, help="epoch seconds; default parsed from file name")
     s.add_argument("--pass-id"); s.add_argument("--detector", default="cfar", choices=["cfar", "yolo"])
+    s.add_argument("--cnn", action="store_true", help="score every CFAR target with ShipCNN (models/ship_cnn.pt)")
     s.add_argument("--reference", help="CSV with lon,lat[,length_m] of reference detections")
     k = sub.add_parser("fetch-coast", help="build a detailed land mask from OpenStreetMap coastlines")
     area_args(k)
     i = sub.add_parser("fetch-infra", help="download bridges, piers, platforms and buoys from OpenStreetMap")
     area_args(i)
+    n = sub.add_parser("train-cnn", help="build the AIS-labelled dataset, train ShipCNN and evaluate on the Oresund")
+    n.add_argument("--rebuild", action="store_true", help="recreate the chip dataset from the scenes")
+    n.add_argument("--epochs", type=int, default=60)
     g = sub.add_parser("fetch-scene", help="download just the region's part of a Sentinel-1 scene from Planetary Computer")
     g.add_argument("item", help="scene id, e.g. S1D_IW_GRDH_1SDV_20261029T170847_20261029T170912_005233_009F0B")
     g.add_argument("--out", help="default scenes/<YYYYMMDD>")
@@ -135,7 +139,10 @@ def main() -> None:
     area_args(m)
     a = p.parse_args()
 
-    if a.cmd == "fetch-scene":
+    if a.cmd == "train-cnn":
+        from .train_cnn import main as train_main
+        train_main(rebuild=a.rebuild, epochs=a.epochs)
+    elif a.cmd == "fetch-scene":
         from .pc import fetch_scene
         out = a.out or os.path.join("scenes", a.item.split("_")[4][:8])
         tif, xml = fetch_scene(a.item, region_aoi(a), out)

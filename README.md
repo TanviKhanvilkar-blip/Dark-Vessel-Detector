@@ -77,6 +77,57 @@ consecutive days is almost certainly fixed (unmapped structure, mooring, anchore
 `same_spot_in_another_pass` and downgraded to low confidence (`REPEAT_RADIUS_M`). Across both passes this leaves **one
 high-confidence candidate** (27 Oct, 55.669 N 12.670 E) out of 50 matched ships.
 
+## The neural network: ShipCNN
+
+A two-stage detector: CFAR proposes every bright target, then **ShipCNN**, our own convolutional network written from scratch in
+PyTorch (`dvd/cnn.py`), looks at a 64 x 64 chip (640 m at 10 m/px, land blanked to sea level) and outputs P(ship).
+
+| # | Layer | Output | Activation | Weights |
+|---|---|---|---|---|
+| 0 | Input: log10 backscatter / 2 | 1 x 64 x 64 | - | 0 |
+| 1 | Conv 3x3, 16 filters + BatchNorm + MaxPool 2x2 | 16 x 32 x 32 | ReLU | 192 |
+| 2 | Conv 3x3, 32 filters + BatchNorm + MaxPool 2x2 | 32 x 16 x 16 | ReLU | 4,704 |
+| 3 | Conv 3x3, 64 filters + BatchNorm + MaxPool 2x2 | 64 x 8 x 8 | ReLU | 18,624 |
+| 4 | Conv 3x3, 64 filters + BatchNorm | 64 x 8 x 8 | ReLU | 37,056 |
+| 5 | Global average pool | 64 | - | 0 |
+| 6 | Fully connected + Dropout 0.3 | 32 | ReLU | 2,080 |
+| 7 | Output | 1 | Sigmoid | 33 |
+
+62,689 weights. Adam (learning rate 3e-4, weight decay 1e-4), binary cross-entropy with the ship class weighted, batch 64, 60 epochs,
+weights kept from the epoch with the lowest validation loss; augmentation: 90-degree rotations, flips, +/-3 px shifts.
+
+**Labels come from AIS** (as in xView3): ship = radar target matched to a broadcasting ship; not ship = target on a mapped point
+structure (bridge pylon, wind turbine, buoy, beacon, light, pile, rock) with no AIS ship within 300 m, or open sea; everything else is
+excluded (it could be a boat without AIS). Piers and quays are excluded too, because boats moor there.
+
+**Data:** trained on 7 Danish areas (Great Belt, Little Belt, Fehmarn Belt, Kattegat, Skagen, and the Rodsand and Anholt wind farms;
+10 scene crops over 26, 27 and 29 Oct 2026); validation split by location; **tested on the Oresund, which training never sees**.
+
+```
+powershell -ExecutionPolicy Bypass -File scripts\fetch_training_data.ps1     # masks + scene crops (AIS: import-dma, see above)
+python -m dvd train-cnn --rebuild                                              # dataset, training, test report -> models/, docs/nn/
+python -m dvd run-scene ... --region denmark --db denmark_hist.sqlite --cnn    # pipeline with the network
+```
+
+Held-out Oresund (375 chips, 50 ships), operating threshold 0.69 chosen on validation as the highest that keeps >= 90% of ships:
+
+| | ShipCNN | CFAR only |
+|---|---|---|
+| Accuracy | 0.827 | 0.765 |
+| Precision | 0.430 | 0.362 |
+| Recall | 0.920 | 1.000 (by construction) |
+| F1 | 0.586 | 0.532 |
+| ROC-AUC | 0.922 | 0.865 |
+
+Where it matters, on the 138 targets CFAR accepts as ships: ShipCNN removes 63 of 88 non-ships and loses 4 of 50 real ships,
+raising precision from 0.36 to 0.65. In the full pipeline it rejects 5 unmatched targets across the two passes; every AIS-matched ship
+scores above the threshold (median P = 0.99).
+
+How it got there (each step is in the git history): the first model scored F1 0.41 because "not ship" labels included piers where
+boats moor (fixed: point structures only), it called 87% of wind turbines ships (fixed: added two wind farms to training, now 23%),
+and it judged the city around harbour targets instead of the target (fixed: land blanked in chips; ROC-AUC 0.88 -> 0.92).
+Remaining weakness: buoys and small navigation lights, and quay edges that the coastline does not count as land.
+
 ## Recording AIS for a pass
 
 aisstream has no history, so AIS must be recorded *while* the satellite passes.

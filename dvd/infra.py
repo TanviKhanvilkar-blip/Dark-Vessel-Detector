@@ -76,20 +76,27 @@ def to_geojson(raw_path: str, out_path: str) -> dict[str, int]:
 class Structures:
     """Spatial index of structures; `near(lon, lat)` says which detections fall inside a buffer."""
 
-    def __init__(self, geoms: list):
+    def __init__(self, geoms: list, kinds: list[str] | None = None):
         self.geoms = geoms
+        self.kinds = kinds or ["structure"] * len(geoms)
         self.tree = STRtree(geoms) if geoms else None
 
     @classmethod
     def load(cls, geojson_path: str | None, points: list[tuple[float, float]] = ()) -> "Structures":
-        geoms = [Point(lo, la) for lo, la in points]
+        geoms, kinds = [Point(lo, la) for lo, la in points], ["platform"] * len(points)
         if geojson_path:
-            geoms += [shape(f["geometry"]) for f in json.load(open(geojson_path, encoding="utf-8"))["features"]]
-        return cls(geoms)
+            for f in json.load(open(geojson_path, encoding="utf-8"))["features"]:
+                geoms.append(shape(f["geometry"]))
+                kinds.append(f.get("properties", {}).get("kind", "structure"))
+        return cls(geoms, kinds)
 
     def near(self, lon, lat) -> np.ndarray:
+        return self.kinds_near(lon, lat) != ""
+
+    def kinds_near(self, lon, lat) -> np.ndarray:
+        """Kind of a structure within the buffer of each point ('' where none)."""
         lon, lat = np.atleast_1d(lon), np.atleast_1d(lat)
-        out = np.zeros(len(lon), bool)
+        out = np.full(len(lon), "", dtype=object)
         if self.tree is None:
             return out
         # degree distances -> metres with the east-west scale (the smaller one), so the buffer never comes out too small
@@ -101,6 +108,6 @@ class Structures:
                 g = self.geoms[j]
                 buf = C.STRUCTURE_RADIUS_M if isinstance(g, Point) else C.STRUCTURE_LINE_BUFFER_M
                 if g.distance(p) * m_per_deg <= buf:
-                    out[i] = True
+                    out[i] = self.kinds[j]
                     break
         return out

@@ -1,0 +1,6357 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-11-02T06:54:26Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 622025373,
+  "lat": 57.7311000,
+  "lon": 10.7053167,
+  "tags": {
+    "seamark:buoy_cardinal:category": "east",
+    "seamark:buoy_cardinal:colour": "black;yellow;black",
+    "seamark:buoy_cardinal:colour_pattern": "horizontal",
+    "seamark:buoy_cardinal:shape": "pillar",
+    "seamark:light:character": "Q",
+    "seamark:light:colour": "white",
+    "seamark:light:group": "3",
+    "seamark:light:period": "10",
+    "seamark:topmark:colour": "black",
+    "seamark:topmark:shape": "2 cones base together",
+    "seamark:type": "buoy_cardinal"
+  }
+},
+{
+  "type": "node",
+  "id": 1116153693,
+  "lat": 57.7374520,
+  "lon": 10.5660325,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "750 kW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "71",
+    "height:hub": "45",
+    "manufacturer": "Wind World",
+    "model": "W 5200-750",
+    "power": "generator",
+    "ref:DK:gsrn": "570715000000002601",
+    "rotor:diameter": "52",
+    "rotor:swept_area": "2140",
+    "start_date": "1998-03-13",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 1116153707,
+  "lat": 57.7349141,
+  "lon": 10.5695728,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "900 kW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "71",
+    "height:hub": "45",
+    "manufacturer": "NEG Micon",
+    "model": "NM 52/900",
+    "power": "generator",
+    "ref:DK:gsrn": "570715000000056956",
+    "rotor:diameter": "52",
+    "rotor:swept_area": "2140",
+    "start_date": "2002-12-21",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 1116153733,
+  "lat": 57.7362045,
+  "lon": 10.5677824,
+  "tags": {
+    "frequency": "50",
+    "generator:method": "wind_turbine",
+    "generator:output:electricity": "900 kW",
+    "generator:source": "wind",
+    "generator:type": "horizontal_axis",
+    "height": "71",
+    "height:hub": "45",
+    "manufacturer": "NEG Micon",
+    "model": "NM 52/900",
+    "power": "generator",
+    "ref:DK:gsrn": "570715000000056963",
+    "rotor:diameter": "52",
+    "rotor:swept_area": "2140",
+    "start_date": "2002-12-21",
+    "voltage": "690"
+  }
+},
+{
+  "type": "node",
+  "id": 1322117623,
+  "lat": 57.7267956,
+  "lon": 10.6082123,
+  "tags": {
+    "alt_name": "Vippefyret",
+    "description": "Replica of historic beacon",
+    "historic": "yes",
+    "man_made": "beacon",
+    "name": "Skagens Vippefyr",
+    "tourism": "attraction",
+    "wikidata": "Q15627455",
+    "wikimedia_commons": "Category:Bascule light, Skagen",
+    "wikipedia": "en:Skagen's Vippefyr"
+  }
+},
+{
+  "type": "node",
+  "id": 1381017415,
+  "lat": 57.7194298,
+  "lon": 10.5884330,
+  "tags": {
+    "amenity": "toilets",
+    "changing_table": "no",
+    "fee": "no",
+    "seamark:small_craft_facility:category": "toilets",
+    "seamark:type": "small_craft_facility",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1413110537,
+  "lat": 57.7182665,
+  "lon": 10.5876832,
+  "tags": {
+    "amenity": "toilets",
+    "check_date": "2023-08-13",
+    "seamark:small_craft_facility:category": "toilets",
+    "seamark:type": "small_craft_facility"
+  }
+},
+{
+  "type": "node",
+  "id": 1414491698,
+  "lat": 57.7044169,
+  "lon": 10.4894564,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "observation"
+  }
+},
+{
+  "type": "node",
+  "id": 1535690514,
+  "lat": 57.5922646,
+  "lon": 10.4307833,
+  "tags": {
+    "seamark:light:character": "F",
+    "seamark:light:colour": "green",
+    "seamark:light:height": "6",
+    "seamark:light:range": "2",
+    "seamark:light:reference": "C 0016",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535690582,
+  "lat": 57.5919988,
+  "lon": 10.4305578,
+  "tags": {
+    "seamark:light:character": "F",
+    "seamark:light:colour": "red",
+    "seamark:light:height": "6",
+    "seamark:light:range": "2",
+    "seamark:light:reference": "C 0017",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535692142,
+  "lat": 57.7178711,
+  "lon": 10.5916759,
+  "tags": {
+    "seamark:information": "Visible only over the harbor.",
+    "seamark:light:character": "F",
+    "seamark:light:colour": "red",
+    "seamark:light:height": "6",
+    "seamark:light:reference": "C 0009",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535692707,
+  "lat": 57.7179333,
+  "lon": 10.5926500,
+  "tags": {
+    "seamark:information": "Visible over the harbor.",
+    "seamark:light:character": "F",
+    "seamark:light:colour": "green",
+    "seamark:light:height": "6",
+    "seamark:light:reference": "C 0010",
+    "seamark:type": "light_minor",
+    "source": "US NGA Pub. 116. 2011-07-07."
+  }
+},
+{
+  "type": "node",
+  "id": 1535693220,
+  "lat": 57.7160334,
+  "lon": 10.5927000,
+  "tags": {
+    "seamark:light:character": "F",
+    "seamark:light:colour": "green",
+    "seamark:light:height": "5",
+    "seamark:light:range": "2",
+    "seamark:type": "light_minor",
+    "source": "http://www.soefartsstyrelsen.dk/Documents/Publikationer/Afm%C3%A6rkning%20af%20danske%20farvande%209.%20udgave.pdf"
+  }
+},
+{
+  "type": "node",
+  "id": 1535695939,
+  "lat": 57.7156334,
+  "lon": 10.5918000,
+  "tags": {
+    "seamark:light:character": "F",
+    "seamark:light:colour": "red",
+    "seamark:light:height": "5",
+    "seamark:light:range": "2",
+    "seamark:light:reference": "C 0006",
+    "seamark:type": "light_minor",
+    "source": "http://www.soefartsstyrelsen.dk/Documents/Publikationer/Afm%C3%A6rkning%20af%20danske%20farvande%209.%20udgave.pdf"
+  }
+},
+{
+  "type": "node",
+  "id": 1755095782,
+  "lat": 57.7150688,
+  "lon": 10.5866997,
+  "tags": {
+    "leisure": "slipway",
+    "seamark:small_craft_facility:category": "slipway",
+    "seamark:type": "small_craft_facility"
+  }
+},
+{
+  "type": "node",
+  "id": 1877958996,
+  "lat": 57.5924188,
+  "lon": 10.4273087,
+  "tags": {
+    "amenity": "toilets",
+    "check_date": "2025-07-21",
+    "seamark:small_craft_facility:category": "toilets",
+    "seamark:type": "small_craft_facility"
+  }
+},
+{
+  "type": "node",
+  "id": 2244918037,
+  "lat": 57.5924217,
+  "lon": 10.4291109,
+  "tags": {
+    "alt_name": "Ålbæk Havn",
+    "contact:phone": "+45 21 773799",
+    "contact:website": "https://aalbaekhavn.frederikshavn.dk/",
+    "harbour": "yes",
+    "leisure": "marina",
+    "name": "Aalbæk Havn",
+    "seamark:harbour:category": "marina",
+    "seamark:name": "Aalbæk Havn",
+    "seamark:type": "harbour",
+    "wikidata": "Q12341803",
+    "wikipedia": "da:Ålbæk Havn"
+  }
+},
+{
+  "type": "node",
+  "id": 2244918043,
+  "lat": 57.7186077,
+  "lon": 10.5886324,
+  "tags": {
+    "contact:email": "lystbaadehavn@frederikshavn.dk",
+    "contact:phone": "+45 23 20 09 41",
+    "contact:website": "https://skagenlystbaadehavn.frederikshavn.dk/",
+    "harbour": "yes",
+    "leisure": "marina",
+    "name": "Skagen Lystbådehavn",
+    "seamark:harbour:category": "marina",
+    "seamark:name": "Skagen Lystbådehavn",
+    "seamark:type": "harbour",
+    "vhf": "12/16"
+  }
+},
+{
+  "type": "node",
+  "id": 3608257382,
+  "lat": 57.7491977,
+  "lon": 10.5951998,
+  "tags": {
+    "communication:dgps": "yes",
+    "frequency": "296000",
+    "man_made": "mast",
+    "seamark:name": "Skagen",
+    "seamark:radio_station:category": "dgps",
+    "seamark:radio_station:frequency": "296000",
+    "seamark:radio_station:range": "145",
+    "seamark:type": "radio_station",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608271129,
+  "lat": 57.7383219,
+  "lon": 10.5749713,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608271130,
+  "lat": 57.7387620,
+  "lon": 10.5746466,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "height": "96",
+    "man_made": "tower",
+    "network": "TDC Mobil A/S;Telia - Telenor (TT Netværket)",
+    "seamark:landmark:category": "mast",
+    "seamark:landmark:function": "radio",
+    "seamark:type": "landmark",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608271131,
+  "lat": 57.7387789,
+  "lon": 10.5736581,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608271132,
+  "lat": 57.7391897,
+  "lon": 10.5741953,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608271133,
+  "lat": 57.7396570,
+  "lon": 10.5747405,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608271134,
+  "lat": 57.7401044,
+  "lon": 10.5731575,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3608276432,
+  "lat": 57.7411396,
+  "lon": 10.5737451,
+  "tags": {
+    "man_made": "tower",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 3877020102,
+  "lat": 57.7127707,
+  "lon": 10.5831264,
+  "tags": {
+    "seamark:light:1:character": "Oc",
+    "seamark:light:1:colour": "green",
+    "seamark:light:1:exhibition": "24h",
+    "seamark:light:1:height": "21",
+    "seamark:light:1:period": "5",
+    "seamark:light:1:range": "11",
+    "seamark:light:1:sector_end": "266.6",
+    "seamark:light:1:sector_start": "263.6",
+    "seamark:light:2:character": "Oc",
+    "seamark:light:2:colour": "white",
+    "seamark:light:2:exhibition": "24h",
+    "seamark:light:2:height": "21",
+    "seamark:light:2:period": "5",
+    "seamark:light:2:range": "10",
+    "seamark:light:2:sector_end": "270.6",
+    "seamark:light:2:sector_start": "266.6",
+    "seamark:light:3:character": "Oc",
+    "seamark:light:3:colour": "red",
+    "seamark:light:3:exhibition": "24h",
+    "seamark:light:3:height": "21",
+    "seamark:light:3:period": "5",
+    "seamark:light:3:range": "10",
+    "seamark:light:3:sector_end": "273.6",
+    "seamark:light:3:sector_start": "270.6",
+    "seamark:light:reference": "C 0004.9",
+    "seamark:name": "Skagen Anduvning",
+    "seamark:type": "light_minor",
+    "source": "Ufs 2021 march 18"
+  }
+},
+{
+  "type": "node",
+  "id": 3900102411,
+  "lat": 57.5833333,
+  "lon": 10.5500000,
+  "tags": {
+    "alt_name": "Ålbæk Bugt",
+    "name": "Aalbæk Bugt",
+    "natural": "bay",
+    "seamark:name": "Ålbæk Bugt",
+    "seamark:sea_area:category": "bay",
+    "seamark:type": "sea_area"
+  }
+},
+{
+  "type": "node",
+  "id": 3900126535,
+  "lat": 57.5500000,
+  "lon": 10.4666667,
+  "tags": {
+    "seamark:name": "Krageskov Rev",
+    "seamark:sea_area:category": "shoal",
+    "seamark:type": "sea_area"
+  }
+},
+{
+  "type": "node",
+  "id": 4039874561,
+  "lat": 57.7661167,
+  "lon": 10.7286167,
+  "tags": {
+    "bouy": "cardinal_north",
+    "buoy:colour": "black-yellow",
+    "seamark:buoy_cardinal:category": "north",
+    "seamark:buoy_cardinal:colour": "black;yellow",
+    "seamark:buoy_cardinal:colour_pattern": "horizontal",
+    "seamark:buoy_cardinal:shape": "pillar",
+    "seamark:light:character": "Q",
+    "seamark:light:colour": "white",
+    "seamark:topmark:colour": "black",
+    "seamark:topmark:shape": "2 cones up",
+    "seamark:type": "buoy_cardinal"
+  }
+},
+{
+  "type": "node",
+  "id": 4108297490,
+  "lat": 57.6840167,
+  "lon": 10.6014500,
+  "tags": {
+    "seamark:obstruction:category": "foul_ground",
+    "seamark:type": "obstruction",
+    "source": "http://www.danskehavnelods.dk/soekortret/SORET2016/5_2016.pdf"
+  }
+},
+{
+  "type": "node",
+  "id": 4111882361,
+  "lat": 57.6116667,
+  "lon": 10.5300000,
+  "tags": {
+    "seamark:obstruction:category": "foul_ground",
+    "seamark:type": "obstruction",
+    "source": "http://www.danskehavnelods.dk/soekortret/SORET2015/1-2_2015.pdf"
+  }
+},
+{
+  "type": "node",
+  "id": 4112177940,
+  "lat": 57.5922496,
+  "lon": 10.4279397,
+  "tags": {
+    "harbour": "yes",
+    "name": "Aalbæk Havn",
+    "port_of_entry": "no",
+    "seamark:harbour:category": "cargo",
+    "seamark:type": "harbour"
+  }
+},
+{
+  "type": "node",
+  "id": 4112181447,
+  "lat": 57.5922667,
+  "lon": 10.4294167,
+  "tags": {
+    "seamark:beacon_special_purpose:colour": "black",
+    "seamark:beacon_special_purpose:shape": "pile",
+    "seamark:light:category": "lower;leading",
+    "seamark:light:character": "Iso",
+    "seamark:light:colour": "red",
+    "seamark:light:period": "2",
+    "seamark:light:range": "4.5",
+    "seamark:topmark:shape": "triangle, point up",
+    "seamark:type": "beacon_special_purpose"
+  }
+},
+{
+  "type": "node",
+  "id": 4112181451,
+  "lat": 57.5923333,
+  "lon": 10.4284167,
+  "tags": {
+    "seamark:beacon_special_purpose:colour": "black",
+    "seamark:beacon_special_purpose:shape": "pile",
+    "seamark:light:category": "upper;leading",
+    "seamark:light:character": "Iso",
+    "seamark:light:colour": "red",
+    "seamark:light:period": "4",
+    "seamark:light:range": "4.5",
+    "seamark:topmark:shape": "triangle, point down",
+    "seamark:type": "beacon_special_purpose"
+  }
+},
+{
+  "type": "node",
+  "id": 4112187269,
+  "lat": 57.5917667,
+  "lon": 10.4321833,
+  "tags": {
+    "seamark:buoy_lateral:category": "port",
+    "seamark:buoy_lateral:colour": "red",
+    "seamark:buoy_lateral:shape": "can",
+    "seamark:buoy_lateral:system": "iala-a",
+    "seamark:type": "buoy_lateral"
+  }
+},
+{
+  "type": "node",
+  "id": 4112187270,
+  "lat": 57.5921833,
+  "lon": 10.4323500,
+  "tags": {
+    "seamark:buoy_lateral:category": "starboard",
+    "seamark:buoy_lateral:colour": "green",
+    "seamark:buoy_lateral:shape": "conical",
+    "seamark:buoy_lateral:system": "iala-a",
+    "seamark:type": "buoy_lateral"
+  }
+},
+{
+  "type": "node",
+  "id": 4645870971,
+  "lat": 57.7436601,
+  "lon": 10.6046785,
+  "tags": {
+    "man_made": "mast"
+  }
+},
+{
+  "type": "node",
+  "id": 4645873704,
+  "lat": 57.7433185,
+  "lon": 10.6022602,
+  "tags": {
+    "man_made": "mast"
+  }
+},
+{
+  "type": "node",
+  "id": 4760388121,
+  "lat": 57.7196766,
+  "lon": 10.5681561,
+  "tags": {
+    "man_made": "mast",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 4838817578,
+  "lat": 57.7354954,
+  "lon": 10.6301871,
+  "tags": {
+    "lighthouse:shape": "tower",
+    "ref": "C 0002",
+    "seamark:landmark:category": "tower",
+    "seamark:landmark:height": "46",
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "white",
+    "seamark:light:height": "44",
+    "seamark:light:period": "4",
+    "seamark:light:range": "23",
+    "seamark:light:reference": "C 0002",
+    "seamark:light:sequence": "0.2+(3.8)",
+    "seamark:name": "Skagen Fyr",
+    "seamark:radar_transponder:category": "racon",
+    "seamark:radar_transponder:group": "G",
+    "seamark:type": "landmark"
+  }
+},
+{
+  "type": "node",
+  "id": 4932239605,
+  "lat": 57.6428076,
+  "lon": 10.4106882,
+  "tags": {
+    "man_made": "tower",
+    "tourism": "viewpoint",
+    "tower:type": "observation"
+  }
+},
+{
+  "type": "node",
+  "id": 4936511090,
+  "lat": 57.7120111,
+  "lon": 10.5998392,
+  "tags": {
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "red",
+    "seamark:light:height": "8",
+    "seamark:light:period": "5",
+    "seamark:light:range": "5",
+    "seamark:light:reference": "C 0006",
+    "seamark:status": "permanent",
+    "seamark:type": "light_minor",
+    "source": "source=http://www.soefartsstyrelsen.dk/Documents/Publikationer/Afm%C3%A6rkning%20af%20danske%20farvande%209.%20udgave.pdf"
+  }
+},
+{
+  "type": "node",
+  "id": 5157897912,
+  "lat": 57.7487643,
+  "lon": 10.5951541,
+  "tags": {
+    "seamark:landmark:category": "tower",
+    "seamark:landmark:height": "25",
+    "seamark:light:1:character": "Fl",
+    "seamark:light:1:colour": "white",
+    "seamark:light:1:group": "3",
+    "seamark:light:1:height": "31",
+    "seamark:light:1:period": "10",
+    "seamark:light:1:range": "17",
+    "seamark:light:1:sector_end": "248",
+    "seamark:light:1:sector_start": "053",
+    "seamark:light:1:sequence": "1+(1),1+(1),1+(5)",
+    "seamark:light:2:character": "Fl",
+    "seamark:light:2:colour": "red",
+    "seamark:light:2:group": "3",
+    "seamark:light:2:height": "31",
+    "seamark:light:2:period": "10",
+    "seamark:light:2:range": "12",
+    "seamark:light:2:sector_end": "323",
+    "seamark:light:2:sector_start": "248",
+    "seamark:light:2:sequence": "1+(1),1+(1),1+(5)",
+    "seamark:light:reference": "C 0001",
+    "seamark:name": "Skagen West",
+    "seamark:national_name": "Skagen Vest",
+    "seamark:type": "landmark"
+  }
+},
+{
+  "type": "node",
+  "id": 5354729564,
+  "lat": 57.6052571,
+  "lon": 10.4193849,
+  "tags": {
+    "MNC": "01;06;20",
+    "communication:mobile_phone": "yes",
+    "ele": "3.5",
+    "height": "60",
+    "man_made": "mast",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 5535605800,
+  "lat": 57.5443511,
+  "lon": 10.4083181,
+  "tags": {
+    "generator:method": "wind_turbine",
+    "generator:source": "wind",
+    "power": "generator"
+  }
+},
+{
+  "type": "node",
+  "id": 5535606003,
+  "lat": 57.6008214,
+  "lon": 10.4054491,
+  "tags": {
+    "generator:method": "wind_turbine",
+    "generator:source": "wind",
+    "power": "generator"
+  }
+},
+{
+  "type": "node",
+  "id": 5535606172,
+  "lat": 57.5982648,
+  "lon": 10.3994565,
+  "tags": {
+    "generator:method": "wind_turbine",
+    "generator:source": "wind",
+    "power": "generator"
+  }
+},
+{
+  "type": "node",
+  "id": 5535606189,
+  "lat": 57.6240106,
+  "lon": 10.3805184,
+  "tags": {
+    "generator:method": "wind_turbine",
+    "generator:source": "wind",
+    "power": "generator"
+  }
+},
+{
+  "type": "node",
+  "id": 5826488097,
+  "lat": 57.7162032,
+  "lon": 10.5912575,
+  "tags": {
+    "man_made": "dolphin",
+    "seamark:mooring:category": "dolphin",
+    "seamark:type": "mooring"
+  }
+},
+{
+  "type": "node",
+  "id": 5826488098,
+  "lat": 57.7164854,
+  "lon": 10.5914587,
+  "tags": {
+    "man_made": "dolphin",
+    "seamark:mooring:category": "dolphin",
+    "seamark:type": "mooring"
+  }
+},
+{
+  "type": "node",
+  "id": 5826488099,
+  "lat": 57.7169954,
+  "lon": 10.5918208,
+  "tags": {
+    "man_made": "dolphin",
+    "seamark:mooring:category": "dolphin",
+    "seamark:type": "mooring"
+  }
+},
+{
+  "type": "node",
+  "id": 5826488100,
+  "lat": 57.7167590,
+  "lon": 10.5916545,
+  "tags": {
+    "man_made": "dolphin",
+    "seamark:mooring:category": "dolphin",
+    "seamark:type": "mooring"
+  }
+},
+{
+  "type": "node",
+  "id": 6924995037,
+  "lat": 57.7333333,
+  "lon": 10.7500000,
+  "tags": {
+    "operator": "DanPilot",
+    "seamark:name": "Skagen 2",
+    "seamark:pilot_boarding:category": "from_shore",
+    "seamark:pilot_boarding:channel": "87",
+    "seamark:type": "pilot_boarding",
+    "source": "https://danpilot.dk/media/1230/danpilot-information-folder-2019.pdf#page=2"
+  }
+},
+{
+  "type": "node",
+  "id": 6924995038,
+  "lat": 57.7833333,
+  "lon": 10.6333333,
+  "tags": {
+    "operator": "DanPilot",
+    "seamark:name": "Skagen 1",
+    "seamark:pilot_boarding:category": "from_shore",
+    "seamark:pilot_boarding:channel": "87",
+    "seamark:type": "pilot_boarding",
+    "source": "https://danpilot.dk/media/1230/danpilot-information-folder-2019.pdf#page=2"
+  }
+},
+{
+  "type": "node",
+  "id": 7234341085,
+  "lat": 57.8331667,
+  "lon": 10.5520000,
+  "tags": {
+    "seamark:name": "TSS Skagen West",
+    "seamark:type": "virtual_aton",
+    "seamark:virtual_aton:mmsi": "992196043",
+    "source": "Dansk fyrliste 2020"
+  }
+},
+{
+  "type": "node",
+  "id": 8343155459,
+  "lat": 57.7189053,
+  "lon": 10.5919415,
+  "tags": {
+    "amenity": "lifeboat",
+    "emergency": "water_rescue",
+    "lifeboat": "offshore",
+    "lifeboat:class": "MRB type 16",
+    "name": "Lars Kruse",
+    "operator": "Kystredningstjenesten",
+    "operator:wikidata": "Q12323282",
+    "operator:wikipedia": "da:Kystredningstjenesten",
+    "seamark:name": "Lars Kruse",
+    "seamark:radio_station:category": "ais",
+    "seamark:radio_station:mmsi": "219001111",
+    "seamark:rescue_station:category": "lifeboat_on_mooring",
+    "seamark:type": "rescue_station",
+    "start_date": "2000",
+    "website": "https://forsvaret.dk/da/opgaver/nationale-opgaver/eftersogning-og-redning/"
+  }
+},
+{
+  "type": "node",
+  "id": 8490934893,
+  "lat": 57.7116333,
+  "lon": 10.6062000,
+  "tags": {
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "red",
+    "seamark:light:height": "8",
+    "seamark:light:period": "3",
+    "seamark:light:range": "5",
+    "seamark:status": "permanent",
+    "seamark:type": "light_minor",
+    "source": "source=http://www.soefartsstyrelsen.dk/"
+  }
+},
+{
+  "type": "node",
+  "id": 8490939320,
+  "lat": 57.7139536,
+  "lon": 10.6007934,
+  "tags": {
+    "seamark:light:character": "Fl",
+    "seamark:light:colour": "green",
+    "seamark:light:height": "8",
+    "seamark:light:period": "5",
+    "seamark:light:range": "5",
+    "seamark:status": "permanent",
+    "seamark:type": "light_minor",
+    "source": "source=http://www.soefartsstyrelsen.dk/"
+  }
+},
+{
+  "type": "node",
+  "id": 8760323960,
+  "lat": 57.7437037,
+  "lon": 10.6046471,
+  "tags": {
+    "man_made": "mast",
+    "tower:construction": "lattice",
+    "tower:type": "radar"
+  }
+},
+{
+  "type": "node",
+  "id": 9706920661,
+  "lat": 57.7335500,
+  "lon": 10.5704100,
+  "tags": {
+    "man_made": "mast",
+    "tower:construction": "lattice"
+  }
+},
+{
+  "type": "node",
+  "id": 10235990680,
+  "lat": 57.7188224,
+  "lon": 10.5662588,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "3.7",
+    "height": "32",
+    "man_made": "mast",
+    "network": "Telia - Telenor (TT Netværket)",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 10236209380,
+  "lat": 57.7310181,
+  "lon": 10.5936614,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "2",
+    "height": "30",
+    "man_made": "mast",
+    "network": "TDC Mobil A/S",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 10237593839,
+  "lat": 57.7034942,
+  "lon": 10.5101783,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "6.5",
+    "height": "25",
+    "man_made": "mast",
+    "network": "Telia - Telenor (TT Netværket)",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 10237602883,
+  "lat": 57.6547071,
+  "lon": 10.4495895,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "11",
+    "height": "40",
+    "man_made": "mast",
+    "network": "Telia - Telenor (TT Netværket);TDC Mobil A/S;;Hi3G Denmark ApS",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 10237687882,
+  "lat": 57.6267985,
+  "lon": 10.4385403,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "3",
+    "height": "18",
+    "man_made": "mast",
+    "network": "TDC Mobil A/S",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 10237716844,
+  "lat": 57.6613368,
+  "lon": 10.3964945,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "12.2",
+    "height": "15",
+    "man_made": "mast",
+    "network": "TDC Mobil A/S",
+    "tower:construction": "tube",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "node",
+  "id": 10237753395,
+  "lat": 57.5937579,
+  "lon": 10.4132725,
+  "tags": {
+    "communication:mobile_phone": "yes",
+    "ele": "3.3",
+    "height": "28",
+    "man_made": "mast",
+    "network": "TDC Mobil A/S",
+    "tower:construction": "lattice",
+    "tower:type": "communication"
+  }
+},
+{
+  "type": "way",
+  "id": 32542198,
+  "bounds": {
+    "minlat": 57.7248163,
+    "minlon": 10.5829193,
+    "maxlat": 57.7250472,
+    "maxlon": 10.5829361
+  },
+  "nodes": [
+    365963006,
+    365963008
+  ],
+  "geometry": [
+    { "lat": 57.7248163, "lon": 10.5829193 },
+    { "lat": 57.7250472, "lon": 10.5829361 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "cycleway": "track",
+    "highway": "residential",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Kirkevej",
+    "name:etymology:wikidata": "Q3428109",
+    "source:maxspeed": "DK:urban",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 79437703,
+  "bounds": {
+    "minlat": 57.5820516,
+    "minlon": 10.4066083,
+    "maxlat": 57.5820917,
+    "maxlon": 10.4066569
+  },
+  "nodes": [
+    927440312,
+    927440320
+  ],
+  "geometry": [
+    { "lat": 57.5820917, "lon": 10.4066083 },
+    { "lat": 57.5820516, "lon": 10.4066569 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "path",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 79437707,
+  "bounds": {
+    "minlat": 57.5852217,
+    "minlon": 10.3860532,
+    "maxlat": 57.5853187,
+    "maxlon": 10.3860699
+  },
+  "nodes": [
+    926488986,
+    926488990
+  ],
+  "geometry": [
+    { "lat": 57.5853187, "lon": 10.3860532 },
+    { "lat": 57.5852217, "lon": 10.3860699 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "track",
+    "layer": "1",
+    "smoothness": "intermediate",
+    "surface": "compacted"
+  }
+},
+{
+  "type": "way",
+  "id": 83105744,
+  "bounds": {
+    "minlat": 57.6191383,
+    "minlon": 10.4126398,
+    "maxlat": 57.6191480,
+    "maxlon": 10.4127173
+  },
+  "nodes": [
+    966875958,
+    966876009
+  ],
+  "geometry": [
+    { "lat": 57.6191383, "lon": 10.4126398 },
+    { "lat": 57.6191480, "lon": 10.4127173 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "path",
+    "layer": "1",
+    "sac_scale": "hiking",
+    "surface": "grass",
+    "trail_visibility": "intermediate"
+  }
+},
+{
+  "type": "way",
+  "id": 83105748,
+  "bounds": {
+    "minlat": 57.6207678,
+    "minlon": 10.4124067,
+    "maxlat": 57.6207713,
+    "maxlon": 10.4125029
+  },
+  "nodes": [
+    966875981,
+    446099390
+  ],
+  "geometry": [
+    { "lat": 57.6207678, "lon": 10.4125029 },
+    { "lat": 57.6207713, "lon": 10.4124067 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "grass"
+  }
+},
+{
+  "type": "way",
+  "id": 83114555,
+  "bounds": {
+    "minlat": 57.6390587,
+    "minlon": 10.4147735,
+    "maxlat": 57.6390746,
+    "maxlon": 10.4147925
+  },
+  "nodes": [
+    967023685,
+    967023701
+  ],
+  "geometry": [
+    { "lat": 57.6390746, "lon": 10.4147735 },
+    { "lat": 57.6390587, "lon": 10.4147925 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "earth",
+    "trail_visibility": "excellent",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 83114572,
+  "bounds": {
+    "minlat": 57.6390055,
+    "minlon": 10.4047073,
+    "maxlat": 57.6390250,
+    "maxlon": 10.4047094
+  },
+  "nodes": [
+    967023659,
+    967023693
+  ],
+  "geometry": [
+    { "lat": 57.6390055, "lon": 10.4047094 },
+    { "lat": 57.6390250, "lon": 10.4047073 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "track",
+    "layer": "1",
+    "motorcar": "no",
+    "motorcycle": "no",
+    "surface": "grass",
+    "tracktype": "grade4",
+    "width": "2"
+  }
+},
+{
+  "type": "way",
+  "id": 98530374,
+  "bounds": {
+    "minlat": 57.5792816,
+    "minlon": 10.4242176,
+    "maxlat": 57.5793860,
+    "maxlon": 10.4242192
+  },
+  "nodes": [
+    1139876908,
+    1139880410
+  ],
+  "geometry": [
+    { "lat": 57.5792816, "lon": 10.4242192 },
+    { "lat": 57.5793860, "lon": 10.4242176 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "bridge:support": "pylon",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "surface": "sand"
+  }
+},
+{
+  "type": "way",
+  "id": 98530706,
+  "bounds": {
+    "minlat": 57.5710306,
+    "minlon": 10.4252380,
+    "maxlat": 57.5710802,
+    "maxlon": 10.4252669
+  },
+  "nodes": [
+    1139886234,
+    1139886286
+  ],
+  "geometry": [
+    { "lat": 57.5710802, "lon": 10.4252380 },
+    { "lat": 57.5710306, "lon": 10.4252669 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 123978639,
+  "bounds": {
+    "minlat": 57.7183241,
+    "minlon": 10.5881146,
+    "maxlat": 57.7184824,
+    "maxlon": 10.5883571
+  },
+  "nodes": [
+    10683006217,
+    8523173117,
+    8523164016,
+    10683006216,
+    10683006214,
+    10683006217
+  ],
+  "geometry": [
+    { "lat": 57.7184674, "lon": 10.5883571 },
+    { "lat": 57.7183241, "lon": 10.5881482 },
+    { "lat": 57.7183398, "lon": 10.5881146 },
+    { "lat": 57.7184824, "lon": 10.5883230 },
+    { "lat": 57.7184761, "lon": 10.5883373 },
+    { "lat": 57.7184674, "lon": 10.5883571 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 131992033,
+  "bounds": {
+    "minlat": 57.6999470,
+    "minlon": 10.5436973,
+    "maxlat": 57.7000699,
+    "maxlon": 10.5438891
+  },
+  "nodes": [
+    1452246132,
+    1453148955
+  ],
+  "geometry": [
+    { "lat": 57.7000699, "lon": 10.5438891 },
+    { "lat": 57.6999470, "lon": 10.5436973 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "path",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 135831269,
+  "bounds": {
+    "minlat": 57.6216852,
+    "minlon": 10.4116079,
+    "maxlat": 57.6217062,
+    "maxlon": 10.4116143
+  },
+  "nodes": [
+    1490965442,
+    1490965445
+  ],
+  "geometry": [
+    { "lat": 57.6216852, "lon": 10.4116143 },
+    { "lat": 57.6217062, "lon": 10.4116079 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "grass",
+    "trail_visibility": "good",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 137244024,
+  "bounds": {
+    "minlat": 57.7286648,
+    "minlon": 10.5191174,
+    "maxlat": 57.7288715,
+    "maxlon": 10.5194506
+  },
+  "nodes": [
+    1505444672,
+    8695929058,
+    1505444673
+  ],
+  "geometry": [
+    { "lat": 57.7286648, "lon": 10.5194506 },
+    { "lat": 57.7287530, "lon": 10.5193085 },
+    { "lat": 57.7288715, "lon": 10.5191174 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 137244025,
+  "bounds": {
+    "minlat": 57.7296848,
+    "minlon": 10.5214949,
+    "maxlat": 57.7299349,
+    "maxlon": 10.5218978
+  },
+  "nodes": [
+    1505444676,
+    1159384183,
+    1505444678
+  ],
+  "geometry": [
+    { "lat": 57.7296848, "lon": 10.5218978 },
+    { "lat": 57.7298035, "lon": 10.5217066 },
+    { "lat": 57.7299349, "lon": 10.5214949 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 137244026,
+  "bounds": {
+    "minlat": 57.7305099,
+    "minlon": 10.5235292,
+    "maxlat": 57.7308010,
+    "maxlon": 10.5243833
+  },
+  "nodes": [
+    12990402036,
+    1505444681,
+    12990402037,
+    1159382764,
+    1505444682
+  ],
+  "geometry": [
+    { "lat": 57.7305099, "lon": 10.5243833 },
+    { "lat": 57.7305525, "lon": 10.5240936 },
+    { "lat": 57.7305715, "lon": 10.5238509 },
+    { "lat": 57.7305941, "lon": 10.5238199 },
+    { "lat": 57.7308010, "lon": 10.5235292 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 137244028,
+  "bounds": {
+    "minlat": 57.7279759,
+    "minlon": 10.5177354,
+    "maxlat": 57.7281978,
+    "maxlon": 10.5180991
+  },
+  "nodes": [
+    1505444670,
+    22835580,
+    1505444671
+  ],
+  "geometry": [
+    { "lat": 57.7279759, "lon": 10.5180991 },
+    { "lat": 57.7280759, "lon": 10.5179357 },
+    { "lat": 57.7281978, "lon": 10.5177354 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 137244029,
+  "bounds": {
+    "minlat": 57.7292303,
+    "minlon": 10.5202895,
+    "maxlat": 57.7294438,
+    "maxlon": 10.5206415
+  },
+  "nodes": [
+    1505444674,
+    1159381902,
+    1505444675
+  ],
+  "geometry": [
+    { "lat": 57.7292303, "lon": 10.5206415 },
+    { "lat": 57.7293202, "lon": 10.5204933 },
+    { "lat": 57.7294438, "lon": 10.5202895 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 137244032,
+  "bounds": {
+    "minlat": 57.7300557,
+    "minlon": 10.5224233,
+    "maxlat": 57.7303311,
+    "maxlon": 10.5228406
+  },
+  "nodes": [
+    1505444679,
+    22835558,
+    1505444680
+  ],
+  "geometry": [
+    { "lat": 57.7300557, "lon": 10.5228406 },
+    { "lat": 57.7301885, "lon": 10.5226393 },
+    { "lat": 57.7303311, "lon": 10.5224233 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 137244033,
+  "bounds": {
+    "minlat": 57.7312274,
+    "minlon": 10.5265801,
+    "maxlat": 57.7315542,
+    "maxlon": 10.5269480
+  },
+  "nodes": [
+    1505444684,
+    1159383669,
+    1505444685
+  ],
+  "geometry": [
+    { "lat": 57.7312274, "lon": 10.5269480 },
+    { "lat": 57.7314516, "lon": 10.5266955 },
+    { "lat": 57.7315542, "lon": 10.5265801 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 232203117,
+  "bounds": {
+    "minlat": 57.7109597,
+    "minlon": 10.5784488,
+    "maxlat": 57.7150636,
+    "maxlon": 10.6063732
+  },
+  "nodes": [
+    7798207540,
+    3910304108,
+    3910304106,
+    5213826691,
+    7798207538,
+    3910304098,
+    3910304110,
+    3910304112,
+    22834408,
+    22834402,
+    2405753601,
+    2405753584,
+    2405753591,
+    22834399,
+    22834396,
+    2405753585,
+    2405753612,
+    2405753599,
+    2405753608,
+    2405753596,
+    2405753603,
+    2405753593,
+    2405753586,
+    2405753589,
+    2405753613,
+    2405753600,
+    3910304115,
+    3910304114,
+    2405753590,
+    3910304103,
+    3910304101,
+    3910304102,
+    3910304105,
+    3910304107,
+    3910304109,
+    3910304113,
+    4762276548,
+    8654234934,
+    4762276545,
+    4762276547,
+    4762276546,
+    4762276551,
+    4762276549,
+    4762276544,
+    4762276543,
+    4762276550,
+    7798207539,
+    5213826701,
+    5213826718,
+    5213830225,
+    5213826700,
+    5213826706,
+    5213826711,
+    5213830224,
+    5213826693,
+    5213826704,
+    5213826719,
+    7798207540
+  ],
+  "geometry": [
+    { "lat": 57.7114913, "lon": 10.5995441 },
+    { "lat": 57.7114233, "lon": 10.5993548 },
+    { "lat": 57.7112893, "lon": 10.5989720 },
+    { "lat": 57.7111113, "lon": 10.5983386 },
+    { "lat": 57.7109909, "lon": 10.5975849 },
+    { "lat": 57.7109597, "lon": 10.5968109 },
+    { "lat": 57.7114831, "lon": 10.5851593 },
+    { "lat": 57.7116611, "lon": 10.5844901 },
+    { "lat": 57.7127762, "lon": 10.5825967 },
+    { "lat": 57.7136887, "lon": 10.5789232 },
+    { "lat": 57.7137720, "lon": 10.5787663 },
+    { "lat": 57.7138815, "lon": 10.5786268 },
+    { "lat": 57.7139863, "lon": 10.5785207 },
+    { "lat": 57.7141088, "lon": 10.5784488 },
+    { "lat": 57.7147333, "lon": 10.5785036 },
+    { "lat": 57.7150152, "lon": 10.5785721 },
+    { "lat": 57.7150636, "lon": 10.5786481 },
+    { "lat": 57.7142783, "lon": 10.5785540 },
+    { "lat": 57.7141850, "lon": 10.5785528 },
+    { "lat": 57.7140896, "lon": 10.5785692 },
+    { "lat": 57.7139954, "lon": 10.5786229 },
+    { "lat": 57.7139088, "lon": 10.5787113 },
+    { "lat": 57.7138336, "lon": 10.5788306 },
+    { "lat": 57.7137729, "lon": 10.5789759 },
+    { "lat": 57.7127598, "lon": 10.5831977 },
+    { "lat": 57.7126159, "lon": 10.5833066 },
+    { "lat": 57.7118137, "lon": 10.5846175 },
+    { "lat": 57.7117065, "lon": 10.5849159 },
+    { "lat": 57.7116366, "lon": 10.5852444 },
+    { "lat": 57.7111479, "lon": 10.5958986 },
+    { "lat": 57.7111201, "lon": 10.5968203 },
+    { "lat": 57.7111370, "lon": 10.5973932 },
+    { "lat": 57.7112132, "lon": 10.5980216 },
+    { "lat": 57.7113316, "lon": 10.5985390 },
+    { "lat": 57.7114811, "lon": 10.5990195 },
+    { "lat": 57.7116743, "lon": 10.5994684 },
+    { "lat": 57.7117867, "lon": 10.5995745 },
+    { "lat": 57.7118807, "lon": 10.5995804 },
+    { "lat": 57.7118930, "lon": 10.5996175 },
+    { "lat": 57.7120488, "lon": 10.5996175 },
+    { "lat": 57.7120929, "lon": 10.5997287 },
+    { "lat": 57.7120933, "lon": 10.5999071 },
+    { "lat": 57.7120309, "lon": 10.5999875 },
+    { "lat": 57.7118536, "lon": 10.5999916 },
+    { "lat": 57.7118329, "lon": 10.6000949 },
+    { "lat": 57.7117781, "lon": 10.6000908 },
+    { "lat": 57.7116558, "lon": 10.5997896 },
+    { "lat": 57.7116059, "lon": 10.6057708 },
+    { "lat": 57.7117239, "lon": 10.6061926 },
+    { "lat": 57.7117151, "lon": 10.6062846 },
+    { "lat": 57.7116910, "lon": 10.6063368 },
+    { "lat": 57.7116639, "lon": 10.6063637 },
+    { "lat": 57.7116337, "lon": 10.6063732 },
+    { "lat": 57.7116034, "lon": 10.6063645 },
+    { "lat": 57.7115761, "lon": 10.6063384 },
+    { "lat": 57.7115546, "lon": 10.6062975 },
+    { "lat": 57.7114609, "lon": 10.6059855 },
+    { "lat": 57.7114913, "lon": 10.5995441 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 254642185,
+  "bounds": {
+    "minlat": 57.5934276,
+    "minlon": 10.4163985,
+    "maxlat": 57.5934737,
+    "maxlon": 10.4164022
+  },
+  "nodes": [
+    2604498873,
+    2604498867
+  ],
+  "geometry": [
+    { "lat": 57.5934737, "lon": 10.4164022 },
+    { "lat": 57.5934276, "lon": 10.4163985 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "cycleway",
+    "layer": "1",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 254642195,
+  "bounds": {
+    "minlat": 57.5819766,
+    "minlon": 10.4093897,
+    "maxlat": 57.5820723,
+    "maxlon": 10.4094002
+  },
+  "nodes": [
+    2604498654,
+    2604498651
+  ],
+  "geometry": [
+    { "lat": 57.5820723, "lon": 10.4093897 },
+    { "lat": 57.5819766, "lon": 10.4094002 }
+  ],
+  "tags": {
+    "axle_load": "22.5",
+    "bridge": "yes",
+    "electrified": "no",
+    "gauge": "1435",
+    "layer": "1",
+    "maxspeed": "100",
+    "name": "Skagensbanen",
+    "operator": "Nordjyske Jernbaner",
+    "operator:wikidata": "Q1578597",
+    "operator:wikipedia": "da:Nordjyske_Jernbaner",
+    "passenger_lines": "1",
+    "railway": "rail",
+    "railway:bidirectional": "regular",
+    "railway:etcs": "no",
+    "railway:preferred_direction": "both",
+    "railway:track_ref": "1",
+    "railway:traffic_mode": "passenger",
+    "start_date": "1890-07-24",
+    "tracks": "1",
+    "usage": "branch"
+  }
+},
+{
+  "type": "way",
+  "id": 311458754,
+  "bounds": {
+    "minlat": 57.6165540,
+    "minlon": 10.4188733,
+    "maxlat": 57.6165540,
+    "maxlon": 10.4189240
+  },
+  "nodes": [
+    3171076115,
+    3171076116
+  ],
+  "geometry": [
+    { "lat": 57.6165540, "lon": 10.4188733 },
+    { "lat": 57.6165540, "lon": 10.4189240 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "bridge:structure": "beam",
+    "foot": "yes",
+    "highway": "path",
+    "layer": "1",
+    "width": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 343785847,
+  "bounds": {
+    "minlat": 57.7149669,
+    "minlon": 10.5873703,
+    "maxlat": 57.7153380,
+    "maxlon": 10.5878531
+  },
+  "nodes": [
+    3506091679,
+    11387564253,
+    4762276531,
+    11387564252,
+    11387564251,
+    11387564250,
+    11387564249,
+    11387564248,
+    3506091679
+  ],
+  "geometry": [
+    { "lat": 57.7149669, "lon": 10.5877979 },
+    { "lat": 57.7152832, "lon": 10.5876004 },
+    { "lat": 57.7152456, "lon": 10.5873787 },
+    { "lat": 57.7152564, "lon": 10.5873703 },
+    { "lat": 57.7153380, "lon": 10.5878457 },
+    { "lat": 57.7153264, "lon": 10.5878531 },
+    { "lat": 57.7152904, "lon": 10.5876486 },
+    { "lat": 57.7149742, "lon": 10.5878404 },
+    { "lat": 57.7149669, "lon": 10.5877979 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 343785849,
+  "bounds": {
+    "minlat": 57.7150809,
+    "minlon": 10.5880637,
+    "maxlat": 57.7154476,
+    "maxlon": 10.5885074
+  },
+  "nodes": [
+    3506091680,
+    3506091685,
+    4762276529,
+    11387564247,
+    11387564246,
+    11387564245,
+    11387564244,
+    11387564243,
+    3506091680
+  ],
+  "geometry": [
+    { "lat": 57.7150809, "lon": 10.5884605 },
+    { "lat": 57.7153994, "lon": 10.5882601 },
+    { "lat": 57.7153663, "lon": 10.5880681 },
+    { "lat": 57.7153717, "lon": 10.5880637 },
+    { "lat": 57.7154476, "lon": 10.5884995 },
+    { "lat": 57.7154401, "lon": 10.5885039 },
+    { "lat": 57.7154065, "lon": 10.5883078 },
+    { "lat": 57.7150890, "lon": 10.5885074 },
+    { "lat": 57.7150809, "lon": 10.5884605 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 343785851,
+  "bounds": {
+    "minlat": 57.7158953,
+    "minlon": 10.5898506,
+    "maxlat": 57.7160134,
+    "maxlon": 10.5905283
+  },
+  "nodes": [
+    3506122096,
+    3506122094,
+    11387564238,
+    11387564237,
+    11387564236,
+    11387564235,
+    11387564234,
+    11387564233,
+    3506122096
+  ],
+  "geometry": [
+    { "lat": 57.7160005, "lon": 10.5901051 },
+    { "lat": 57.7159377, "lon": 10.5901223 },
+    { "lat": 57.7159164, "lon": 10.5898506 },
+    { "lat": 57.7158953, "lon": 10.5898564 },
+    { "lat": 57.7159482, "lon": 10.5905283 },
+    { "lat": 57.7159740, "lon": 10.5905212 },
+    { "lat": 57.7159554, "lon": 10.5902851 },
+    { "lat": 57.7160134, "lon": 10.5902691 },
+    { "lat": 57.7160005, "lon": 10.5901051 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 343785853,
+  "bounds": {
+    "minlat": 57.7152131,
+    "minlon": 10.5865250,
+    "maxlat": 57.7153980,
+    "maxlon": 10.5869507
+  },
+  "nodes": [
+    3506091682,
+    3506091684,
+    11387564255,
+    11387564254,
+    3506091682
+  ],
+  "geometry": [
+    { "lat": 57.7152131, "lon": 10.5865571 },
+    { "lat": 57.7153780, "lon": 10.5869507 },
+    { "lat": 57.7153980, "lon": 10.5869164 },
+    { "lat": 57.7152351, "lon": 10.5865250 },
+    { "lat": 57.7152131, "lon": 10.5865571 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 343785854,
+  "bounds": {
+    "minlat": 57.7151881,
+    "minlon": 10.5889278,
+    "maxlat": 57.7154270,
+    "maxlon": 10.5891303
+  },
+  "nodes": [
+    3506091681,
+    3506091686,
+    11387564242,
+    11387564241,
+    3506091681
+  ],
+  "geometry": [
+    { "lat": 57.7151881, "lon": 10.5890814 },
+    { "lat": 57.7154191, "lon": 10.5889278 },
+    { "lat": 57.7154270, "lon": 10.5889743 },
+    { "lat": 57.7151967, "lon": 10.5891303 },
+    { "lat": 57.7151881, "lon": 10.5890814 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 391150461,
+  "bounds": {
+    "minlat": 57.7378342,
+    "minlon": 10.6365380,
+    "maxlat": 57.7380590,
+    "maxlon": 10.6370127
+  },
+  "nodes": [
+    3943224875,
+    3943224877
+  ],
+  "geometry": [
+    { "lat": 57.7378342, "lon": 10.6365380 },
+    { "lat": 57.7380590, "lon": 10.6370127 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150462,
+  "bounds": {
+    "minlat": 57.7328746,
+    "minlon": 10.5305650,
+    "maxlat": 57.7332028,
+    "maxlon": 10.5309936
+  },
+  "nodes": [
+    3943224840,
+    1159383609,
+    3943224837
+  ],
+  "geometry": [
+    { "lat": 57.7332028, "lon": 10.5305650 },
+    { "lat": 57.7330632, "lon": 10.5307389 },
+    { "lat": 57.7328746, "lon": 10.5309936 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150463,
+  "bounds": {
+    "minlat": 57.7359210,
+    "minlon": 10.6325040,
+    "maxlat": 57.7361490,
+    "maxlon": 10.6329747
+  },
+  "nodes": [
+    3943224857,
+    3943224861
+  ],
+  "geometry": [
+    { "lat": 57.7359210, "lon": 10.6325040 },
+    { "lat": 57.7361490, "lon": 10.6329747 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150464,
+  "bounds": {
+    "minlat": 57.7303916,
+    "minlon": 10.6191482,
+    "maxlat": 57.7306008,
+    "maxlon": 10.6196636
+  },
+  "nodes": [
+    3943224817,
+    3943224819
+  ],
+  "geometry": [
+    { "lat": 57.7303916, "lon": 10.6191482 },
+    { "lat": 57.7306008, "lon": 10.6196636 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150465,
+  "bounds": {
+    "minlat": 57.7389658,
+    "minlon": 10.5472035,
+    "maxlat": 57.7393409,
+    "maxlon": 10.5476845
+  },
+  "nodes": [
+    3943224886,
+    8695929113,
+    3943224884
+  ],
+  "geometry": [
+    { "lat": 57.7393409, "lon": 10.5472035 },
+    { "lat": 57.7392437, "lon": 10.5473282 },
+    { "lat": 57.7389658, "lon": 10.5476845 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150466,
+  "bounds": {
+    "minlat": 57.7293549,
+    "minlon": 10.6165581,
+    "maxlat": 57.7295553,
+    "maxlon": 10.6170069
+  },
+  "nodes": [
+    3943224812,
+    3943224811
+  ],
+  "geometry": [
+    { "lat": 57.7295553, "lon": 10.6170069 },
+    { "lat": 57.7293549, "lon": 10.6165581 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150467,
+  "bounds": {
+    "minlat": 57.7337806,
+    "minlon": 10.6273571,
+    "maxlat": 57.7339898,
+    "maxlon": 10.6278417
+  },
+  "nodes": [
+    3943224843,
+    3943224845
+  ],
+  "geometry": [
+    { "lat": 57.7337806, "lon": 10.6273571 },
+    { "lat": 57.7339898, "lon": 10.6278417 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150468,
+  "bounds": {
+    "minlat": 57.7376547,
+    "minlon": 10.5428711,
+    "maxlat": 57.7379643,
+    "maxlon": 10.5432736
+  },
+  "nodes": [
+    3943224876,
+    8695929094,
+    3943224874
+  ],
+  "geometry": [
+    { "lat": 57.7379643, "lon": 10.5428711 },
+    { "lat": 57.7378037, "lon": 10.5430799 },
+    { "lat": 57.7376547, "lon": 10.5432736 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150469,
+  "bounds": {
+    "minlat": 57.7361251,
+    "minlon": 10.5387330,
+    "maxlat": 57.7363727,
+    "maxlon": 10.5390691
+  },
+  "nodes": [
+    3943224863,
+    1159383846,
+    3943224860
+  ],
+  "geometry": [
+    { "lat": 57.7363727, "lon": 10.5387330 },
+    { "lat": 57.7362693, "lon": 10.5388733 },
+    { "lat": 57.7361251, "lon": 10.5390691 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150470,
+  "bounds": {
+    "minlat": 57.7318674,
+    "minlon": 10.6227480,
+    "maxlat": 57.7320975,
+    "maxlon": 10.6232922
+  },
+  "nodes": [
+    3943224827,
+    3943224826
+  ],
+  "geometry": [
+    { "lat": 57.7320975, "lon": 10.6232922 },
+    { "lat": 57.7318674, "lon": 10.6227480 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150472,
+  "bounds": {
+    "minlat": 57.7336652,
+    "minlon": 10.5325991,
+    "maxlat": 57.7339964,
+    "maxlon": 10.5330291
+  },
+  "nodes": [
+    3943224844,
+    8695929072,
+    3943224842
+  ],
+  "geometry": [
+    { "lat": 57.7339964, "lon": 10.5325991 },
+    { "lat": 57.7337780, "lon": 10.5328827 },
+    { "lat": 57.7336652, "lon": 10.5330291 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150473,
+  "bounds": {
+    "minlat": 57.7367682,
+    "minlon": 10.6342618,
+    "maxlat": 57.7369633,
+    "maxlon": 10.6347007
+  },
+  "nodes": [
+    3943224867,
+    3943224870
+  ],
+  "geometry": [
+    { "lat": 57.7367682, "lon": 10.6342618 },
+    { "lat": 57.7369633, "lon": 10.6347007 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150474,
+  "bounds": {
+    "minlat": 57.7307635,
+    "minlon": 10.6200666,
+    "maxlat": 57.7309852,
+    "maxlon": 10.6206009
+  },
+  "nodes": [
+    3943224821,
+    3943224820
+  ],
+  "geometry": [
+    { "lat": 57.7309852, "lon": 10.6206009 },
+    { "lat": 57.7307635, "lon": 10.6200666 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150475,
+  "bounds": {
+    "minlat": 57.7287451,
+    "minlon": 10.6150346,
+    "maxlat": 57.7289254,
+    "maxlon": 10.6154021
+  },
+  "nodes": [
+    3943224808,
+    3943224807
+  ],
+  "geometry": [
+    { "lat": 57.7289254, "lon": 10.6154021 },
+    { "lat": 57.7287451, "lon": 10.6150346 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150476,
+  "bounds": {
+    "minlat": 57.7386283,
+    "minlon": 10.6382481,
+    "maxlat": 57.7389230,
+    "maxlon": 10.6386871
+  },
+  "nodes": [
+    3943224881,
+    3943224883
+  ],
+  "geometry": [
+    { "lat": 57.7386283, "lon": 10.6382481 },
+    { "lat": 57.7389230, "lon": 10.6386871 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150477,
+  "bounds": {
+    "minlat": 57.7374281,
+    "minlon": 10.6356819,
+    "maxlat": 57.7376327,
+    "maxlon": 10.6361149
+  },
+  "nodes": [
+    3943224872,
+    3943224873
+  ],
+  "geometry": [
+    { "lat": 57.7374281, "lon": 10.6356819 },
+    { "lat": 57.7376327, "lon": 10.6361149 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150478,
+  "bounds": {
+    "minlat": 57.7311400,
+    "minlon": 10.6209703,
+    "maxlat": 57.7313489,
+    "maxlon": 10.6214748
+  },
+  "nodes": [
+    3943224822,
+    3943224823
+  ],
+  "geometry": [
+    { "lat": 57.7311400, "lon": 10.6209703 },
+    { "lat": 57.7313489, "lon": 10.6214748 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150479,
+  "bounds": {
+    "minlat": 57.7300569,
+    "minlon": 10.6182324,
+    "maxlat": 57.7302457,
+    "maxlon": 10.6187489
+  },
+  "nodes": [
+    3943224816,
+    3943224815
+  ],
+  "geometry": [
+    { "lat": 57.7302457, "lon": 10.6187489 },
+    { "lat": 57.7300569, "lon": 10.6182324 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150480,
+  "bounds": {
+    "minlat": 57.7352769,
+    "minlon": 10.5366790,
+    "maxlat": 57.7355919,
+    "maxlon": 10.5370509
+  },
+  "nodes": [
+    3943224855,
+    8695929077,
+    3943224854
+  ],
+  "geometry": [
+    { "lat": 57.7355919, "lon": 10.5366790 },
+    { "lat": 57.7354826, "lon": 10.5368080 },
+    { "lat": 57.7352769, "lon": 10.5370509 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150481,
+  "bounds": {
+    "minlat": 57.7383248,
+    "minlon": 10.5448974,
+    "maxlat": 57.7387291,
+    "maxlon": 10.5454432
+  },
+  "nodes": [
+    3943224882,
+    8695929106,
+    3943224879
+  ],
+  "geometry": [
+    { "lat": 57.7387291, "lon": 10.5448974 },
+    { "lat": 57.7386167, "lon": 10.5450491 },
+    { "lat": 57.7383248, "lon": 10.5454432 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150482,
+  "bounds": {
+    "minlat": 57.7297155,
+    "minlon": 10.6173386,
+    "maxlat": 57.7299159,
+    "maxlon": 10.6178511
+  },
+  "nodes": [
+    3943224814,
+    3943224813
+  ],
+  "geometry": [
+    { "lat": 57.7299159, "lon": 10.6178511 },
+    { "lat": 57.7297155, "lon": 10.6173386 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150483,
+  "bounds": {
+    "minlat": 57.7328432,
+    "minlon": 10.6250531,
+    "maxlat": 57.7330487,
+    "maxlon": 10.6255843
+  },
+  "nodes": [
+    3943224838,
+    3943224836
+  ],
+  "geometry": [
+    { "lat": 57.7330487, "lon": 10.6255843 },
+    { "lat": 57.7328432, "lon": 10.6250531 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150484,
+  "bounds": {
+    "minlat": 57.7331995,
+    "minlon": 10.6259667,
+    "maxlat": 57.7334102,
+    "maxlon": 10.6264485
+  },
+  "nodes": [
+    3943224839,
+    3943224841
+  ],
+  "geometry": [
+    { "lat": 57.7331995, "lon": 10.6259667 },
+    { "lat": 57.7334102, "lon": 10.6264485 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150485,
+  "bounds": {
+    "minlat": 57.7284482,
+    "minlon": 10.6144348,
+    "maxlat": 57.7286073,
+    "maxlon": 10.6147407
+  },
+  "nodes": [
+    3943224806,
+    3943224805
+  ],
+  "geometry": [
+    { "lat": 57.7286073, "lon": 10.6147407 },
+    { "lat": 57.7284482, "lon": 10.6144348 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150486,
+  "bounds": {
+    "minlat": 57.7314995,
+    "minlon": 10.6218264,
+    "maxlat": 57.7317190,
+    "maxlon": 10.6223726
+  },
+  "nodes": [
+    3943224824,
+    3943224825
+  ],
+  "geometry": [
+    { "lat": 57.7314995, "lon": 10.6218264 },
+    { "lat": 57.7317190, "lon": 10.6223726 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150487,
+  "bounds": {
+    "minlat": 57.7320354,
+    "minlon": 10.5285931,
+    "maxlat": 57.7323675,
+    "maxlon": 10.5289990
+  },
+  "nodes": [
+    3943224831,
+    8695929066,
+    3943224829
+  ],
+  "geometry": [
+    { "lat": 57.7323675, "lon": 10.5285931 },
+    { "lat": 57.7322470, "lon": 10.5287403 },
+    { "lat": 57.7320354, "lon": 10.5289990 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150488,
+  "bounds": {
+    "minlat": 57.7322502,
+    "minlon": 10.6236477,
+    "maxlat": 57.7324570,
+    "maxlon": 10.6241701
+  },
+  "nodes": [
+    3943224830,
+    3943224832
+  ],
+  "geometry": [
+    { "lat": 57.7322502, "lon": 10.6236477 },
+    { "lat": 57.7324570, "lon": 10.6241701 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150489,
+  "bounds": {
+    "minlat": 57.7395886,
+    "minlon": 10.5494653,
+    "maxlat": 57.7399364,
+    "maxlon": 10.5499395
+  },
+  "nodes": [
+    3943224909,
+    8695938424,
+    3943224888
+  ],
+  "geometry": [
+    { "lat": 57.7399364, "lon": 10.5494653 },
+    { "lat": 57.7398569, "lon": 10.5495737 },
+    { "lat": 57.7395886, "lon": 10.5499395 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150490,
+  "bounds": {
+    "minlat": 57.7382477,
+    "minlon": 10.6374338,
+    "maxlat": 57.7384746,
+    "maxlon": 10.6378846
+  },
+  "nodes": [
+    3943224878,
+    3943224880
+  ],
+  "geometry": [
+    { "lat": 57.7382477, "lon": 10.6374338 },
+    { "lat": 57.7384746, "lon": 10.6378846 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150492,
+  "bounds": {
+    "minlat": 57.7290399,
+    "minlon": 10.6157556,
+    "maxlat": 57.7292329,
+    "maxlon": 10.6162164
+  },
+  "nodes": [
+    3943224810,
+    3943224809
+  ],
+  "geometry": [
+    { "lat": 57.7292329, "lon": 10.6162164 },
+    { "lat": 57.7290399, "lon": 10.6157556 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150493,
+  "bounds": {
+    "minlat": 57.7368877,
+    "minlon": 10.5407901,
+    "maxlat": 57.7371794,
+    "maxlon": 10.5411900
+  },
+  "nodes": [
+    3943224871,
+    8695929086,
+    3943224869
+  ],
+  "geometry": [
+    { "lat": 57.7371794, "lon": 10.5407901 },
+    { "lat": 57.7370902, "lon": 10.5409124 },
+    { "lat": 57.7368877, "lon": 10.5411900 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150494,
+  "bounds": {
+    "minlat": 57.7363441,
+    "minlon": 10.6333819,
+    "maxlat": 57.7365530,
+    "maxlon": 10.6338367
+  },
+  "nodes": [
+    3943224862,
+    3943224866
+  ],
+  "geometry": [
+    { "lat": 57.7363441, "lon": 10.6333819 },
+    { "lat": 57.7365530, "lon": 10.6338367 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150495,
+  "bounds": {
+    "minlat": 57.7391075,
+    "minlon": 10.6388698,
+    "maxlat": 57.7394404,
+    "maxlon": 10.6392055
+  },
+  "nodes": [
+    3943224885,
+    3943224887
+  ],
+  "geometry": [
+    { "lat": 57.7391075, "lon": 10.6388698 },
+    { "lat": 57.7394404, "lon": 10.6392055 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150496,
+  "bounds": {
+    "minlat": 57.7345037,
+    "minlon": 10.5345981,
+    "maxlat": 57.7348322,
+    "maxlon": 10.5349691
+  },
+  "nodes": [
+    3943224851,
+    22835498,
+    3943224849
+  ],
+  "geometry": [
+    { "lat": 57.7348322, "lon": 10.5345981 },
+    { "lat": 57.7346325, "lon": 10.5348440 },
+    { "lat": 57.7345037, "lon": 10.5349691 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 391150497,
+  "bounds": {
+    "minlat": 57.7341555,
+    "minlon": 10.6282237,
+    "maxlat": 57.7343847,
+    "maxlon": 10.6287480
+  },
+  "nodes": [
+    3943224846,
+    3943224847
+  ],
+  "geometry": [
+    { "lat": 57.7341555, "lon": 10.6282237 },
+    { "lat": 57.7343847, "lon": 10.6287480 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 391150502,
+  "bounds": {
+    "minlat": 57.7345108,
+    "minlon": 10.6291433,
+    "maxlat": 57.7357387,
+    "maxlon": 10.6321028
+  },
+  "nodes": [
+    3943224848,
+    3943224850,
+    3943224852,
+    3943224853,
+    3943224856
+  ],
+  "geometry": [
+    { "lat": 57.7345108, "lon": 10.6291433 },
+    { "lat": 57.7347293, "lon": 10.6297749 },
+    { "lat": 57.7349615, "lon": 10.6306131 },
+    { "lat": 57.7351481, "lon": 10.6311037 },
+    { "lat": 57.7357387, "lon": 10.6321028 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 402397116,
+  "bounds": {
+    "minlat": 57.6078462,
+    "minlon": 10.4291355,
+    "maxlat": 57.6078849,
+    "maxlon": 10.4291595
+  },
+  "nodes": [
+    4048075234,
+    4048075235
+  ],
+  "geometry": [
+    { "lat": 57.6078462, "lon": 10.4291355 },
+    { "lat": 57.6078849, "lon": 10.4291595 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "name": "Alkevej",
+    "name:etymology:wikidata": "Q28294"
+  }
+},
+{
+  "type": "way",
+  "id": 402397118,
+  "bounds": {
+    "minlat": 57.5440859,
+    "minlon": 10.4350791,
+    "maxlat": 57.5441041,
+    "maxlon": 10.4351637
+  },
+  "nodes": [
+    2820319450,
+    2820319451
+  ],
+  "geometry": [
+    { "lat": 57.5440859, "lon": 10.4350791 },
+    { "lat": 57.5441041, "lon": 10.4351637 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "cycleway:both": "no",
+    "highway": "unclassified",
+    "lane_markings": "no",
+    "layer": "1",
+    "name": "Fredborgvej",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 402397124,
+  "bounds": {
+    "minlat": 57.5935493,
+    "minlon": 10.4226308,
+    "maxlat": 57.5935863,
+    "maxlon": 10.4226316
+  },
+  "nodes": [
+    4048075231,
+    4048075232
+  ],
+  "geometry": [
+    { "lat": 57.5935493, "lon": 10.4226308 },
+    { "lat": 57.5935863, "lon": 10.4226316 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "name": "Kystvej",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 402397126,
+  "bounds": {
+    "minlat": 57.6389916,
+    "minlon": 10.4077472,
+    "maxlat": 57.6390499,
+    "maxlon": 10.4077496
+  },
+  "nodes": [
+    3160384127,
+    1490774084
+  ],
+  "geometry": [
+    { "lat": 57.6390499, "lon": 10.4077472 },
+    { "lat": 57.6389916, "lon": 10.4077496 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "path",
+    "horse": "yes",
+    "layer": "1",
+    "source": "Geodatastyrelsen : FOT ortofoto",
+    "surface": "sand",
+    "trail_visibility": "good",
+    "wheelchair": "no",
+    "width": "2"
+  }
+},
+{
+  "type": "way",
+  "id": 403434580,
+  "bounds": {
+    "minlat": 57.7077266,
+    "minlon": 10.5597516,
+    "maxlat": 57.7079197,
+    "maxlon": 10.5601326
+  },
+  "nodes": [
+    4057809743,
+    4057809742,
+    4057809740,
+    4057809741,
+    4057809743
+  ],
+  "geometry": [
+    { "lat": 57.7079197, "lon": 10.5600759 },
+    { "lat": 57.7078872, "lon": 10.5601326 },
+    { "lat": 57.7077266, "lon": 10.5598104 },
+    { "lat": 57.7077602, "lon": 10.5597516 },
+    { "lat": 57.7079197, "lon": 10.5600759 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434581,
+  "bounds": {
+    "minlat": 57.7120495,
+    "minlon": 10.5703906,
+    "maxlat": 57.7122575,
+    "maxlon": 10.5706669
+  },
+  "nodes": [
+    4057809819,
+    4057809818,
+    4057809816,
+    4057809817,
+    4057809819
+  ],
+  "geometry": [
+    { "lat": 57.7122575, "lon": 10.5704563 },
+    { "lat": 57.7122324, "lon": 10.5703906 },
+    { "lat": 57.7120495, "lon": 10.5705695 },
+    { "lat": 57.7120785, "lon": 10.5706669 },
+    { "lat": 57.7122575, "lon": 10.5704563 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 403434582,
+  "bounds": {
+    "minlat": 57.7069737,
+    "minlon": 10.5583276,
+    "maxlat": 57.7071847,
+    "maxlon": 10.5587335
+  },
+  "nodes": [
+    4057809735,
+    4057809734,
+    4057809732,
+    4057809733,
+    4057809735
+  ],
+  "geometry": [
+    { "lat": 57.7071847, "lon": 10.5586756 },
+    { "lat": 57.7071529, "lon": 10.5587335 },
+    { "lat": 57.7069737, "lon": 10.5583877 },
+    { "lat": 57.7070068, "lon": 10.5583276 },
+    { "lat": 57.7071847, "lon": 10.5586756 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434583,
+  "bounds": {
+    "minlat": 57.7073458,
+    "minlon": 10.5590249,
+    "maxlat": 57.7075569,
+    "maxlon": 10.5594308
+  },
+  "nodes": [
+    4057809739,
+    4057809738,
+    4057809736,
+    4057809737,
+    4057809739
+  ],
+  "geometry": [
+    { "lat": 57.7075569, "lon": 10.5593729 },
+    { "lat": 57.7075250, "lon": 10.5594308 },
+    { "lat": 57.7073458, "lon": 10.5590851 },
+    { "lat": 57.7073789, "lon": 10.5590249 },
+    { "lat": 57.7075569, "lon": 10.5593729 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434584,
+  "bounds": {
+    "minlat": 57.7080945,
+    "minlon": 10.5604771,
+    "maxlat": 57.7082977,
+    "maxlon": 10.5608962
+  },
+  "nodes": [
+    4057809747,
+    4057809746,
+    4057809744,
+    4057809745,
+    4057809747
+  ],
+  "geometry": [
+    { "lat": 57.7082977, "lon": 10.5608414 },
+    { "lat": 57.7082643, "lon": 10.5608962 },
+    { "lat": 57.7080945, "lon": 10.5605338 },
+    { "lat": 57.7081291, "lon": 10.5604771 },
+    { "lat": 57.7082977, "lon": 10.5608414 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434585,
+  "bounds": {
+    "minlat": 57.7084586,
+    "minlon": 10.5612546,
+    "maxlat": 57.7086426,
+    "maxlon": 10.5616328
+  },
+  "nodes": [
+    4057809751,
+    4057809750,
+    4057809748,
+    4057809749,
+    4057809751
+  ],
+  "geometry": [
+    { "lat": 57.7086426, "lon": 10.5615780 },
+    { "lat": 57.7086092, "lon": 10.5616328 },
+    { "lat": 57.7084586, "lon": 10.5613113 },
+    { "lat": 57.7084932, "lon": 10.5612546 },
+    { "lat": 57.7086426, "lon": 10.5615780 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434586,
+  "bounds": {
+    "minlat": 57.7098700,
+    "minlon": 10.5641602,
+    "maxlat": 57.7101132,
+    "maxlon": 10.5646167
+  },
+  "nodes": [
+    4057809783,
+    1321501655,
+    4057809779,
+    4057809781,
+    4057809780,
+    4057809776,
+    4057809777,
+    4057809778,
+    8697123254,
+    4057809782,
+    4057809783
+  ],
+  "geometry": [
+    { "lat": 57.7101132, "lon": 10.5642135 },
+    { "lat": 57.7100413, "lon": 10.5643315 },
+    { "lat": 57.7099874, "lon": 10.5644199 },
+    { "lat": 57.7100540, "lon": 10.5645619 },
+    { "lat": 57.7100206, "lon": 10.5646167 },
+    { "lat": 57.7098700, "lon": 10.5642953 },
+    { "lat": 57.7099045, "lon": 10.5642386 },
+    { "lat": 57.7099636, "lon": 10.5643647 },
+    { "lat": 57.7100202, "lon": 10.5642719 },
+    { "lat": 57.7100882, "lon": 10.5641602 },
+    { "lat": 57.7101132, "lon": 10.5642135 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434587,
+  "bounds": {
+    "minlat": 57.7088154,
+    "minlon": 10.5619327,
+    "maxlat": 57.7090586,
+    "maxlon": 10.5623891
+  },
+  "nodes": [
+    4057809759,
+    8697123230,
+    4057809755,
+    4057809757,
+    4057809756,
+    4057809752,
+    4057809753,
+    4057809754,
+    8697123231,
+    4057809758,
+    4057809759
+  ],
+  "geometry": [
+    { "lat": 57.7090586, "lon": 10.5619859 },
+    { "lat": 57.7089810, "lon": 10.5621132 },
+    { "lat": 57.7089328, "lon": 10.5621923 },
+    { "lat": 57.7089994, "lon": 10.5623343 },
+    { "lat": 57.7089660, "lon": 10.5623891 },
+    { "lat": 57.7088154, "lon": 10.5620677 },
+    { "lat": 57.7088499, "lon": 10.5620110 },
+    { "lat": 57.7089091, "lon": 10.5621372 },
+    { "lat": 57.7089571, "lon": 10.5620584 },
+    { "lat": 57.7090336, "lon": 10.5619327 },
+    { "lat": 57.7090586, "lon": 10.5619859 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434588,
+  "bounds": {
+    "minlat": 57.7102380,
+    "minlon": 10.5649170,
+    "maxlat": 57.7104812,
+    "maxlon": 10.5653735
+  },
+  "nodes": [
+    4057809791,
+    1321501652,
+    4057809787,
+    4057809789,
+    4057809788,
+    4057809784,
+    4057809785,
+    4057809786,
+    8697123264,
+    4057809790,
+    4057809791
+  ],
+  "geometry": [
+    { "lat": 57.7104812, "lon": 10.5649702 },
+    { "lat": 57.7104243, "lon": 10.5650751 },
+    { "lat": 57.7103554, "lon": 10.5651767 },
+    { "lat": 57.7104219, "lon": 10.5653187 },
+    { "lat": 57.7103885, "lon": 10.5653735 },
+    { "lat": 57.7102380, "lon": 10.5650520 },
+    { "lat": 57.7102725, "lon": 10.5649953 },
+    { "lat": 57.7103316, "lon": 10.5651215 },
+    { "lat": 57.7103999, "lon": 10.5650054 },
+    { "lat": 57.7104562, "lon": 10.5649170 },
+    { "lat": 57.7104812, "lon": 10.5649702 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434589,
+  "bounds": {
+    "minlat": 57.7108107,
+    "minlon": 10.5665179,
+    "maxlat": 57.7110616,
+    "maxlon": 10.5669430
+  },
+  "nodes": [
+    4057809807,
+    4057809803,
+    4057809805,
+    4057809804,
+    4057809800,
+    4057809801,
+    4057809802,
+    4057809806,
+    4057809807
+  ],
+  "geometry": [
+    { "lat": 57.7110616, "lon": 10.5665805 },
+    { "lat": 57.7109118, "lon": 10.5667376 },
+    { "lat": 57.7109612, "lon": 10.5669023 },
+    { "lat": 57.7109225, "lon": 10.5669430 },
+    { "lat": 57.7108107, "lon": 10.5665702 },
+    { "lat": 57.7108508, "lon": 10.5665281 },
+    { "lat": 57.7108947, "lon": 10.5666744 },
+    { "lat": 57.7110440, "lon": 10.5665179 },
+    { "lat": 57.7110616, "lon": 10.5665805 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434590,
+  "bounds": {
+    "minlat": 57.7091758,
+    "minlon": 10.5627266,
+    "maxlat": 57.7094190,
+    "maxlon": 10.5631831
+  },
+  "nodes": [
+    4057809767,
+    8697123237,
+    4057809763,
+    4057809765,
+    4057809764,
+    4057809760,
+    4057809761,
+    4057809762,
+    8697123238,
+    4057809766,
+    4057809767
+  ],
+  "geometry": [
+    { "lat": 57.7094190, "lon": 10.5627798 },
+    { "lat": 57.7093346, "lon": 10.5629184 },
+    { "lat": 57.7092932, "lon": 10.5629863 },
+    { "lat": 57.7093597, "lon": 10.5631283 },
+    { "lat": 57.7093263, "lon": 10.5631831 },
+    { "lat": 57.7091758, "lon": 10.5628616 },
+    { "lat": 57.7092103, "lon": 10.5628049 },
+    { "lat": 57.7092694, "lon": 10.5629311 },
+    { "lat": 57.7093129, "lon": 10.5628596 },
+    { "lat": 57.7093940, "lon": 10.5627266 },
+    { "lat": 57.7094190, "lon": 10.5627798 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434591,
+  "bounds": {
+    "minlat": 57.7095125,
+    "minlon": 10.5634213,
+    "maxlat": 57.7097557,
+    "maxlon": 10.5638778
+  },
+  "nodes": [
+    4057809775,
+    8697123247,
+    4057809771,
+    4057809773,
+    4057809772,
+    4057809768,
+    4057809769,
+    4057809770,
+    8697123248,
+    4057809774,
+    4057809775
+  ],
+  "geometry": [
+    { "lat": 57.7097557, "lon": 10.5634745 },
+    { "lat": 57.7096788, "lon": 10.5636007 },
+    { "lat": 57.7096299, "lon": 10.5636810 },
+    { "lat": 57.7096965, "lon": 10.5638230 },
+    { "lat": 57.7096631, "lon": 10.5638778 },
+    { "lat": 57.7095125, "lon": 10.5635563 },
+    { "lat": 57.7095470, "lon": 10.5634996 },
+    { "lat": 57.7096061, "lon": 10.5636258 },
+    { "lat": 57.7096547, "lon": 10.5635460 },
+    { "lat": 57.7097307, "lon": 10.5634213 },
+    { "lat": 57.7097557, "lon": 10.5634745 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434592,
+  "bounds": {
+    "minlat": 57.7105494,
+    "minlon": 10.5656436,
+    "maxlat": 57.7107964,
+    "maxlon": 10.5660771
+  },
+  "nodes": [
+    4057809799,
+    8697123265,
+    4057809795,
+    4057809797,
+    4057809796,
+    4057809792,
+    4057809793,
+    4057809794,
+    8697123266,
+    4057809798,
+    4057809799
+  ],
+  "geometry": [
+    { "lat": 57.7107964, "lon": 10.5657031 },
+    { "lat": 57.7107329, "lon": 10.5657800 },
+    { "lat": 57.7106560, "lon": 10.5658733 },
+    { "lat": 57.7107109, "lon": 10.5660318 },
+    { "lat": 57.7106736, "lon": 10.5660771 },
+    { "lat": 57.7105494, "lon": 10.5657183 },
+    { "lat": 57.7105880, "lon": 10.5656715 },
+    { "lat": 57.7106367, "lon": 10.5658123 },
+    { "lat": 57.7107124, "lon": 10.5657205 },
+    { "lat": 57.7107758, "lon": 10.5656436 },
+    { "lat": 57.7107964, "lon": 10.5657031 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 403434593,
+  "bounds": {
+    "minlat": 57.7110865,
+    "minlon": 10.5677010,
+    "maxlat": 57.7113561,
+    "maxlon": 10.5687243
+  },
+  "nodes": [
+    4057809809,
+    4057809808,
+    4057809812,
+    4057809810,
+    4057809811,
+    4057809814,
+    4057809813,
+    4057809815,
+    4057809809
+  ],
+  "geometry": [
+    { "lat": 57.7111386, "lon": 10.5687243 },
+    { "lat": 57.7110865, "lon": 10.5685907 },
+    { "lat": 57.7112893, "lon": 10.5683134 },
+    { "lat": 57.7111439, "lon": 10.5677341 },
+    { "lat": 57.7111815, "lon": 10.5677010 },
+    { "lat": 57.7113327, "lon": 10.5683032 },
+    { "lat": 57.7113476, "lon": 10.5684023 },
+    { "lat": 57.7113561, "lon": 10.5684593 },
+    { "lat": 57.7111386, "lon": 10.5687243 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 409280069,
+  "bounds": {
+    "minlat": 57.5589844,
+    "minlon": 10.4497407,
+    "maxlat": 57.5678234,
+    "maxlon": 10.4662202
+  },
+  "nodes": [
+    4111872700,
+    4111872702,
+    4111872704,
+    4111872706,
+    4111872708,
+    4111872710,
+    4111872712,
+    4111872714,
+    4111872715,
+    4111872713,
+    4111872711,
+    4111872709,
+    4111872707,
+    4111872705,
+    4111872703,
+    4111872701,
+    4111872700
+  ],
+  "geometry": [
+    { "lat": 57.5589844, "lon": 10.4578946 },
+    { "lat": 57.5593384, "lon": 10.4547479 },
+    { "lat": 57.5603115, "lon": 10.4520934 },
+    { "lat": 57.5617554, "lon": 10.4503351 },
+    { "lat": 57.5634502, "lon": 10.4497407 },
+    { "lat": 57.5651379, "lon": 10.4504008 },
+    { "lat": 57.5665616, "lon": 10.4522148 },
+    { "lat": 57.5675047, "lon": 10.4549065 },
+    { "lat": 57.5678234, "lon": 10.4580663 },
+    { "lat": 57.5674694, "lon": 10.4612130 },
+    { "lat": 57.5664965, "lon": 10.4638675 },
+    { "lat": 57.5650529, "lon": 10.4656258 },
+    { "lat": 57.5633581, "lon": 10.4662202 },
+    { "lat": 57.5616703, "lon": 10.4655601 },
+    { "lat": 57.5602464, "lon": 10.4637461 },
+    { "lat": 57.5593032, "lon": 10.4610544 },
+    { "lat": 57.5589844, "lon": 10.4578946 }
+  ],
+  "tags": {
+    "seamark:restricted_area:restriction": "restricted_entry",
+    "seamark:type": "restricted_area",
+    "source": "http://www.danskehavnelods.dk/soekortret/SORET2015/39_2015.pdf"
+  }
+},
+{
+  "type": "way",
+  "id": 409307986,
+  "bounds": {
+    "minlat": 57.5918089,
+    "minlon": 10.4284167,
+    "maxlat": 57.5923333,
+    "maxlon": 10.4362902
+  },
+  "nodes": [
+    4112181451,
+    4112181447,
+    4112185280
+  ],
+  "geometry": [
+    { "lat": 57.5923333, "lon": 10.4284167 },
+    { "lat": 57.5922667, "lon": 10.4294167 },
+    { "lat": 57.5918089, "lon": 10.4362902 }
+  ],
+  "tags": {
+    "seamark:navigation_line:category": "leading",
+    "seamark:navigation_line:orientation": "278",
+    "seamark:type": "navigation_line"
+  }
+},
+{
+  "type": "way",
+  "id": 409318430,
+  "bounds": {
+    "minlat": 57.5930186,
+    "minlon": 10.4281995,
+    "maxlat": 57.5930779,
+    "maxlon": 10.4286727
+  },
+  "nodes": [
+    4112312905,
+    4112312904,
+    4112312903
+  ],
+  "geometry": [
+    { "lat": 57.5930779, "lon": 10.4281995 },
+    { "lat": 57.5930675, "lon": 10.4282798 },
+    { "lat": 57.5930186, "lon": 10.4286727 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 409318431,
+  "bounds": {
+    "minlat": 57.5927549,
+    "minlon": 10.4276709,
+    "maxlat": 57.5928259,
+    "maxlon": 10.4282664
+  },
+  "nodes": [
+    4112312902,
+    4112312901,
+    4112312900
+  ],
+  "geometry": [
+    { "lat": 57.5928259, "lon": 10.4276709 },
+    { "lat": 57.5928160, "lon": 10.4277460 },
+    { "lat": 57.5927549, "lon": 10.4282664 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 409318432,
+  "bounds": {
+    "minlat": 57.5925579,
+    "minlon": 10.4275903,
+    "maxlat": 57.5926313,
+    "maxlon": 10.4281725
+  },
+  "nodes": [
+    4112312899,
+    4112312898,
+    4112312897
+  ],
+  "geometry": [
+    { "lat": 57.5926313, "lon": 10.4275903 },
+    { "lat": 57.5926240, "lon": 10.4276481 },
+    { "lat": 57.5925579, "lon": 10.4281725 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 409318771,
+  "bounds": {
+    "minlat": 57.5930866,
+    "minlon": 10.4277812,
+    "maxlat": 57.5931145,
+    "maxlon": 10.4279990
+  },
+  "nodes": [
+    446051406,
+    4112315886
+  ],
+  "geometry": [
+    { "lat": 57.5931145, "lon": 10.4277812 },
+    { "lat": 57.5930866, "lon": 10.4279990 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409318772,
+  "bounds": {
+    "minlat": 57.5921052,
+    "minlon": 10.4282520,
+    "maxlat": 57.5933741,
+    "maxlon": 10.4291904
+  },
+  "nodes": [
+    4112316289,
+    4112315888,
+    4112315887,
+    4112320496,
+    4112315885,
+    4112315884,
+    4112373595
+  ],
+  "geometry": [
+    { "lat": 57.5933741, "lon": 10.4283263 },
+    { "lat": 57.5933536, "lon": 10.4284903 },
+    { "lat": 57.5932673, "lon": 10.4291904 },
+    { "lat": 57.5932335, "lon": 10.4291773 },
+    { "lat": 57.5928102, "lon": 10.4290134 },
+    { "lat": 57.5927700, "lon": 10.4284984 },
+    { "lat": 57.5921052, "lon": 10.4282520 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 409318867,
+  "bounds": {
+    "minlat": 57.5921037,
+    "minlon": 10.4275596,
+    "maxlat": 57.5921874,
+    "maxlon": 10.4279848
+  },
+  "nodes": [
+    4112318494,
+    4112318493
+  ],
+  "geometry": [
+    { "lat": 57.5921874, "lon": 10.4275596 },
+    { "lat": 57.5921037, "lon": 10.4279848 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409318868,
+  "bounds": {
+    "minlat": 57.5920110,
+    "minlon": 10.4275111,
+    "maxlat": 57.5921088,
+    "maxlon": 10.4279579
+  },
+  "nodes": [
+    3506105357,
+    4112318491
+  ],
+  "geometry": [
+    { "lat": 57.5921088, "lon": 10.4275111 },
+    { "lat": 57.5920110, "lon": 10.4279579 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409318869,
+  "bounds": {
+    "minlat": 57.5921964,
+    "minlon": 10.4274598,
+    "maxlat": 57.5923402,
+    "maxlon": 10.4280187
+  },
+  "nodes": [
+    22832504,
+    22832501,
+    1124785471
+  ],
+  "geometry": [
+    { "lat": 57.5923402, "lon": 10.4274598 },
+    { "lat": 57.5923004, "lon": 10.4280187 },
+    { "lat": 57.5921964, "lon": 10.4279948 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409318870,
+  "bounds": {
+    "minlat": 57.5920871,
+    "minlon": 10.4268330,
+    "maxlat": 57.5923053,
+    "maxlon": 10.4278453
+  },
+  "nodes": [
+    4112318495,
+    4112318492
+  ],
+  "geometry": [
+    { "lat": 57.5923053, "lon": 10.4268330 },
+    { "lat": 57.5920871, "lon": 10.4278453 }
+  ],
+  "tags": {
+    "leisure": "slipway",
+    "seamark:small_craft_facility:category": "slipway",
+    "seamark:type": "small_craft_facility"
+  }
+},
+{
+  "type": "way",
+  "id": 409319060,
+  "bounds": {
+    "minlat": 57.5932291,
+    "minlon": 10.4291773,
+    "maxlat": 57.5932335,
+    "maxlon": 10.4292186
+  },
+  "nodes": [
+    4112320496,
+    4112320495
+  ],
+  "geometry": [
+    { "lat": 57.5932335, "lon": 10.4291773 },
+    { "lat": 57.5932291, "lon": 10.4292186 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409319062,
+  "bounds": {
+    "minlat": 57.5928102,
+    "minlon": 10.4290134,
+    "maxlat": 57.5928155,
+    "maxlon": 10.4290644
+  },
+  "nodes": [
+    4112315885,
+    4112320494
+  ],
+  "geometry": [
+    { "lat": 57.5928102, "lon": 10.4290134 },
+    { "lat": 57.5928155, "lon": 10.4290644 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409319063,
+  "bounds": {
+    "minlat": 57.5917933,
+    "minlon": 10.4274287,
+    "maxlat": 57.5922049,
+    "maxlon": 10.4294077
+  },
+  "nodes": [
+    4112320493,
+    4112320492,
+    4112320490,
+    9633314517,
+    9633314519,
+    4112320489,
+    22832496,
+    22832498
+  ],
+  "geometry": [
+    { "lat": 57.5922049, "lon": 10.4293237 },
+    { "lat": 57.5921712, "lon": 10.4293688 },
+    { "lat": 57.5921403, "lon": 10.4293849 },
+    { "lat": 57.5919734, "lon": 10.4293969 },
+    { "lat": 57.5919094, "lon": 10.4294015 },
+    { "lat": 57.5918238, "lon": 10.4294077 },
+    { "lat": 57.5917933, "lon": 10.4278707 },
+    { "lat": 57.5919761, "lon": 10.4274287 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409323592,
+  "bounds": {
+    "minlat": 57.5920561,
+    "minlon": 10.4282205,
+    "maxlat": 57.5925995,
+    "maxlon": 10.4287476
+  },
+  "nodes": [
+    4112282773,
+    4112373595,
+    4112373596,
+    4112373594,
+    4112373593,
+    4112373598,
+    4112373597,
+    4112373603,
+    4112373605,
+    4112373606,
+    4112373607,
+    4112373604,
+    4112373602,
+    4112373601,
+    4112373599,
+    4112373600,
+    4112320675,
+    1124785768,
+    1124785486,
+    4112282773
+  ],
+  "geometry": [
+    { "lat": 57.5921022, "lon": 10.4282731 },
+    { "lat": 57.5921052, "lon": 10.4282520 },
+    { "lat": 57.5921079, "lon": 10.4282272 },
+    { "lat": 57.5920827, "lon": 10.4282205 },
+    { "lat": 57.5920561, "lon": 10.4283908 },
+    { "lat": 57.5921747, "lon": 10.4284646 },
+    { "lat": 57.5921697, "lon": 10.4285008 },
+    { "lat": 57.5924514, "lon": 10.4286322 },
+    { "lat": 57.5925463, "lon": 10.4287140 },
+    { "lat": 57.5925894, "lon": 10.4287476 },
+    { "lat": 57.5925995, "lon": 10.4287073 },
+    { "lat": 57.5924888, "lon": 10.4286134 },
+    { "lat": 57.5924385, "lon": 10.4285799 },
+    { "lat": 57.5922624, "lon": 10.4284941 },
+    { "lat": 57.5921850, "lon": 10.4284565 },
+    { "lat": 57.5921875, "lon": 10.4284398 },
+    { "lat": 57.5921626, "lon": 10.4284300 },
+    { "lat": 57.5920895, "lon": 10.4283874 },
+    { "lat": 57.5920955, "lon": 10.4283345 },
+    { "lat": 57.5921022, "lon": 10.4282731 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 409323593,
+  "bounds": {
+    "minlat": 57.5925995,
+    "minlon": 10.4286432,
+    "maxlat": 57.5926277,
+    "maxlon": 10.4287073
+  },
+  "nodes": [
+    4112373607,
+    4112373608
+  ],
+  "geometry": [
+    { "lat": 57.5925995, "lon": 10.4287073 },
+    { "lat": 57.5926277, "lon": 10.4286432 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 470504167,
+  "bounds": {
+    "minlat": 57.7414816,
+    "minlon": 10.5929257,
+    "maxlat": 57.7421723,
+    "maxlon": 10.5934876
+  },
+  "nodes": [
+    4646751966,
+    4646751965,
+    4646751964,
+    4646751963,
+    4646751962,
+    4646751961,
+    4646751960,
+    4646751959
+  ],
+  "geometry": [
+    { "lat": 57.7414816, "lon": 10.5934876 },
+    { "lat": 57.7415753, "lon": 10.5932878 },
+    { "lat": 57.7415625, "lon": 10.5932127 },
+    { "lat": 57.7416390, "lon": 10.5930572 },
+    { "lat": 57.7418731, "lon": 10.5929257 },
+    { "lat": 57.7419812, "lon": 10.5929981 },
+    { "lat": 57.7421723, "lon": 10.5932744 },
+    { "lat": 57.7421680, "lon": 10.5933482 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "surface": "wood"
+  }
+},
+{
+  "type": "way",
+  "id": 470504169,
+  "bounds": {
+    "minlat": 57.7429615,
+    "minlon": 10.5935956,
+    "maxlat": 57.7430710,
+    "maxlon": 10.5936761
+  },
+  "nodes": [
+    4646751949,
+    4646751948
+  ],
+  "geometry": [
+    { "lat": 57.7429615, "lon": 10.5935956 },
+    { "lat": 57.7430710, "lon": 10.5936761 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "check_date:surface": "2025-08-31",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "surface": "unpaved"
+  }
+},
+{
+  "type": "way",
+  "id": 470504171,
+  "bounds": {
+    "minlat": 57.7431697,
+    "minlon": 10.5936197,
+    "maxlat": 57.7432177,
+    "maxlon": 10.5936694
+  },
+  "nodes": [
+    4646751946,
+    4646751945
+  ],
+  "geometry": [
+    { "lat": 57.7431697, "lon": 10.5936694 },
+    { "lat": 57.7432177, "lon": 10.5936197 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "check_date:surface": "2025-08-31",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "surface": "unpaved"
+  }
+},
+{
+  "type": "way",
+  "id": 483487951,
+  "bounds": {
+    "minlat": 57.7155683,
+    "minlon": 10.5816409,
+    "maxlat": 57.7160038,
+    "maxlon": 10.5825726
+  },
+  "nodes": [
+    4762276289,
+    4762276288
+  ],
+  "geometry": [
+    { "lat": 57.7155683, "lon": 10.5825726 },
+    { "lat": 57.7160038, "lon": 10.5816409 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "commercial"
+  }
+},
+{
+  "type": "way",
+  "id": 483487953,
+  "bounds": {
+    "minlat": 57.7158856,
+    "minlon": 10.5820689,
+    "maxlat": 57.7162763,
+    "maxlon": 10.5829548
+  },
+  "nodes": [
+    4762276293,
+    4762276292
+  ],
+  "geometry": [
+    { "lat": 57.7158856, "lon": 10.5829548 },
+    { "lat": 57.7162763, "lon": 10.5820689 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "commercial"
+  }
+},
+{
+  "type": "way",
+  "id": 483487954,
+  "bounds": {
+    "minlat": 57.7159013,
+    "minlon": 10.5822978,
+    "maxlat": 57.7164221,
+    "maxlon": 10.5834805
+  },
+  "nodes": [
+    4762276295,
+    4762276294
+  ],
+  "geometry": [
+    { "lat": 57.7164221, "lon": 10.5822978 },
+    { "lat": 57.7159013, "lon": 10.5834805 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "commercial"
+  }
+},
+{
+  "type": "way",
+  "id": 483487966,
+  "bounds": {
+    "minlat": 57.7185105,
+    "minlon": 10.5889927,
+    "maxlat": 57.7186057,
+    "maxlon": 10.5892420
+  },
+  "nodes": [
+    4762276316,
+    1381017388
+  ],
+  "geometry": [
+    { "lat": 57.7186057, "lon": 10.5892420 },
+    { "lat": 57.7185105, "lon": 10.5889927 }
+  ],
+  "tags": {
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487967,
+  "bounds": {
+    "minlat": 57.7187527,
+    "minlon": 10.5884599,
+    "maxlat": 57.7188996,
+    "maxlon": 10.5888487
+  },
+  "nodes": [
+    4762276317,
+    1381017395
+  ],
+  "geometry": [
+    { "lat": 57.7188996, "lon": 10.5888487 },
+    { "lat": 57.7187527, "lon": 10.5884599 }
+  ],
+  "tags": {
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487968,
+  "bounds": {
+    "minlat": 57.7182886,
+    "minlon": 10.5876812,
+    "maxlat": 57.7188291,
+    "maxlon": 10.5888879
+  },
+  "nodes": [
+    10683006211,
+    316428185,
+    8523173121,
+    4513048170,
+    8523173120,
+    10683006215,
+    10683006210,
+    10683006211
+  ],
+  "geometry": [
+    { "lat": 57.7182886, "lon": 10.5888533 },
+    { "lat": 57.7183100, "lon": 10.5888879 },
+    { "lat": 57.7188291, "lon": 10.5877182 },
+    { "lat": 57.7188111, "lon": 10.5876943 },
+    { "lat": 57.7188014, "lon": 10.5876812 },
+    { "lat": 57.7184990, "lon": 10.5883723 },
+    { "lat": 57.7182947, "lon": 10.5888395 },
+    { "lat": 57.7182886, "lon": 10.5888533 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487971,
+  "bounds": {
+    "minlat": 57.7156407,
+    "minlon": 10.5869700,
+    "maxlat": 57.7160397,
+    "maxlon": 10.5878053
+  },
+  "nodes": [
+    4762276522,
+    11387564256,
+    3506091689,
+    11387564258,
+    11387564257,
+    4762276522
+  ],
+  "geometry": [
+    { "lat": 57.7160320, "lon": 10.5869845 },
+    { "lat": 57.7160397, "lon": 10.5869972 },
+    { "lat": 57.7156570, "lon": 10.5878053 },
+    { "lat": 57.7156407, "lon": 10.5877781 },
+    { "lat": 57.7160233, "lon": 10.5869700 },
+    { "lat": 57.7160320, "lon": 10.5869845 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487972,
+  "bounds": {
+    "minlat": 57.7155233,
+    "minlon": 10.5866084,
+    "maxlat": 57.7158904,
+    "maxlon": 10.5873501
+  },
+  "nodes": [
+    4762276523,
+    11387564259,
+    3506091687,
+    11387564261,
+    11387564260,
+    4762276523
+  ],
+  "geometry": [
+    { "lat": 57.7158807, "lon": 10.5866213 },
+    { "lat": 57.7158904, "lon": 10.5866379 },
+    { "lat": 57.7155405, "lon": 10.5873501 },
+    { "lat": 57.7155233, "lon": 10.5873205 },
+    { "lat": 57.7158733, "lon": 10.5866084 },
+    { "lat": 57.7158807, "lon": 10.5866213 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487974,
+  "bounds": {
+    "minlat": 57.7155509,
+    "minlon": 10.5863104,
+    "maxlat": 57.7157597,
+    "maxlon": 10.5867232
+  },
+  "nodes": [
+    4762276524,
+    11387564262,
+    11387564263,
+    3506091688,
+    11387564264,
+    4762276524
+  ],
+  "geometry": [
+    { "lat": 57.7157499, "lon": 10.5863228 },
+    { "lat": 57.7157430, "lon": 10.5863104 },
+    { "lat": 57.7155509, "lon": 10.5866933 },
+    { "lat": 57.7155677, "lon": 10.5867232 },
+    { "lat": 57.7157597, "lon": 10.5863404 },
+    { "lat": 57.7157499, "lon": 10.5863228 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487976,
+  "bounds": {
+    "minlat": 57.7156766,
+    "minlon": 10.5872238,
+    "maxlat": 57.7161599,
+    "maxlon": 10.5883197
+  },
+  "nodes": [
+    8522856105,
+    8522856103,
+    3506122098,
+    8522856104,
+    3506091690,
+    4762276526,
+    8522856105
+  ],
+  "geometry": [
+    { "lat": 57.7157235, "lon": 10.5883025 },
+    { "lat": 57.7161599, "lon": 10.5872570 },
+    { "lat": 57.7161522, "lon": 10.5872390 },
+    { "lat": 57.7161459, "lon": 10.5872238 },
+    { "lat": 57.7156766, "lon": 10.5883197 },
+    { "lat": 57.7157040, "lon": 10.5883088 },
+    { "lat": 57.7157235, "lon": 10.5883025 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487979,
+  "bounds": {
+    "minlat": 57.7148699,
+    "minlon": 10.5871418,
+    "maxlat": 57.7150181,
+    "maxlon": 10.5872408
+  },
+  "nodes": [
+    4762276533,
+    4762276532
+  ],
+  "geometry": [
+    { "lat": 57.7148699, "lon": 10.5872408 },
+    { "lat": 57.7150181, "lon": 10.5871418 }
+  ],
+  "tags": {
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487980,
+  "bounds": {
+    "minlat": 57.7149009,
+    "minlon": 10.5873276,
+    "maxlat": 57.7150353,
+    "maxlon": 10.5874197
+  },
+  "nodes": [
+    4762276535,
+    4762276534
+  ],
+  "geometry": [
+    { "lat": 57.7149009, "lon": 10.5874197 },
+    { "lat": 57.7150353, "lon": 10.5873276 }
+  ],
+  "tags": {
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487981,
+  "bounds": {
+    "minlat": 57.7155150,
+    "minlon": 10.5897071,
+    "maxlat": 57.7155550,
+    "maxlon": 10.5905193
+  },
+  "nodes": [
+    4762276537,
+    11387564239,
+    11387564240,
+    4762276538,
+    4762276540,
+    4762276537
+  ],
+  "geometry": [
+    { "lat": 57.7155241, "lon": 10.5897071 },
+    { "lat": 57.7155550, "lon": 10.5897083 },
+    { "lat": 57.7155459, "lon": 10.5905193 },
+    { "lat": 57.7155150, "lon": 10.5905180 },
+    { "lat": 57.7155227, "lon": 10.5898327 },
+    { "lat": 57.7155241, "lon": 10.5897071 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487982,
+  "bounds": {
+    "minlat": 57.7154784,
+    "minlon": 10.5898059,
+    "maxlat": 57.7155227,
+    "maxlon": 10.5898327
+  },
+  "nodes": [
+    4762276540,
+    4762276539
+  ],
+  "geometry": [
+    { "lat": 57.7155227, "lon": 10.5898327 },
+    { "lat": 57.7154784, "lon": 10.5898059 }
+  ],
+  "tags": {
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 483487984,
+  "bounds": {
+    "minlat": 57.7142261,
+    "minlon": 10.6007043,
+    "maxlat": 57.7225494,
+    "maxlon": 10.6094456
+  },
+  "nodes": [
+    5213826710,
+    5213826713,
+    8748710697,
+    6908530955,
+    8748710698,
+    5213826697,
+    8654259431,
+    5213830223,
+    5213830226,
+    7489675839,
+    7798193543,
+    9599894338,
+    7798193542,
+    7798193544,
+    7011001590,
+    7011001592,
+    6908530954,
+    6908530963,
+    7489675840,
+    6908530965,
+    8654259432,
+    8654259433,
+    7489675841,
+    6908530966,
+    22834823,
+    1116054896,
+    1116055364,
+    22834825,
+    1116054997,
+    1116054668,
+    22834834,
+    9599894325,
+    1159827868,
+    4936511092,
+    4936511100,
+    4936511099,
+    4936511096,
+    4936511098,
+    5213826710
+  ],
+  "geometry": [
+    { "lat": 57.7191577, "lon": 10.6089561 },
+    { "lat": 57.7190238, "lon": 10.6090802 },
+    { "lat": 57.7189386, "lon": 10.6091224 },
+    { "lat": 57.7188527, "lon": 10.6091224 },
+    { "lat": 57.7187796, "lon": 10.6091304 },
+    { "lat": 57.7187105, "lon": 10.6090980 },
+    { "lat": 57.7185998, "lon": 10.6090392 },
+    { "lat": 57.7185154, "lon": 10.6089364 },
+    { "lat": 57.7184523, "lon": 10.6088447 },
+    { "lat": 57.7148427, "lon": 10.6007179 },
+    { "lat": 57.7142326, "lon": 10.6007043 },
+    { "lat": 57.7142261, "lon": 10.6010114 },
+    { "lat": 57.7142648, "lon": 10.6010570 },
+    { "lat": 57.7147432, "lon": 10.6010435 },
+    { "lat": 57.7182897, "lon": 10.6090271 },
+    { "lat": 57.7184935, "lon": 10.6092739 },
+    { "lat": 57.7186757, "lon": 10.6094026 },
+    { "lat": 57.7188090, "lon": 10.6094456 },
+    { "lat": 57.7189852, "lon": 10.6094134 },
+    { "lat": 57.7192491, "lon": 10.6091991 },
+    { "lat": 57.7192796, "lon": 10.6091157 },
+    { "lat": 57.7192606, "lon": 10.6090002 },
+    { "lat": 57.7206454, "lon": 10.6070209 },
+    { "lat": 57.7207027, "lon": 10.6070131 },
+    { "lat": 57.7208156, "lon": 10.6072986 },
+    { "lat": 57.7208886, "lon": 10.6072944 },
+    { "lat": 57.7209260, "lon": 10.6071911 },
+    { "lat": 57.7208674, "lon": 10.6069397 },
+    { "lat": 57.7208596, "lon": 10.6068358 },
+    { "lat": 57.7208864, "lon": 10.6067258 },
+    { "lat": 57.7219639, "lon": 10.6051916 },
+    { "lat": 57.7221881, "lon": 10.6049032 },
+    { "lat": 57.7223328, "lon": 10.6049394 },
+    { "lat": 57.7225383, "lon": 10.6050159 },
+    { "lat": 57.7225494, "lon": 10.6049073 },
+    { "lat": 57.7222626, "lon": 10.6047785 },
+    { "lat": 57.7221308, "lon": 10.6047691 },
+    { "lat": 57.7220320, "lon": 10.6048389 },
+    { "lat": 57.7191577, "lon": 10.6089561 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 500847356,
+  "bounds": {
+    "minlat": 57.6431111,
+    "minlon": 10.4627153,
+    "maxlat": 57.6431571,
+    "maxlon": 10.4627569
+  },
+  "nodes": [
+    4918098126,
+    4918098127
+  ],
+  "geometry": [
+    { "lat": 57.6431571, "lon": 10.4627569 },
+    { "lat": 57.6431111, "lon": 10.4627153 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "highway": "path",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 507602411,
+  "bounds": {
+    "minlat": 57.7377517,
+    "minlon": 10.6168056,
+    "maxlat": 57.7398549,
+    "maxlon": 10.6183612
+  },
+  "nodes": [
+    4970779099,
+    4970779098,
+    4970779097,
+    4970779096,
+    4970779095,
+    4970779094
+  ],
+  "geometry": [
+    { "lat": 57.7398549, "lon": 10.6183612 },
+    { "lat": 57.7395485, "lon": 10.6182808 },
+    { "lat": 57.7393180, "lon": 10.6180850 },
+    { "lat": 57.7390045, "lon": 10.6180930 },
+    { "lat": 57.7385907, "lon": 10.6176209 },
+    { "lat": 57.7377517, "lon": 10.6168056 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "surface": "wood",
+    "width": "2"
+  }
+},
+{
+  "type": "way",
+  "id": 507602413,
+  "bounds": {
+    "minlat": 57.7407690,
+    "minlon": 10.6098117,
+    "maxlat": 57.7410435,
+    "maxlon": 10.6106304
+  },
+  "nodes": [
+    4970779221,
+    610532039,
+    4970779120,
+    610532040,
+    610532041,
+    4970779119
+  ],
+  "geometry": [
+    { "lat": 57.7407690, "lon": 10.6098117 },
+    { "lat": 57.7408489, "lon": 10.6099382 },
+    { "lat": 57.7408488, "lon": 10.6101778 },
+    { "lat": 57.7409653, "lon": 10.6104270 },
+    { "lat": 57.7409602, "lon": 10.6105377 },
+    { "lat": 57.7410435, "lon": 10.6106304 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "bridge": "boardwalk",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "oneway:bicycle": "no",
+    "sac_scale": "hiking",
+    "surface": "wood",
+    "width": "2"
+  }
+},
+{
+  "type": "way",
+  "id": 571579803,
+  "bounds": {
+    "minlat": 57.5897616,
+    "minlon": 10.4238555,
+    "maxlat": 57.5897882,
+    "maxlon": 10.4238635
+  },
+  "nodes": [
+    5493023365,
+    5493023364
+  ],
+  "geometry": [
+    { "lat": 57.5897616, "lon": 10.4238635 },
+    { "lat": 57.5897882, "lon": 10.4238555 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "sand"
+  }
+},
+{
+  "type": "way",
+  "id": 571579814,
+  "bounds": {
+    "minlat": 57.5892079,
+    "minlon": 10.4221131,
+    "maxlat": 57.5892254,
+    "maxlon": 10.4221134
+  },
+  "nodes": [
+    5493023367,
+    1139879201
+  ],
+  "geometry": [
+    { "lat": 57.5892254, "lon": 10.4221134 },
+    { "lat": 57.5892079, "lon": 10.4221131 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "sand"
+  }
+},
+{
+  "type": "way",
+  "id": 571579819,
+  "bounds": {
+    "minlat": 57.5918975,
+    "minlon": 10.4244295,
+    "maxlat": 57.5919205,
+    "maxlon": 10.4244362
+  },
+  "nodes": [
+    5493024327,
+    5493024326
+  ],
+  "geometry": [
+    { "lat": 57.5918975, "lon": 10.4244295 },
+    { "lat": 57.5919205, "lon": 10.4244362 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "sand"
+  }
+},
+{
+  "type": "way",
+  "id": 571579875,
+  "bounds": {
+    "minlat": 57.6073531,
+    "minlon": 10.4335643,
+    "maxlat": 57.6073957,
+    "maxlon": 10.4335852
+  },
+  "nodes": [
+    5493024579,
+    5493024577
+  ],
+  "geometry": [
+    { "lat": 57.6073531, "lon": 10.4335643 },
+    { "lat": 57.6073957, "lon": 10.4335852 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "source": "Frederikshavn Vejmidter (Sti)"
+  }
+},
+{
+  "type": "way",
+  "id": 618485797,
+  "bounds": {
+    "minlat": 57.7427775,
+    "minlon": 10.5572337,
+    "maxlat": 57.7429751,
+    "maxlon": 10.5575019
+  },
+  "nodes": [
+    3943225065,
+    6742252589,
+    3943225067,
+    8695938450,
+    5845892615,
+    8695938451,
+    8695938449,
+    1159380493,
+    1159381759,
+    3943225065
+  ],
+  "geometry": [
+    { "lat": 57.7427775, "lon": 10.5573316 },
+    { "lat": 57.7428276, "lon": 10.5573168 },
+    { "lat": 57.7429353, "lon": 10.5572406 },
+    { "lat": 57.7429497, "lon": 10.5572337 },
+    { "lat": 57.7429640, "lon": 10.5572444 },
+    { "lat": 57.7429751, "lon": 10.5572840 },
+    { "lat": 57.7429747, "lon": 10.5573007 },
+    { "lat": 57.7429679, "lon": 10.5573225 },
+    { "lat": 57.7427990, "lon": 10.5575019 },
+    { "lat": 57.7427775, "lon": 10.5573316 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 651520136,
+  "bounds": {
+    "minlat": 57.7395360,
+    "minlon": 10.6387384,
+    "maxlat": 57.7397708,
+    "maxlon": 10.6389414
+  },
+  "nodes": [
+    6109326207,
+    6109326210,
+    6109325869,
+    6109326188,
+    6109326198,
+    6109326202,
+    6109326213,
+    6109325880,
+    6109326191,
+    6109326194,
+    6109326204,
+    6109325873,
+    6109325883,
+    6109326186,
+    6109326207
+  ],
+  "geometry": [
+    { "lat": 57.7397708, "lon": 10.6389150 },
+    { "lat": 57.7397539, "lon": 10.6388833 },
+    { "lat": 57.7397195, "lon": 10.6388413 },
+    { "lat": 57.7396725, "lon": 10.6388089 },
+    { "lat": 57.7396132, "lon": 10.6387706 },
+    { "lat": 57.7395360, "lon": 10.6387384 },
+    { "lat": 57.7395431, "lon": 10.6387802 },
+    { "lat": 57.7395648, "lon": 10.6387864 },
+    { "lat": 57.7395873, "lon": 10.6388235 },
+    { "lat": 57.7396188, "lon": 10.6388695 },
+    { "lat": 57.7396435, "lon": 10.6388975 },
+    { "lat": 57.7396926, "lon": 10.6389287 },
+    { "lat": 57.7397277, "lon": 10.6389414 },
+    { "lat": 57.7397581, "lon": 10.6389337 },
+    { "lat": 57.7397708, "lon": 10.6389150 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 651520138,
+  "bounds": {
+    "minlat": 57.7399459,
+    "minlon": 10.6388053,
+    "maxlat": 57.7403136,
+    "maxlon": 10.6393818
+  },
+  "nodes": [
+    6109326200,
+    6109326211,
+    6109326215,
+    6109325874,
+    6109326192,
+    6109326203,
+    6109326206,
+    6109326217,
+    6109325884,
+    6109326195,
+    6109326197,
+    6109326209,
+    6109325876,
+    6109326187,
+    6109326190,
+    6109326201,
+    6109325870,
+    6109325879,
+    6109325882,
+    6109326193,
+    6109326214,
+    6109325872,
+    6109325875,
+    6109326185,
+    6109326205,
+    6109326216,
+    6109325868,
+    6109325878,
+    6109326196,
+    6109326208,
+    6109326212,
+    6109325871,
+    6109326189,
+    6109326199,
+    6109325867,
+    6109325877,
+    6109325881,
+    6109326200
+  ],
+  "geometry": [
+    { "lat": 57.7402352, "lon": 10.6392533 },
+    { "lat": 57.7402818, "lon": 10.6391170 },
+    { "lat": 57.7403008, "lon": 10.6390386 },
+    { "lat": 57.7403136, "lon": 10.6389715 },
+    { "lat": 57.7403104, "lon": 10.6389496 },
+    { "lat": 57.7402984, "lon": 10.6389427 },
+    { "lat": 57.7402806, "lon": 10.6389599 },
+    { "lat": 57.7402642, "lon": 10.6389901 },
+    { "lat": 57.7402457, "lon": 10.6390418 },
+    { "lat": 57.7402240, "lon": 10.6391275 },
+    { "lat": 57.7401948, "lon": 10.6392011 },
+    { "lat": 57.7401654, "lon": 10.6392340 },
+    { "lat": 57.7401271, "lon": 10.6392355 },
+    { "lat": 57.7400893, "lon": 10.6392022 },
+    { "lat": 57.7400595, "lon": 10.6391626 },
+    { "lat": 57.7400296, "lon": 10.6390908 },
+    { "lat": 57.7400193, "lon": 10.6389659 },
+    { "lat": 57.7400232, "lon": 10.6388861 },
+    { "lat": 57.7400337, "lon": 10.6388368 },
+    { "lat": 57.7400318, "lon": 10.6388151 },
+    { "lat": 57.7400243, "lon": 10.6388053 },
+    { "lat": 57.7400162, "lon": 10.6388135 },
+    { "lat": 57.7399977, "lon": 10.6388500 },
+    { "lat": 57.7399834, "lon": 10.6388834 },
+    { "lat": 57.7399716, "lon": 10.6389306 },
+    { "lat": 57.7399610, "lon": 10.6389851 },
+    { "lat": 57.7399514, "lon": 10.6390434 },
+    { "lat": 57.7399459, "lon": 10.6390877 },
+    { "lat": 57.7399524, "lon": 10.6391166 },
+    { "lat": 57.7399712, "lon": 10.6391656 },
+    { "lat": 57.7400026, "lon": 10.6392289 },
+    { "lat": 57.7400343, "lon": 10.6392933 },
+    { "lat": 57.7400916, "lon": 10.6393596 },
+    { "lat": 57.7401189, "lon": 10.6393818 },
+    { "lat": 57.7401468, "lon": 10.6393780 },
+    { "lat": 57.7401682, "lon": 10.6393654 },
+    { "lat": 57.7402003, "lon": 10.6393297 },
+    { "lat": 57.7402352, "lon": 10.6392533 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 659488912,
+  "bounds": {
+    "minlat": 57.6227307,
+    "minlon": 10.4435389,
+    "maxlat": 57.6227372,
+    "maxlon": 10.4436555
+  },
+  "nodes": [
+    6174570149,
+    6174570148
+  ],
+  "geometry": [
+    { "lat": 57.6227372, "lon": 10.4436555 },
+    { "lat": 57.6227307, "lon": 10.4435389 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 659520490,
+  "bounds": {
+    "minlat": 57.6226821,
+    "minlon": 10.3981640,
+    "maxlat": 57.6227468,
+    "maxlon": 10.3981730
+  },
+  "nodes": [
+    6174904983,
+    6174904984
+  ],
+  "geometry": [
+    { "lat": 57.6226821, "lon": 10.3981640 },
+    { "lat": 57.6227468, "lon": 10.3981730 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "name": "Lodskovvadvej",
+    "name:etymology:wikidata": "Q126121159",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 660935016,
+  "bounds": {
+    "minlat": 57.6562505,
+    "minlon": 10.4552281,
+    "maxlat": 57.6562787,
+    "maxlon": 10.4552361
+  },
+  "nodes": [
+    6187930287,
+    6187930288
+  ],
+  "geometry": [
+    { "lat": 57.6562505, "lon": 10.4552361 },
+    { "lat": 57.6562787, "lon": 10.4552281 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "layer": "1",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 660936213,
+  "bounds": {
+    "minlat": 57.6692485,
+    "minlon": 10.4954651,
+    "maxlat": 57.6692575,
+    "maxlon": 10.4954876
+  },
+  "nodes": [
+    6187940693,
+    6187940694
+  ],
+  "geometry": [
+    { "lat": 57.6692485, "lon": 10.4954876 },
+    { "lat": 57.6692575, "lon": 10.4954651 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 690377957,
+  "bounds": {
+    "minlat": 57.7149152,
+    "minlon": 10.5783306,
+    "maxlat": 57.7151627,
+    "maxlon": 10.5786639
+  },
+  "nodes": [
+    6477099373,
+    6477099372,
+    6477099371,
+    6477099370,
+    4875383675
+  ],
+  "geometry": [
+    { "lat": 57.7151405, "lon": 10.5786639 },
+    { "lat": 57.7151627, "lon": 10.5785009 },
+    { "lat": 57.7151620, "lon": 10.5784781 },
+    { "lat": 57.7151584, "lon": 10.5784647 },
+    { "lat": 57.7149152, "lon": 10.5783306 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "highway": "footway",
+    "layer": "1",
+    "surface": "wood"
+  }
+},
+{
+  "type": "way",
+  "id": 706403715,
+  "bounds": {
+    "minlat": 57.7409530,
+    "minlon": 10.5537066,
+    "maxlat": 57.7414096,
+    "maxlon": 10.5542940
+  },
+  "nodes": [
+    6637778892,
+    8695938438,
+    6637778891
+  ],
+  "geometry": [
+    { "lat": 57.7409530, "lon": 10.5542940 },
+    { "lat": 57.7411849, "lon": 10.5539533 },
+    { "lat": 57.7414096, "lon": 10.5537066 }
+  ],
+  "tags": {
+    "man_made": "groyne",
+    "note": "Er synlig på Ortofoto 2019"
+  }
+},
+{
+  "type": "way",
+  "id": 706403716,
+  "bounds": {
+    "minlat": 57.7401756,
+    "minlon": 10.5517808,
+    "maxlat": 57.7405263,
+    "maxlon": 10.5522260
+  },
+  "nodes": [
+    6637778894,
+    8695938434,
+    6637778893
+  ],
+  "geometry": [
+    { "lat": 57.7401756, "lon": 10.5522260 },
+    { "lat": 57.7404116, "lon": 10.5519264 },
+    { "lat": 57.7405263, "lon": 10.5517808 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 706405986,
+  "bounds": {
+    "minlat": 57.7273271,
+    "minlon": 10.5167726,
+    "maxlat": 57.7275720,
+    "maxlon": 10.5172715
+  },
+  "nodes": [
+    6637859442,
+    1159382660,
+    6637859441
+  ],
+  "geometry": [
+    { "lat": 57.7275720, "lon": 10.5167726 },
+    { "lat": 57.7275087, "lon": 10.5169015 },
+    { "lat": 57.7273271, "lon": 10.5172715 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 706405987,
+  "bounds": {
+    "minlat": 57.7267098,
+    "minlon": 10.5157962,
+    "maxlat": 57.7269547,
+    "maxlon": 10.5163032
+  },
+  "nodes": [
+    6637859444,
+    8695929056,
+    6637859443
+  ],
+  "geometry": [
+    { "lat": 57.7269547, "lon": 10.5157962 },
+    { "lat": 57.7268917, "lon": 10.5159330 },
+    { "lat": 57.7267098, "lon": 10.5163032 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 706405988,
+  "bounds": {
+    "minlat": 57.7261040,
+    "minlon": 10.5148226,
+    "maxlat": 57.7263331,
+    "maxlon": 10.5152866
+  },
+  "nodes": [
+    6637859446,
+    22835590,
+    6637859445
+  ],
+  "geometry": [
+    { "lat": 57.7261040, "lon": 10.5152866 },
+    { "lat": 57.7262534, "lon": 10.5149840 },
+    { "lat": 57.7263331, "lon": 10.5148226 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 706405989,
+  "bounds": {
+    "minlat": 57.7255139,
+    "minlon": 10.5138516,
+    "maxlat": 57.7257216,
+    "maxlon": 10.5142862
+  },
+  "nodes": [
+    6637859448,
+    6637859447
+  ],
+  "geometry": [
+    { "lat": 57.7255139, "lon": 10.5142862 },
+    { "lat": 57.7257216, "lon": 10.5138516 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 706405990,
+  "bounds": {
+    "minlat": 57.7248937,
+    "minlon": 10.5129197,
+    "maxlat": 57.7250810,
+    "maxlon": 10.5132937
+  },
+  "nodes": [
+    6637859450,
+    12325779384
+  ],
+  "geometry": [
+    { "lat": 57.7248937, "lon": 10.5132937 },
+    { "lat": 57.7250810, "lon": 10.5129197 }
+  ],
+  "tags": {
+    "man_made": "groyne"
+  }
+},
+{
+  "type": "way",
+  "id": 775389705,
+  "bounds": {
+    "minlat": 57.7783333,
+    "minlon": 10.5983333,
+    "maxlat": 57.8688333,
+    "maxlon": 10.9371667
+  },
+  "nodes": [
+    7233967385,
+    7233967490,
+    7233967489,
+    7233967586,
+    7233967487,
+    7233967886,
+    7233967785,
+    7233967885,
+    7233967686,
+    7233967988,
+    7233967493,
+    7233967888,
+    7233967587,
+    7233967385
+  ],
+  "geometry": [
+    { "lat": 57.8688333, "lon": 10.8678333 },
+    { "lat": 57.8291667, "lon": 10.9371667 },
+    { "lat": 57.8065000, "lon": 10.8915000 },
+    { "lat": 57.8008333, "lon": 10.8801667 },
+    { "lat": 57.7783333, "lon": 10.8343333 },
+    { "lat": 57.7786667, "lon": 10.8223333 },
+    { "lat": 57.7805000, "lon": 10.7583333 },
+    { "lat": 57.7940000, "lon": 10.7350000 },
+    { "lat": 57.7943333, "lon": 10.5983333 },
+    { "lat": 57.7973333, "lon": 10.5996667 },
+    { "lat": 57.8250000, "lon": 10.6110000 },
+    { "lat": 57.8411667, "lon": 10.6176667 },
+    { "lat": 57.8688333, "lon": 10.6290000 },
+    { "lat": 57.8688333, "lon": 10.8678333 }
+  ],
+  "tags": {
+    "name": "Precautionary Area Off Skagen",
+    "seamark:type": "precautionary_area"
+  }
+},
+{
+  "type": "way",
+  "id": 775389706,
+  "bounds": {
+    "minlat": 57.7038333,
+    "minlon": 10.5346667,
+    "maxlat": 57.7943333,
+    "maxlon": 10.7583333
+  },
+  "nodes": [
+    7233967485,
+    7233967491,
+    7233967387,
+    7233967686,
+    7233967885,
+    7233967785,
+    7233967685,
+    7233967585
+  ],
+  "geometry": [
+    { "lat": 57.7343333, "lon": 10.5346667 },
+    { "lat": 57.7908333, "lon": 10.5346667 },
+    { "lat": 57.7908333, "lon": 10.5970000 },
+    { "lat": 57.7943333, "lon": 10.5983333 },
+    { "lat": 57.7940000, "lon": 10.7350000 },
+    { "lat": 57.7805000, "lon": 10.7583333 },
+    { "lat": 57.7040000, "lon": 10.7486667 },
+    { "lat": 57.7038333, "lon": 10.5518333 }
+  ],
+  "tags": {
+    "name": "Inshore Traffic zone - At Skagen",
+    "seamark:type": "inshore_traffic_zone"
+  }
+},
+{
+  "type": "way",
+  "id": 775389710,
+  "bounds": {
+    "minlat": 57.8688333,
+    "minlon": 10.5666667,
+    "maxlat": 57.8688333,
+    "maxlon": 10.6290000
+  },
+  "nodes": [
+    7233967987,
+    7233967587
+  ],
+  "geometry": [
+    { "lat": 57.8688333, "lon": 10.5666667 },
+    { "lat": 57.8688333, "lon": 10.6290000 }
+  ],
+  "tags": {
+    "name": "TSS Skagen West",
+    "seamark:separation_zone:category": "imo_adopted",
+    "seamark:type": "separation_boundary"
+  }
+},
+{
+  "type": "way",
+  "id": 775389711,
+  "bounds": {
+    "minlat": 57.7908333,
+    "minlon": 10.5346667,
+    "maxlat": 57.7973333,
+    "maxlon": 10.5996667
+  },
+  "nodes": [
+    7233967492,
+    7233967988,
+    7233967686,
+    7233967387,
+    7233967491,
+    7233967492
+  ],
+  "geometry": [
+    { "lat": 57.7973333, "lon": 10.5373333 },
+    { "lat": 57.7973333, "lon": 10.5996667 },
+    { "lat": 57.7943333, "lon": 10.5983333 },
+    { "lat": 57.7908333, "lon": 10.5970000 },
+    { "lat": 57.7908333, "lon": 10.5346667 },
+    { "lat": 57.7973333, "lon": 10.5373333 }
+  ],
+  "tags": {
+    "name": "TSS Skagen West",
+    "seamark:separation_zone:category": "imo_adopted",
+    "seamark:type": "separation_zone"
+  }
+},
+{
+  "type": "way",
+  "id": 775389712,
+  "bounds": {
+    "minlat": 57.8250000,
+    "minlon": 10.5486667,
+    "maxlat": 57.8411667,
+    "maxlon": 10.6176667
+  },
+  "nodes": [
+    7233967495,
+    7233967494,
+    7233967493,
+    7233967888,
+    7233967495
+  ],
+  "geometry": [
+    { "lat": 57.8411667, "lon": 10.5553333 },
+    { "lat": 57.8250000, "lon": 10.5486667 },
+    { "lat": 57.8250000, "lon": 10.6110000 },
+    { "lat": 57.8411667, "lon": 10.6176667 },
+    { "lat": 57.8411667, "lon": 10.5553333 }
+  ],
+  "tags": {
+    "seamark:name": "TSS Skagen West",
+    "seamark:separation_zone:category": "imo_adopted",
+    "seamark:type": "separation_zone"
+  }
+},
+{
+  "type": "way",
+  "id": 775411055,
+  "bounds": {
+    "minlat": 57.8103844,
+    "minlon": 10.5549937,
+    "maxlat": 57.8103844,
+    "maxlon": 10.5959698
+  },
+  "nodes": [
+    7234132721,
+    7234132719
+  ],
+  "geometry": [
+    { "lat": 57.8103844, "lon": 10.5549937 },
+    { "lat": 57.8103844, "lon": 10.5959698 }
+  ],
+  "tags": {
+    "name": "TSS Skagen West",
+    "seamark:separation_zone:category": "imo_adopted",
+    "seamark:type": "separation_lane"
+  }
+},
+{
+  "type": "way",
+  "id": 775411056,
+  "bounds": {
+    "minlat": 57.8557134,
+    "minlon": 10.5666667,
+    "maxlat": 57.8557134,
+    "maxlon": 10.6148526
+  },
+  "nodes": [
+    7234132720,
+    7234132722
+  ],
+  "geometry": [
+    { "lat": 57.8557134, "lon": 10.6148526 },
+    { "lat": 57.8557134, "lon": 10.5666667 }
+  ],
+  "tags": {
+    "name": "TSS Skagen West",
+    "seamark:separation_zone:category": "imo_adopted",
+    "seamark:type": "separation_lane"
+  }
+},
+{
+  "type": "way",
+  "id": 775428554,
+  "bounds": {
+    "minlat": 57.8053333,
+    "minlon": 9.6196667,
+    "maxlat": 57.8331667,
+    "maxlon": 10.5520000
+  },
+  "nodes": [
+    7234341185,
+    10186724445,
+    10186724446,
+    7234339686,
+    10186724444,
+    7234341085
+  ],
+  "geometry": [
+    { "lat": 57.8053333, "lon": 9.6196667 },
+    { "lat": 57.8117789, "lon": 9.8355556 },
+    { "lat": 57.8182234, "lon": 10.0514444 },
+    { "lat": 57.8246667, "lon": 10.2673333 },
+    { "lat": 57.8289170, "lon": 10.4096667 },
+    { "lat": 57.8331667, "lon": 10.5520000 }
+  ],
+  "tags": {
+    "seamark:name": "Route A",
+    "seamark:navigation_line:category": "transit",
+    "seamark:type": "navigation_line"
+  }
+},
+{
+  "type": "way",
+  "id": 775566167,
+  "bounds": {
+    "minlat": 57.8022931,
+    "minlon": 10.2696837,
+    "maxlat": 57.8103674,
+    "maxlon": 10.5543934
+  },
+  "nodes": [
+    7235253087,
+    7235253486
+  ],
+  "geometry": [
+    { "lat": 57.8022931, "lon": 10.2696837 },
+    { "lat": 57.8103674, "lon": 10.5543934 }
+  ],
+  "tags": {
+    "seamark:type": "recommended_traffic_lane"
+  }
+},
+{
+  "type": "way",
+  "id": 775566176,
+  "bounds": {
+    "minlat": 57.3957228,
+    "minlon": 8.3487131,
+    "maxlat": 57.8560766,
+    "maxlon": 10.5495860
+  },
+  "nodes": [
+    7235253088,
+    7235253692,
+    7235253487,
+    7235253693
+  ],
+  "geometry": [
+    { "lat": 57.8560766, "lon": 10.5495860 },
+    { "lat": 57.8475820, "lon": 10.2649193 },
+    { "lat": 57.8279229, "lon": 9.6059274 },
+    { "lat": 57.3957228, "lon": 8.3487131 }
+  ],
+  "tags": {
+    "seamark:type": "recommended_traffic_lane"
+  }
+},
+{
+  "type": "way",
+  "id": 934549662,
+  "bounds": {
+    "minlat": 57.7292977,
+    "minlon": 10.5213940,
+    "maxlat": 57.7299156,
+    "maxlon": 10.5228035
+  },
+  "nodes": [
+    8661307312,
+    8661307311
+  ],
+  "geometry": [
+    { "lat": 57.7292977, "lon": 10.5213940 },
+    { "lat": 57.7299156, "lon": 10.5228035 }
+  ],
+  "tags": {
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 996313340,
+  "bounds": {
+    "minlat": 56.9661667,
+    "minlon": 10.7093333,
+    "maxlat": 57.7798333,
+    "maxlon": 10.8676667
+  },
+  "nodes": [
+    7235253689,
+    10186724418,
+    10186724419,
+    10186724420,
+    10186724421,
+    10186724422,
+    7235253687,
+    10186724417,
+    7235253688
+  ],
+  "geometry": [
+    { "lat": 57.7798333, "lon": 10.7855000 },
+    { "lat": 57.6800512, "lon": 10.7728056 },
+    { "lat": 57.5799936, "lon": 10.7601111 },
+    { "lat": 57.4796602, "lon": 10.7474167 },
+    { "lat": 57.3790504, "lon": 10.7347222 },
+    { "lat": 57.2781638, "lon": 10.7220278 },
+    { "lat": 57.1770000, "lon": 10.7093333 },
+    { "lat": 57.0717331, "lon": 10.7885000 },
+    { "lat": 56.9661667, "lon": 10.8676667 }
+  ],
+  "tags": {
+    "seamark:name": "Route C",
+    "seamark:navigation_line:category": "transit",
+    "seamark:recommended_track:category": "fixed_marks",
+    "seamark:recommended_track:traffic_flow": "two-way",
+    "seamark:type": "navigation_line"
+  }
+},
+{
+  "type": "way",
+  "id": 1021575788,
+  "bounds": {
+    "minlat": 57.5825782,
+    "minlon": 10.4125566,
+    "maxlat": 57.5827023,
+    "maxlon": 10.4127899
+  },
+  "nodes": [
+    9421968114,
+    9421991620,
+    9421991619,
+    9421991618,
+    9421968113,
+    9421968112,
+    9421991617,
+    9421968116,
+    9421968115,
+    9421968111,
+    9421968114
+  ],
+  "geometry": [
+    { "lat": 57.5827023, "lon": 10.4125614 },
+    { "lat": 57.5827020, "lon": 10.4125864 },
+    { "lat": 57.5827008, "lon": 10.4126885 },
+    { "lat": 57.5826998, "lon": 10.4127751 },
+    { "lat": 57.5826996, "lon": 10.4127899 },
+    { "lat": 57.5825782, "lon": 10.4127851 },
+    { "lat": 57.5825783, "lon": 10.4127726 },
+    { "lat": 57.5825793, "lon": 10.4126848 },
+    { "lat": 57.5825805, "lon": 10.4125837 },
+    { "lat": 57.5825808, "lon": 10.4125566 },
+    { "lat": 57.5827023, "lon": 10.4125614 }
+  ],
+  "tags": {
+    "layer": "1",
+    "man_made": "bridge",
+    "name": "Knasborg Bro"
+  }
+},
+{
+  "type": "way",
+  "id": 1021575790,
+  "bounds": {
+    "minlat": 57.5825783,
+    "minlon": 10.4127726,
+    "maxlat": 57.5826998,
+    "maxlon": 10.4127751
+  },
+  "nodes": [
+    9421991617,
+    9421991618
+  ],
+  "geometry": [
+    { "lat": 57.5825783, "lon": 10.4127726 },
+    { "lat": 57.5826998, "lon": 10.4127751 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "cycleway",
+    "layer": "1",
+    "lit": "no",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1021575791,
+  "bounds": {
+    "minlat": 57.5825793,
+    "minlon": 10.4126848,
+    "maxlat": 57.5827008,
+    "maxlon": 10.4126885
+  },
+  "nodes": [
+    9421991619,
+    9421968116
+  ],
+  "geometry": [
+    { "lat": 57.5827008, "lon": 10.4126885 },
+    { "lat": 57.5825793, "lon": 10.4126848 }
+  ],
+  "tags": {
+    "bicycle": "use_sidepath",
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "lit": "no",
+    "maxspeed": "60",
+    "name": "Jerupvej",
+    "name:etymology:wikidata": "Q1003383",
+    "operator": "Vejdirektoratet",
+    "ref": "40",
+    "source:maxspeed": "sign",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1021575793,
+  "bounds": {
+    "minlat": 57.5825805,
+    "minlon": 10.4125837,
+    "maxlat": 57.5827020,
+    "maxlon": 10.4125864
+  },
+  "nodes": [
+    9421991620,
+    9421968115
+  ],
+  "geometry": [
+    { "lat": 57.5827020, "lon": 10.4125864 },
+    { "lat": 57.5825805, "lon": 10.4125837 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "bridge": "yes",
+    "covered": "no",
+    "highway": "cycleway",
+    "layer": "1",
+    "lit": "no",
+    "oneway": "yes",
+    "smoothness": "good",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1036639877,
+  "bounds": {
+    "minlat": 57.7151752,
+    "minlon": 10.5859677,
+    "maxlat": 57.7161774,
+    "maxlon": 10.5887183
+  },
+  "nodes": [
+    9550397507,
+    9550438872,
+    9550438871,
+    9550438870,
+    9550438869,
+    9550438868,
+    9550438867,
+    9550438863,
+    9550438862,
+    9550438859,
+    9550438858,
+    9550438857,
+    9550438856,
+    9550438855,
+    9550438854,
+    9550438849,
+    9550438848,
+    9550438847,
+    9550438846,
+    9550438836,
+    9550438835,
+    9550438834,
+    9550438833,
+    9550438832,
+    9550438831,
+    11164899999,
+    9550397507
+  ],
+  "geometry": [
+    { "lat": 57.7155901, "lon": 10.5887183 },
+    { "lat": 57.7156750, "lon": 10.5884931 },
+    { "lat": 57.7156691, "lon": 10.5883362 },
+    { "lat": 57.7156912, "lon": 10.5882876 },
+    { "lat": 57.7157115, "lon": 10.5883254 },
+    { "lat": 57.7157427, "lon": 10.5882545 },
+    { "lat": 57.7157623, "lon": 10.5882820 },
+    { "lat": 57.7158291, "lon": 10.5881149 },
+    { "lat": 57.7158406, "lon": 10.5880989 },
+    { "lat": 57.7159244, "lon": 10.5878985 },
+    { "lat": 57.7159275, "lon": 10.5878848 },
+    { "lat": 57.7159291, "lon": 10.5878671 },
+    { "lat": 57.7159312, "lon": 10.5878613 },
+    { "lat": 57.7159384, "lon": 10.5878556 },
+    { "lat": 57.7159446, "lon": 10.5878525 },
+    { "lat": 57.7161450, "lon": 10.5873790 },
+    { "lat": 57.7161774, "lon": 10.5873003 },
+    { "lat": 57.7161571, "lon": 10.5872517 },
+    { "lat": 57.7161427, "lon": 10.5872175 },
+    { "lat": 57.7156141, "lon": 10.5859677 },
+    { "lat": 57.7154605, "lon": 10.5861932 },
+    { "lat": 57.7152315, "lon": 10.5865275 },
+    { "lat": 57.7152140, "lon": 10.5865532 },
+    { "lat": 57.7152117, "lon": 10.5865566 },
+    { "lat": 57.7152021, "lon": 10.5865339 },
+    { "lat": 57.7151752, "lon": 10.5865743 },
+    { "lat": 57.7155901, "lon": 10.5887183 }
+  ],
+  "tags": {
+    "leisure": "marina",
+    "name": "Skagen Baadelaug",
+    "seamark:harbour:category": "marina",
+    "seamark:type": "harbour"
+  }
+},
+{
+  "type": "way",
+  "id": 1047622627,
+  "bounds": {
+    "minlat": 57.5919733,
+    "minlon": 10.4291140,
+    "maxlat": 57.5919734,
+    "maxlon": 10.4293969
+  },
+  "nodes": [
+    9633314517,
+    9633302416
+  ],
+  "geometry": [
+    { "lat": 57.5919734, "lon": 10.4293969 },
+    { "lat": 57.5919733, "lon": 10.4291140 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 1047622628,
+  "bounds": {
+    "minlat": 57.5919068,
+    "minlon": 10.4290663,
+    "maxlat": 57.5919094,
+    "maxlon": 10.4294015
+  },
+  "nodes": [
+    9633314519,
+    9633314518
+  ],
+  "geometry": [
+    { "lat": 57.5919094, "lon": 10.4294015 },
+    { "lat": 57.5919068, "lon": 10.4290663 }
+  ],
+  "tags": {
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 1072935759,
+  "bounds": {
+    "minlat": 57.7206010,
+    "minlon": 10.5943813,
+    "maxlat": 57.7207327,
+    "maxlon": 10.5947109
+  },
+  "nodes": [
+    9843368561,
+    9843368560,
+    9843368559,
+    9843368558,
+    9843368561
+  ],
+  "geometry": [
+    { "lat": 57.7206984, "lon": 10.5947109 },
+    { "lat": 57.7206010, "lon": 10.5944218 },
+    { "lat": 57.7206353, "lon": 10.5943813 },
+    { "lat": 57.7207327, "lon": 10.5946703 },
+    { "lat": 57.7206984, "lon": 10.5947109 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "private",
+    "operator": "Skawpilot"
+  }
+},
+{
+  "type": "way",
+  "id": 1077690963,
+  "bounds": {
+    "minlat": 57.7139679,
+    "minlon": 10.5439413,
+    "maxlat": 57.7139814,
+    "maxlon": 10.5441159
+  },
+  "nodes": [
+    14054874368,
+    14054874369
+  ],
+  "geometry": [
+    { "lat": 57.7139679, "lon": 10.5441159 },
+    { "lat": 57.7139814, "lon": 10.5439413 }
+  ],
+  "tags": {
+    "bridge": "boardwalk",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no",
+    "smoothness": "intermediate",
+    "surface": "compacted"
+  }
+},
+{
+  "type": "way",
+  "id": 1118926921,
+  "bounds": {
+    "minlat": 57.7247992,
+    "minlon": 10.5828098,
+    "maxlat": 57.7250054,
+    "maxlon": 10.5830466
+  },
+  "nodes": [
+    10233250360,
+    10233250357,
+    10233250358,
+    10233250359,
+    10233250360
+  ],
+  "geometry": [
+    { "lat": 57.7247992, "lon": 10.5830258 },
+    { "lat": 57.7248056, "lon": 10.5828098 },
+    { "lat": 57.7250054, "lon": 10.5828306 },
+    { "lat": 57.7249990, "lon": 10.5830466 },
+    { "lat": 57.7247992, "lon": 10.5830258 }
+  ],
+  "tags": {
+    "layer": "1",
+    "man_made": "bridge"
+  }
+},
+{
+  "type": "way",
+  "id": 1148190301,
+  "bounds": {
+    "minlat": 57.7181257,
+    "minlon": 10.5885632,
+    "maxlat": 57.7182753,
+    "maxlon": 10.5888130
+  },
+  "nodes": [
+    10683006212,
+    8523173119,
+    8523173118,
+    10683006213,
+    10683006209,
+    10683006212
+  ],
+  "geometry": [
+    { "lat": 57.7182753, "lon": 10.5887843 },
+    { "lat": 57.7181389, "lon": 10.5885632 },
+    { "lat": 57.7181257, "lon": 10.5885901 },
+    { "lat": 57.7182636, "lon": 10.5888130 },
+    { "lat": 57.7182692, "lon": 10.5887992 },
+    { "lat": 57.7182753, "lon": 10.5887843 }
+  ],
+  "tags": {
+    "area": "yes",
+    "floating": "yes",
+    "man_made": "pier",
+    "mooring": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1204655714,
+  "bounds": {
+    "minlat": 57.7148380,
+    "minlon": 10.5865743,
+    "maxlat": 57.7155901,
+    "maxlon": 10.5894403
+  },
+  "nodes": [
+    11164899999,
+    9550438830,
+    9550438829,
+    9550438828,
+    9550438821,
+    9550438820,
+    9550438819,
+    9550438818,
+    9550438817,
+    9550397516,
+    9550397515,
+    9550397514,
+    9550397513,
+    9550397512,
+    9550397508,
+    9550397507,
+    11164899999
+  ],
+  "geometry": [
+    { "lat": 57.7151752, "lon": 10.5865743 },
+    { "lat": 57.7149939, "lon": 10.5868463 },
+    { "lat": 57.7150015, "lon": 10.5868647 },
+    { "lat": 57.7148380, "lon": 10.5871030 },
+    { "lat": 57.7152436, "lon": 10.5894403 },
+    { "lat": 57.7154042, "lon": 10.5894287 },
+    { "lat": 57.7154370, "lon": 10.5894239 },
+    { "lat": 57.7154876, "lon": 10.5892032 },
+    { "lat": 57.7155155, "lon": 10.5890651 },
+    { "lat": 57.7155311, "lon": 10.5889812 },
+    { "lat": 57.7155318, "lon": 10.5889540 },
+    { "lat": 57.7155292, "lon": 10.5889354 },
+    { "lat": 57.7155217, "lon": 10.5889070 },
+    { "lat": 57.7155102, "lon": 10.5888770 },
+    { "lat": 57.7155144, "lon": 10.5887848 },
+    { "lat": 57.7155901, "lon": 10.5887183 },
+    { "lat": 57.7151752, "lon": 10.5865743 }
+  ],
+  "tags": {
+    "leisure": "marina",
+    "name": "Skagen Sejlklub",
+    "seamark:harbour:category": "marina",
+    "seamark:type": "harbour",
+    "website": "https://skagensejlklub.dk/"
+  }
+},
+{
+  "type": "way",
+  "id": 1219443919,
+  "bounds": {
+    "minlat": 57.7250334,
+    "minlon": 10.5202951,
+    "maxlat": 57.7251702,
+    "maxlon": 10.5205661
+  },
+  "nodes": [
+    316428068,
+    11299202044,
+    11299202045,
+    316428068
+  ],
+  "geometry": [
+    { "lat": 57.7250334, "lon": 10.5202951 },
+    { "lat": 57.7250592, "lon": 10.5205661 },
+    { "lat": 57.7251702, "lon": 10.5203890 },
+    { "lat": 57.7250334, "lon": 10.5202951 }
+  ],
+  "tags": {
+    "alt_name": "Gammel Skagen Båke",
+    "loc_name": "Sømærket",
+    "man_made": "beacon",
+    "name": "Sømærket i Gl. Skagen",
+    "official_name": "Gl. Skagen Båke",
+    "seamark:name": "Højen",
+    "seamark:pile:category": "tripodal",
+    "seamark:type": "pile",
+    "tourism": "attraction",
+    "viewpoint": "yes",
+    "wikimedia_commons": "File:Gammel Skagen Båke.jpg"
+  }
+},
+{
+  "type": "way",
+  "id": 1286487229,
+  "bounds": {
+    "minlat": 57.6602106,
+    "minlon": 10.4711842,
+    "maxlat": 57.6602204,
+    "maxlon": 10.4712753
+  },
+  "nodes": [
+    11932383450,
+    11932383449
+  ],
+  "geometry": [
+    { "lat": 57.6602106, "lon": 10.4712753 },
+    { "lat": 57.6602204, "lon": 10.4711842 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "grass"
+  }
+},
+{
+  "type": "way",
+  "id": 1286498821,
+  "bounds": {
+    "minlat": 57.6600397,
+    "minlon": 10.4736128,
+    "maxlat": 57.6600893,
+    "maxlon": 10.4736190
+  },
+  "nodes": [
+    11932443567,
+    11932443566
+  ],
+  "geometry": [
+    { "lat": 57.6600893, "lon": 10.4736190 },
+    { "lat": 57.6600397, "lon": 10.4736128 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "grass"
+  }
+},
+{
+  "type": "way",
+  "id": 1286498825,
+  "bounds": {
+    "minlat": 57.6607200,
+    "minlon": 10.4711725,
+    "maxlat": 57.6607216,
+    "maxlon": 10.4712649
+  },
+  "nodes": [
+    11932472787,
+    11932472786
+  ],
+  "geometry": [
+    { "lat": 57.6607200, "lon": 10.4712649 },
+    { "lat": 57.6607216, "lon": 10.4711725 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "grass"
+  }
+},
+{
+  "type": "way",
+  "id": 1286498834,
+  "bounds": {
+    "minlat": 57.6600005,
+    "minlon": 10.4710042,
+    "maxlat": 57.6600486,
+    "maxlon": 10.4710287
+  },
+  "nodes": [
+    11932472830,
+    11932472829
+  ],
+  "geometry": [
+    { "lat": 57.6600486, "lon": 10.4710287 },
+    { "lat": 57.6600005, "lon": 10.4710042 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "ground"
+  }
+},
+{
+  "type": "way",
+  "id": 1286499153,
+  "bounds": {
+    "minlat": 57.6601469,
+    "minlon": 10.4759116,
+    "maxlat": 57.6601960,
+    "maxlon": 10.4759244
+  },
+  "nodes": [
+    11932475787,
+    11932475786
+  ],
+  "geometry": [
+    { "lat": 57.6601960, "lon": 10.4759116 },
+    { "lat": 57.6601469, "lon": 10.4759244 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "surface": "grass"
+  }
+},
+{
+  "type": "way",
+  "id": 1426340537,
+  "bounds": {
+    "minlat": 57.7407395,
+    "minlon": 10.6081494,
+    "maxlat": 57.7407935,
+    "maxlon": 10.6081581
+  },
+  "nodes": [
+    13111706451,
+    13111706452
+  ],
+  "geometry": [
+    { "lat": 57.7407935, "lon": 10.6081581 },
+    { "lat": 57.7407395, "lon": 10.6081494 }
+  ],
+  "tags": {
+    "floating": "no",
+    "man_made": "pier",
+    "surface": "wood"
+  }
+},
+{
+  "type": "way",
+  "id": 1436168633,
+  "bounds": {
+    "minlat": 57.7130748,
+    "minlon": 10.5418406,
+    "maxlat": 57.7131058,
+    "maxlon": 10.5419128
+  },
+  "nodes": [
+    13200633424,
+    13200633423
+  ],
+  "geometry": [
+    { "lat": 57.7131058, "lon": 10.5419128 },
+    { "lat": 57.7130748, "lon": 10.5418406 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1",
+    "lit": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1450283661,
+  "bounds": {
+    "minlat": 57.6143759,
+    "minlon": 10.4201937,
+    "maxlat": 57.6144468,
+    "maxlon": 10.4202461
+  },
+  "nodes": [
+    13301640144,
+    13301640143
+  ],
+  "geometry": [
+    { "lat": 57.6144468, "lon": 10.4201937 },
+    { "lat": 57.6143759, "lon": 10.4202461 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1460976036,
+  "bounds": {
+    "minlat": 57.7197640,
+    "minlon": 10.5900833,
+    "maxlat": 57.7199475,
+    "maxlon": 10.5908734
+  },
+  "nodes": [
+    13399619330,
+    13399619331,
+    13399619332,
+    13399619333,
+    13399619330
+  ],
+  "geometry": [
+    { "lat": 57.7199475, "lon": 10.5900833 },
+    { "lat": 57.7199323, "lon": 10.5908103 },
+    { "lat": 57.7198758, "lon": 10.5908734 },
+    { "lat": 57.7197640, "lon": 10.5902381 },
+    { "lat": 57.7199475, "lon": 10.5900833 }
+  ],
+  "tags": {
+    "bridge": "covered",
+    "layer": "1",
+    "man_made": "bridge"
+  }
+},
+{
+  "type": "way",
+  "id": 1516019047,
+  "bounds": {
+    "minlat": 57.7195718,
+    "minlon": 10.5909725,
+    "maxlat": 57.7198145,
+    "maxlon": 10.5912428
+  },
+  "nodes": [
+    13843518054,
+    13843518053
+  ],
+  "geometry": [
+    { "lat": 57.7198145, "lon": 10.5909725 },
+    { "lat": 57.7195718, "lon": 10.5912428 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "private"
+  }
+},
+{
+  "type": "way",
+  "id": 1516019048,
+  "bounds": {
+    "minlat": 57.7196477,
+    "minlon": 10.5911945,
+    "maxlat": 57.7198850,
+    "maxlon": 10.5914627
+  },
+  "nodes": [
+    13843518056,
+    13843518055
+  ],
+  "geometry": [
+    { "lat": 57.7198850, "lon": 10.5911945 },
+    { "lat": 57.7196477, "lon": 10.5914627 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "private"
+  }
+},
+{
+  "type": "way",
+  "id": 1516019049,
+  "bounds": {
+    "minlat": 57.7197881,
+    "minlon": 10.5914717,
+    "maxlat": 57.7199696,
+    "maxlon": 10.5916746
+  },
+  "nodes": [
+    13843518058,
+    13843518057
+  ],
+  "geometry": [
+    { "lat": 57.7199696, "lon": 10.5914717 },
+    { "lat": 57.7197881, "lon": 10.5916746 }
+  ],
+  "tags": {
+    "man_made": "pier",
+    "mooring": "private"
+  }
+},
+{
+  "type": "way",
+  "id": 1554536519,
+  "bounds": {
+    "minlat": 57.7161386,
+    "minlon": 10.5928587,
+    "maxlat": 57.7166504,
+    "maxlon": 10.5950421
+  },
+  "nodes": [
+    14142619966,
+    14142619967,
+    14142619968,
+    14142619969,
+    14142619970,
+    14142619971,
+    22834678,
+    1116055064,
+    14142619972,
+    14142619973,
+    14142619974,
+    1116055112,
+    14142619966
+  ],
+  "geometry": [
+    { "lat": 57.7161751, "lon": 10.5928587 },
+    { "lat": 57.7164694, "lon": 10.5933072 },
+    { "lat": 57.7166254, "lon": 10.5934758 },
+    { "lat": 57.7166504, "lon": 10.5934827 },
+    { "lat": 57.7166319, "lon": 10.5943397 },
+    { "lat": 57.7166105, "lon": 10.5950072 },
+    { "lat": 57.7165735, "lon": 10.5950421 },
+    { "lat": 57.7165943, "lon": 10.5938002 },
+    { "lat": 57.7165502, "lon": 10.5936218 },
+    { "lat": 57.7164016, "lon": 10.5934149 },
+    { "lat": 57.7162271, "lon": 10.5931246 },
+    { "lat": 57.7161386, "lon": 10.5928762 },
+    { "lat": 57.7161751, "lon": 10.5928587 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 1554536520,
+  "bounds": {
+    "minlat": 57.7162576,
+    "minlon": 10.5928129,
+    "maxlat": 57.7180797,
+    "maxlon": 10.5936688
+  },
+  "nodes": [
+    14142619975,
+    14142619976,
+    14142619977,
+    14142619978,
+    14142619979,
+    14142619980,
+    14142619981,
+    14142619982,
+    14142619983,
+    14142619984,
+    14142619985,
+    14142619986,
+    14142619987,
+    14142619988,
+    14142619989,
+    14142619990,
+    14142619991,
+    14142619992,
+    14142619993,
+    14142619994,
+    14142619995,
+    14142619996,
+    14142619997,
+    14142619998,
+    14142619975
+  ],
+  "geometry": [
+    { "lat": 57.7179495, "lon": 10.5928362 },
+    { "lat": 57.7179675, "lon": 10.5928129 },
+    { "lat": 57.7180797, "lon": 10.5930913 },
+    { "lat": 57.7180329, "lon": 10.5932370 },
+    { "lat": 57.7180410, "lon": 10.5932885 },
+    { "lat": 57.7178050, "lon": 10.5934517 },
+    { "lat": 57.7176214, "lon": 10.5935666 },
+    { "lat": 57.7173908, "lon": 10.5936522 },
+    { "lat": 57.7171664, "lon": 10.5936688 },
+    { "lat": 57.7169201, "lon": 10.5936050 },
+    { "lat": 57.7167700, "lon": 10.5935322 },
+    { "lat": 57.7165005, "lon": 10.5932818 },
+    { "lat": 57.7163538, "lon": 10.5930800 },
+    { "lat": 57.7162665, "lon": 10.5929318 },
+    { "lat": 57.7162576, "lon": 10.5928960 },
+    { "lat": 57.7162917, "lon": 10.5928973 },
+    { "lat": 57.7165680, "lon": 10.5932703 },
+    { "lat": 57.7168778, "lon": 10.5934977 },
+    { "lat": 57.7172537, "lon": 10.5935807 },
+    { "lat": 57.7175757, "lon": 10.5934900 },
+    { "lat": 57.7178759, "lon": 10.5932716 },
+    { "lat": 57.7179598, "lon": 10.5930978 },
+    { "lat": 57.7179673, "lon": 10.5929752 },
+    { "lat": 57.7179469, "lon": 10.5928743 },
+    { "lat": 57.7179495, "lon": 10.5928362 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+},
+{
+  "type": "way",
+  "id": 1554536521,
+  "bounds": {
+    "minlat": 57.7180139,
+    "minlon": 10.5925508,
+    "maxlat": 57.7184336,
+    "maxlon": 10.5931329
+  },
+  "nodes": [
+    14142630214,
+    14142630215,
+    14142630216,
+    14142630217,
+    14142630218,
+    14142630219,
+    14142630220,
+    14142630221,
+    14142630222,
+    14142630223,
+    14142630224,
+    14142630225,
+    14142630226,
+    14142630227,
+    14142630228,
+    14142630229,
+    14142630230,
+    14142630231,
+    14142630232,
+    14142630233,
+    14142630234,
+    14142630235,
+    14142630236,
+    14142630237,
+    14142630238,
+    14142630239,
+    14142630240,
+    14142630241,
+    14142630242,
+    14142630243,
+    14142630244,
+    14142630245,
+    14142630246,
+    14142630247,
+    14142630248,
+    14142630249,
+    14142630250,
+    14142630251,
+    14142630252,
+    14142630253,
+    14142630254,
+    14142630255,
+    14142630256,
+    14142630257,
+    14142630258,
+    14142630259,
+    14142630260,
+    14142630261,
+    14142630262,
+    14142630263,
+    14142630264,
+    14142630265,
+    14142630266,
+    14142630267,
+    14142630268,
+    14142630269,
+    14142619999,
+    14142620000,
+    14142630201,
+    14142630202,
+    14142630203,
+    14142630204,
+    14142630205,
+    14142630206,
+    14142630207,
+    14142630208,
+    14142630209,
+    14142630210,
+    14142630211,
+    14142630212,
+    14142630213,
+    14142630214
+  ],
+  "geometry": [
+    { "lat": 57.7180513, "lon": 10.5927107 },
+    { "lat": 57.7180143, "lon": 10.5926653 },
+    { "lat": 57.7180139, "lon": 10.5927076 },
+    { "lat": 57.7180328, "lon": 10.5927269 },
+    { "lat": 57.7180232, "lon": 10.5927407 },
+    { "lat": 57.7180263, "lon": 10.5927482 },
+    { "lat": 57.7180370, "lon": 10.5927327 },
+    { "lat": 57.7180537, "lon": 10.5927732 },
+    { "lat": 57.7180393, "lon": 10.5927942 },
+    { "lat": 57.7180423, "lon": 10.5928014 },
+    { "lat": 57.7180565, "lon": 10.5927809 },
+    { "lat": 57.7180763, "lon": 10.5928291 },
+    { "lat": 57.7180610, "lon": 10.5928513 },
+    { "lat": 57.7180635, "lon": 10.5928574 },
+    { "lat": 57.7180799, "lon": 10.5928338 },
+    { "lat": 57.7180983, "lon": 10.5928784 },
+    { "lat": 57.7180800, "lon": 10.5929049 },
+    { "lat": 57.7180833, "lon": 10.5929129 },
+    { "lat": 57.7181006, "lon": 10.5928878 },
+    { "lat": 57.7181192, "lon": 10.5929328 },
+    { "lat": 57.7181006, "lon": 10.5929596 },
+    { "lat": 57.7181047, "lon": 10.5929694 },
+    { "lat": 57.7181216, "lon": 10.5929450 },
+    { "lat": 57.7181404, "lon": 10.5929906 },
+    { "lat": 57.7181208, "lon": 10.5930188 },
+    { "lat": 57.7181241, "lon": 10.5930268 },
+    { "lat": 57.7181442, "lon": 10.5929978 },
+    { "lat": 57.7181633, "lon": 10.5930441 },
+    { "lat": 57.7181420, "lon": 10.5930750 },
+    { "lat": 57.7181452, "lon": 10.5930829 },
+    { "lat": 57.7181665, "lon": 10.5930521 },
+    { "lat": 57.7181998, "lon": 10.5931329 },
+    { "lat": 57.7182206, "lon": 10.5931197 },
+    { "lat": 57.7181899, "lon": 10.5930467 },
+    { "lat": 57.7182167, "lon": 10.5930277 },
+    { "lat": 57.7182334, "lon": 10.5931069 },
+    { "lat": 57.7182395, "lon": 10.5931024 },
+    { "lat": 57.7182231, "lon": 10.5930247 },
+    { "lat": 57.7182488, "lon": 10.5930056 },
+    { "lat": 57.7182648, "lon": 10.5930812 },
+    { "lat": 57.7182712, "lon": 10.5930765 },
+    { "lat": 57.7182554, "lon": 10.5930019 },
+    { "lat": 57.7182803, "lon": 10.5929835 },
+    { "lat": 57.7182960, "lon": 10.5930578 },
+    { "lat": 57.7183040, "lon": 10.5930519 },
+    { "lat": 57.7182884, "lon": 10.5929780 },
+    { "lat": 57.7183118, "lon": 10.5929607 },
+    { "lat": 57.7183283, "lon": 10.5930389 },
+    { "lat": 57.7183363, "lon": 10.5930330 },
+    { "lat": 57.7183198, "lon": 10.5929552 },
+    { "lat": 57.7183434, "lon": 10.5929377 },
+    { "lat": 57.7183597, "lon": 10.5930150 },
+    { "lat": 57.7183672, "lon": 10.5930094 },
+    { "lat": 57.7183509, "lon": 10.5929325 },
+    { "lat": 57.7183778, "lon": 10.5929126 },
+    { "lat": 57.7183957, "lon": 10.5929973 },
+    { "lat": 57.7184336, "lon": 10.5929692 },
+    { "lat": 57.7184109, "lon": 10.5928617 },
+    { "lat": 57.7183754, "lon": 10.5928879 },
+    { "lat": 57.7183042, "lon": 10.5925508 },
+    { "lat": 57.7182938, "lon": 10.5925585 },
+    { "lat": 57.7183644, "lon": 10.5928924 },
+    { "lat": 57.7183162, "lon": 10.5929281 },
+    { "lat": 57.7182543, "lon": 10.5926351 },
+    { "lat": 57.7182348, "lon": 10.5926495 },
+    { "lat": 57.7182967, "lon": 10.5929421 },
+    { "lat": 57.7182486, "lon": 10.5929777 },
+    { "lat": 57.7182008, "lon": 10.5927519 },
+    { "lat": 57.7181921, "lon": 10.5927584 },
+    { "lat": 57.7182394, "lon": 10.5929822 },
+    { "lat": 57.7181812, "lon": 10.5930262 },
+    { "lat": 57.7180513, "lon": 10.5927107 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier"
+  }
+},
+{
+  "type": "way",
+  "id": 1554536698,
+  "bounds": {
+    "minlat": 57.7187890,
+    "minlon": 10.5917647,
+    "maxlat": 57.7189364,
+    "maxlon": 10.5921702
+  },
+  "nodes": [
+    14142623282,
+    14142623283,
+    14142623284,
+    14142623285,
+    14142623282
+  ],
+  "geometry": [
+    { "lat": 57.7189364, "lon": 10.5921336 },
+    { "lat": 57.7188176, "lon": 10.5917647 },
+    { "lat": 57.7187890, "lon": 10.5917966 },
+    { "lat": 57.7189084, "lon": 10.5921702 },
+    { "lat": 57.7189364, "lon": 10.5921336 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier",
+    "mooring": "commercial"
+  }
+},
+{
+  "type": "way",
+  "id": 1554536699,
+  "bounds": {
+    "minlat": 57.7186161,
+    "minlon": 10.5924143,
+    "maxlat": 57.7188367,
+    "maxlon": 10.5926021
+  },
+  "nodes": [
+    14142623286,
+    14142623287,
+    14142623288,
+    14142623289,
+    14142623286
+  ],
+  "geometry": [
+    { "lat": 57.7188367, "lon": 10.5924502 },
+    { "lat": 57.7188293, "lon": 10.5924143 },
+    { "lat": 57.7186161, "lon": 10.5925645 },
+    { "lat": 57.7186256, "lon": 10.5926021 },
+    { "lat": 57.7188367, "lon": 10.5924502 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "pier",
+    "mooring": "commercial"
+  }
+},
+{
+  "type": "way",
+  "id": 1554536700,
+  "bounds": {
+    "minlat": 57.7187956,
+    "minlon": 10.5921890,
+    "maxlat": 57.7189399,
+    "maxlon": 10.5924181
+  },
+  "nodes": [
+    14142623290,
+    14142623291,
+    14142623292,
+    14142623293,
+    14142623294,
+    14142623295,
+    14142623290
+  ],
+  "geometry": [
+    { "lat": 57.7189119, "lon": 10.5921890 },
+    { "lat": 57.7189399, "lon": 10.5922575 },
+    { "lat": 57.7188276, "lon": 10.5923364 },
+    { "lat": 57.7188437, "lon": 10.5924087 },
+    { "lat": 57.7188106, "lon": 10.5924181 },
+    { "lat": 57.7187956, "lon": 10.5923064 },
+    { "lat": 57.7189119, "lon": 10.5921890 }
+  ],
+  "tags": {
+    "area": "yes",
+    "man_made": "breakwater"
+  }
+}
+
+  ]
+}

@@ -13,6 +13,20 @@ REGIONS = {
 }
 LIVE_AOI = REGIONS["mumbai"]
 
+# Training areas for the ship/not-ship CNN: Danish straits fully covered by Sentinel-1 on days we hold AIS for.
+# The Oresund ("denmark") is deliberately NOT here: it is the held-out test area.
+TRAIN_AREAS = {
+    "greatbelt": (10.85, 55.20, 11.25, 55.50),
+    "littlebelt": (9.65, 55.45, 10.05, 55.75),
+    "fehmarn": (11.05, 54.45, 11.45, 54.75),
+    "kattegat": (11.30, 56.55, 11.70, 56.85),
+    "skagen": (10.40, 57.55, 10.80, 57.85),
+    # offshore wind farms: the first model mistook turbines for ships (87% on the test set), so it needs more examples
+    "rodsand": (11.40, 54.45, 11.80, 54.65),     # Nysted + Rodsand II wind farms
+    "anholt": (11.05, 56.50, 11.40, 56.75),      # Anholt wind farm
+}
+ALL_AREAS = {**REGIONS, **TRAIN_AREAS}
+
 # Fixed structures to ignore (lon, lat). PLACEHOLDERS: replace with real platform/buoy positions.
 FIXED_STRUCTURES = [(72.52, 18.93), (72.58, 19.04)]
 STRUCTURE_RADIUS_M = 150.0       # around point structures: platforms, buoys, beacons
@@ -31,6 +45,7 @@ LAND_BUFFER_PX = 3
 MIN_SCORE = 0.60
 MIN_LENGTH_M = 40.0        # smaller ships are not reliably visible; stated limit of the system
 MIN_SHORE_KM = 0.5
+CNN_THRESHOLD = 0.5        # ShipCNN P(ship) below this filters an unmatched target as "not a ship"
 # An untracked target in the same place on another pass is probably fixed (unmapped structure, mooring, permanently
 # anchored hulk), not a ship going dark. Radius allows for geolocation error between passes (~150 m) plus swinging.
 REPEAT_RADIUS_M = 600.0

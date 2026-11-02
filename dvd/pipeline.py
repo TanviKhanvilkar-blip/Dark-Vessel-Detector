@@ -31,9 +31,10 @@ def save_crop(image: np.ndarray, row: float, col: float, path: str, half: int = 
 
 
 def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detector: str = "cfar",
-             structures: Structures | None = None) -> tuple[dict, pd.DataFrame]:
+             structures: Structures | None = None, use_cnn: bool = False) -> tuple[dict, pd.DataFrame]:
     """Process one scene. AIS is read back from the database exactly as the live system would.
-    `structures` defaults to the points in config.FIXED_STRUCTURES."""
+    `structures` defaults to the points in config.FIXED_STRUCTURES. With `use_cnn`, ShipCNN scores every CFAR target
+    and unmatched targets it judges not to be ships are filtered (`cnn_not_ship`)."""
     t0, grid = scene.time, scene.grid
     structures = structures or Structures.load(None, C.FIXED_STRUCTURES)
     det = detect_scene(scene.image, scene.land, grid, detector)
@@ -52,13 +53,25 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
     pairs = {int(eligible[k]): v for k, v in sub_pairs.items()}
     near_struct = structures.near(det["lon"].values, det["lat"].values) if len(det) else []
 
-    # candidates from other passes in this database: a target that recurs at the same spot is probably fixed
+    # unmatched targets from other passes in this database (candidates, or ones the CNN rejected): a target that
+    # recurs at the same spot is probably fixed, whatever the verdict on the other day was
     try:
-        others = pd.read_sql("SELECT lon, lat FROM detections WHERE status='candidate' AND pass_id != ? "
+        others = pd.read_sql("SELECT lon, lat FROM detections WHERE (status='candidate' OR reason='cnn_not_ship') AND pass_id != ? "
                              "AND lon BETWEEN ? AND ? AND lat BETWEEN ? AND ?", store_con,
                              params=(pass_id, bbox[0], bbox[2], bbox[1], bbox[3]))
     except Exception:
         others = pd.DataFrame(columns=["lon", "lat"])
+
+    det["ship_prob"] = np.nan
+    cnn_thr = C.CNN_THRESHOLD
+    if use_cnn and len(det):
+        from . import cnn
+        model = cnn.load()
+        if model is None:
+            raise FileNotFoundError(f"no trained model at {cnn.MODEL_PATH}; run `python -m dvd train-cnn` first")
+        chips = np.stack([cnn.extract_chip(scene, r, c) for r, c in zip(det.row, det.col)])
+        det["ship_prob"] = cnn.predict(model, chips)
+        cnn_thr = cnn.threshold()
 
     def recurring(lon, lat) -> bool:
         return len(others) > 0 and bool((haversine_m(lon, lat, others.lon.values, others.lat.values) < C.REPEAT_RADIUS_M).any())
@@ -78,6 +91,8 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
             s, r, c = "filtered", "fixed_structure", "n/a"
         elif d.shore_km < C.MIN_SHORE_KM:
             s, r, c = "filtered", "too_close_to_shore", "n/a"
+        elif use_cnn and d.ship_prob < cnn_thr:
+            s, r, c = "filtered", "cnn_not_ship", "n/a"
         else:
             # Unmatched. Only trust "dark" where a ground receiver could plausibly have heard the ship
             # and the AIS feed was healthy; otherwise it is merely "not publicly tracked".

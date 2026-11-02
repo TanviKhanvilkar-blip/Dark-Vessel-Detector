@@ -18,13 +18,17 @@ CREATE TABLE IF NOT EXISTS passes (
   ais_gap_s REAL, sea_state REAL);
 CREATE TABLE IF NOT EXISTS detections (
   pass_id TEXT, det_id INTEGER, lon REAL, lat REAL, length_m REAL, score REAL, shore_km REAL,
-  status TEXT, reason TEXT, confidence TEXT, crop TEXT);
+  status TEXT, reason TEXT, confidence TEXT, crop TEXT, ship_prob REAL);
 """
 
 
 def connect(path: str) -> sqlite3.Connection:
     con = sqlite3.connect(path)
     con.executescript(SCHEMA)
+    cols = {r[1] for r in con.execute("PRAGMA table_info(detections)")}
+    if "ship_prob" not in cols:     # added with the CNN; older databases get the column on first open
+        con.execute("ALTER TABLE detections ADD COLUMN ship_prob REAL")
+        con.commit()
     return con
 
 
@@ -63,6 +67,6 @@ def save_pass(con, summary: dict, detections: pd.DataFrame) -> None:
     con.execute("DELETE FROM passes WHERE pass_id=?", (summary["pass_id"],))
     con.execute("DELETE FROM detections WHERE pass_id=?", (summary["pass_id"],))
     pd.DataFrame([summary]).to_sql("passes", con, if_exists="append", index=False)
-    cols = ["pass_id", "det_id", "lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop"]
-    detections[cols].to_sql("detections", con, if_exists="append", index=False)
+    cols = ["pass_id", "det_id", "lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop", "ship_prob"]
+    detections.reindex(columns=cols)[cols].to_sql("detections", con, if_exists="append", index=False)
     con.commit()
