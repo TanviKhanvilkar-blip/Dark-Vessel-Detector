@@ -520,9 +520,11 @@ This system compares the two for each processed Sentinel-1 pass and lists the sh
 target is within receiver range, and it is not at a spot where something was also seen on another pass. Everything else is
 <b>low confidence</b>: the data cannot support calling it dark (for example Mumbai, where no AIS was available for the pass at all).</p>
 <h2>Pipeline</h2><div class="flow">{flow}</div>
-<p class="muted" style="font-size:13px"><b>What runs by itself and what does not.</b> The AIS recording and this website update automatically
-(the site is rebuilt on a schedule). Each satellite pass is processed with the pipeline commands (fetch the scene, run the pipeline);
-watching the catalogue for new passes and processing them automatically is the next step, not built yet.</p>
+<p class="muted" style="font-size:13px"><b>What runs by itself.</b> AIS is recorded continuously. Every 15 minutes the system checks the
+Sentinel-1 catalogue; any new pass that covers at least 80% of a sector and was taken while the recorder was running is downloaded,
+run through the whole pipeline including ShipCNN, and published here. Passes from before the recorder started were processed with the
+same pipeline using historical AIS. Next expected passes: Mumbai about 5 Nov 01:02 UTC, Oresund about 5 Nov 17:00 UTC
+(predicted from the 6-day repeat pattern).</p>
 <h2>Sectors</h2><div class="grid">{regions}</div>
 <h2>Read before trusting a flag</h2>
 <div class="alert"><b>"Not publicly tracked" is not "switched off".</b> Small boats often carry no public AIS, free AIS comes from coastal

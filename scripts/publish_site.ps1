@@ -1,10 +1,12 @@
-# Rebuilds the website from the databases and pushes it to GitHub Pages every 15 minutes. Stop with Ctrl+C.
-# Run from the project folder in its own terminal, next to the recorder:
+# Every 15 minutes: process any new Sentinel-1 pass over the sectors, rebuild the website, push it to GitHub Pages.
+# Stop with Ctrl+C. Run from the project folder in its own terminal, next to the recorder:
 #   powershell -ExecutionPolicy Bypass -File scripts\publish_site.ps1
 param([int]$Minutes = 15)
 
 while ($true) {
     $stamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm 'UTC'")
+    python -m dvd auto
+    if ($LASTEXITCODE -ne 0) { Write-Host "$stamp pass processing failed; will retry next round" }
     python -m dvd build-site
     if ($LASTEXITCODE -eq 0) {
         git add docs

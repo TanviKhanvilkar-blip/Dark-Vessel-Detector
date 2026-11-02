@@ -125,6 +125,10 @@ def main() -> None:
     area_args(k)
     i = sub.add_parser("fetch-infra", help="download bridges, piers, platforms and buoys from OpenStreetMap")
     area_args(i)
+    u = sub.add_parser("auto", help="process every new Sentinel-1 pass over the sectors (catalogue -> crop -> pipeline)")
+    u.add_argument("--days", type=float, default=3, help="how far back to look in the catalogue")
+    u.add_argument("--live", default="live.sqlite")
+    u.add_argument("--dry-run", action="store_true", help="only print what would be processed")
     n = sub.add_parser("train-cnn", help="build the AIS-labelled dataset, train ShipCNN and evaluate on the Oresund")
     n.add_argument("--rebuild", action="store_true", help="recreate the chip dataset from the scenes")
     n.add_argument("--epochs", type=int, default=60)
@@ -139,7 +143,11 @@ def main() -> None:
     area_args(m)
     a = p.parse_args()
 
-    if a.cmd == "train-cnn":
+    if a.cmd == "auto":
+        from .auto import sweep
+        done = sweep(a.live, days=a.days, dry_run=a.dry_run)
+        print(f"{len(done)} new pass(es) processed" if not a.dry_run else "dry run: nothing processed")
+    elif a.cmd == "train-cnn":
         from .train_cnn import main as train_main
         train_main(rebuild=a.rebuild, epochs=a.epochs)
     elif a.cmd == "fetch-scene":

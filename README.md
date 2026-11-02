@@ -132,6 +132,21 @@ boats moor (fixed: point structures only), it called 87% of wind turbines ships 
 and it judged the city around harbour targets instead of the target (fixed: land blanked in chips; ROC-AUC 0.88 -> 0.92).
 Remaining weakness: buoys and small navigation lights, and quay edges that the coastline does not count as land.
 
+## Automatic pass processing
+
+`python -m dvd auto` (run by `scripts/publish_site.ps1` every 15 minutes, before the site is rebuilt) asks Planetary Computer for
+Sentinel-1 scenes over each sector from the last 3 days and processes a scene when it covers >= 80% of the sector, was taken while
+the AIS recorder was running, is at least 35 min old (AIS must exist up to 30 min after the image) and is not in the sector's
+results database yet. Processing = download the sector crop, copy the AIS and feed gaps around the image time from `live.sqlite`
+into the sector's results database (`mumbai_results.sqlite`, `denmark_hist.sqlite`), run the pipeline with ShipCNN.
+`python -m dvd auto --dry-run` prints the decision for every scene without processing anything.
+
+Rehearsed end to end on 26 and 27 Oct (historical Danish AIS standing in for the recording): 25 matched / 0 candidates and
+27 matched / 2 low-confidence, one more match each than the manual runs because the automatic path uses the catalogue's exact
+image-centre time rather than the slice start time in the file name; a second sweep skipped both as already processed.
+A failed download is logged and retried next sweep instead of stopping it (a storage timeout in the first rehearsal exposed this).
+Next passes covering the sectors (predicted from the 6-day repeat): Mumbai ~5 Nov 01:02 UTC, Oresund ~5 Nov 17:00 UTC.
+
 ## Recording AIS for a pass
 
 aisstream has no history, so AIS must be recorded *while* the satellite passes.

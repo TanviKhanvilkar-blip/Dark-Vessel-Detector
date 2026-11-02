@@ -33,8 +33,10 @@ def fetch_scene(item_id: str, aoi, out_dir: str, pol: str = "vh", margin: int = 
     os.makedirs(out_dir, exist_ok=True)
 
     cal_href = assets[f"schema-calibration-{pol}"]["href"]
-    # Planetary Computer uses generic file names (iw-vh.tiff); name files after the scene so its time can be parsed
-    stem = f"{item_id.lower()}-{pol}"
+    # Planetary Computer uses generic file names (iw-vh.tiff); name files after the satellite and start time, which
+    # the pipeline parses, kept short so paths stay under Windows' 260-character limit
+    parts = item_id.split("_")
+    stem = f"{parts[0]}_{parts[4]}-{pol}".lower()
     xml_path = os.path.join(out_dir, f"calibration-{stem}.xml")
     r = requests.get(_signed(cal_href, token), timeout=120)
     r.raise_for_status()
