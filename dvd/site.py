@@ -352,24 +352,6 @@ def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "shi
                                          ("F1 score", "f1"), ("ROC-AUC", "roc_auc")])
     comp += "".join(row(n, k, "{:d}") for n, k in [("True positives (ships found)", "tp"), ("False positives", "fp"),
                                                   ("True negatives", "tn"), ("False negatives (ships missed)", "fn")])
-    tr = rep["training"]
-    dset = "".join(
-        f"<tr><td>{name}</td><td>{d.get('ship (AIS-matched)', 0)}</td><td>{d.get('fixed structure', 0)}</td><td>{d.get('open sea', 0)}</td>"
-        f"<td>{sum(d.values())}</td><td>{where}</td></tr>"
-        for name, d, where in [("Train", rep["data"]["train"], ", ".join(rep["data"]["train_areas"])),
-                               ("Validation", rep["data"]["validation"], "same areas, split by location"),
-                               ("Test", rep["data"]["test"], rep["data"]["test_area"])])
-    spec = "".join(f"<tr><td>{k}</td><td>{v}</td></tr>" for k, v in [
-        ("Framework", "PyTorch, trained from scratch"),
-        ("Input", "64 &times; 64 radar chip &middot; 10 m/px &middot; log10 backscatter / 2 &middot; land blanked"),
-        ("Output", "P(ship), sigmoid"),
-        ("Labels", "ship = AIS-matched target &middot; not ship = point structure (no AIS &lt; 300 m) or open sea"),
-        ("Loss", "binary cross-entropy, ship class weighted"),
-        ("Optimiser", tr["optimizer"]),
-        ("Batch / epochs", f"{tr['batch']} / {tr['epochs']} &middot; best epoch {tr['best_epoch']} (lowest validation loss)"),
-        ("Augmentation", tr["augmentation"]),
-        ("Receptive field", "38 &times; 38 px (&asymp; 380 m) after block 4"),
-        ("Operating threshold", f"{thr:g} &middot; keeps &ge; 90% of validation ships")])
     body = f"""<div class="coords">NEURAL NETWORK // SHIPCNN</div>
 <h1>ShipCNN</h1>
 <div class="grid">{readout("Weights", f"{rep['weights']:,}")}{readout("Layers with weights", 6)}
@@ -378,26 +360,9 @@ def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "shi
 <h2>Architecture</h2>
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr>{arch}</tbody></table></div>
-<h2>Specification</h2>
-<div class="tablewrap"><table><tbody>{spec}</tbody></table></div>
-<h2>Dataset</h2>
-<div class="tablewrap"><table><thead><tr><th>set</th><th>ships</th><th>fixed structures</th><th>open sea</th><th>total</th><th>areas</th></tr></thead>
-<tbody>{dset}</tbody></table></div>
-<h2>Training</h2>
-<img class="chart" src="training.png" alt="training and validation loss and accuracy per epoch">
 <h2>Test &middot; held-out Oresund</h2>
 <div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g}</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
 <tbody>{comp}</tbody></table></div>
-<h2>Targets accepted by CFAR</h2>
-<div class="tablewrap"><table><thead><tr><th></th><th>threshold {thr:g} (operating)</th><th>threshold 0.5</th></tr></thead><tbody>
-{"".join(f"<tr><td>{n}</td><td>{w[k] if isinstance(w[k], int) else f'{w[k]:.2f}'}</td><td>{w5[k] if isinstance(w5[k], int) else f'{w5[k]:.2f}'}</td></tr>"
-         for n, k in [("Targets CFAR accepts", "targets"), ("of which real ships (AIS)", "ships"), ("of which not ships", "non_ships"),
-                      ("Non-ships removed by ShipCNN", "non_ships_removed"), ("Real ships wrongly removed", "ships_lost"),
-                      ("Precision without the network", "precision_before"), ("Precision with the network", "precision_after")]
-         for w, w5 in [(rep["where_it_matters"], rep.get("where_it_matters_at_0_5", rep["where_it_matters"]))])}
-</tbody></table></div>
-<h2>Confusion matrices</h2>
-<img class="chart" src="confusion.png" alt="confusion matrices" style="max-width:760px">
 <h2>Test chips</h2>
 <img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px">"""
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
