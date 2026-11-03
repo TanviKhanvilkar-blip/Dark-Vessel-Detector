@@ -22,12 +22,15 @@ from . import config as C
 from .live import ais_status, recording_box
 
 TITLES = {"mumbai": "Mumbai coast and harbour, India", "denmark": "Oresund, Copenhagen (Denmark/Sweden)"}
-NOTES = {
-    "mumbai": "The project's target area. Sentinel-1 images it about once every 12 days, and free AIS comes only from "
-              "coastal receivers, so many unmatched ships here are simply out of receiver range.",
-    "denmark": "Validation area. Sentinel-1 images it almost daily and coastal AIS coverage is dense, so the full "
-               "match between radar and AIS can be shown and checked.",
-}
+REPORT = os.path.join("models", "ship_cnn_report.json")
+
+
+def cnn_threshold() -> float:
+    """ShipCNN's operating threshold from its training report (read directly: importing the model would load PyTorch)."""
+    try:
+        return float(json.load(open(REPORT))["threshold"])
+    except Exception:
+        return C.CNN_THRESHOLD
 
 
 def utc(t, fmt="%Y-%m-%d %H:%M UTC"):
@@ -242,8 +245,8 @@ def page(title: str, body: str, depth: int = 0, leaflet: bool = False, active: s
   <span class="pill">UPDATED <strong>{utc(time.time(), '%d %b %H:%M')}</strong></span></div>
 </div><nav class="tabs">{nav}</nav></div></header>
 <main class="wrap">{body}</main>
-<footer><div class="wrap">Data: Copernicus Sentinel-1 (ESA) &middot; AIS via aisstream.io and the Danish Maritime Authority &middot;
-coastlines, structures and basemap &copy; OpenStreetMap contributors. Flags are candidates for review, not accusations.</div></footer>
+<footer><div class="wrap">Contains modified Copernicus Sentinel data 2026 &middot; AIS: aisstream.io, Danish Maritime Authority &middot;
+&copy; OpenStreetMap contributors</div></footer>
 <script>(function(){{const e=document.getElementById('utc');const t=()=>e.textContent=new Date().toISOString().slice(11,19);t();setInterval(t,1000);}})();</script>
 </body></html>"""
 
@@ -284,11 +287,11 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
         d = dets[(dets.pass_id == latest.pass_id) & (dets.status != "filtered")]
         data = d.reindex(columns=["lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop",
                                   "ship_prob"]).astype(object).fillna("").to_dict("records")
-        shown = f"Showing pass <span class='mono'>{html.escape(latest.pass_id)}</span> &middot; {utc(latest.time)}"
+        shown = f"PASS &middot; {utc(latest.time)}"
         n_m, n_low = int(latest.n_matched), int(latest.n_low_conf)
         n_high = int(latest.n_candidates) - n_low
     else:
-        data, shown, n_m, n_high, n_low = [], "No satellite pass processed for this area yet.", 0, 0, 0
+        data, shown, n_m, n_high, n_low = [], "NO PASS YET", 0, 0, 0
     w, s, e, n = aoi
     js = (MAP_JS.replace("__DATA__", json.dumps(data)).replace("__LIVE__", json.dumps(live))
           .replace("__S__", str(s)).replace("__W__", str(w)).replace("__N__", str(n)).replace("__E__", str(e)))
@@ -303,27 +306,25 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
     acq = "".join(f"<li>{html.escape(x['start'][:16].replace('T', ' '))} UTC</li>" for x in scenes[:8]) or "<li>catalogue unavailable</li>"
     fresh = st.get("minutes_since_last")
     rec = (f"<span class='ok'>RECEIVING</span>" if fresh is not None and fresh < 10 else "<span class='bad'>NO SIGNAL</span>")
-    since = f"last message {fresh:.0f} min ago" if fresh is not None else "no message received yet"
-    quiet = ("<div class='alert' style='margin-top:12px'><b>Live AIS coverage.</b> The free aisstream network has delivered no "
-             "messages for this area so far: it relies on volunteer coastal receivers, and none is reporting here. "
-             "This is the free-data blind spot the project measures.</div>") if not st.get("messages") else ""
+    since = f"{fresh:.0f} min ago" if fresh is not None else "no data"
     body = f"""<div class="coords">SECTOR // {region.upper()} &middot; {s:.2f}&ndash;{n:.2f}&deg;N &middot; {w:.2f}&ndash;{e:.2f}&deg;E</div>
-<h1>{TITLES[region]}</h1><p class="lede">{NOTES[region]}</p>
+<h1>{TITLES[region]}</h1>
 <div class="grid">
  <div class="panel"><div class="label">Live AIS feed</div><div class="value small">{rec}</div><div class="muted mono" style="font-size:12px;margin-top:6px">{since}</div></div>
  {readout("Ships broadcasting &middot; 30 min", len(live), "cyan")}
  {readout("Matched &middot; latest pass", n_m)}
  {readout("Not tracked &middot; high confidence", n_high, "red")}
  {readout("Not tracked &middot; low confidence", n_low, "amber")}
-</div>{quiet}
-<h2>Tactical map</h2><p class="muted mono" style="font-size:12.5px;margin:-4px 0 10px">{shown}</p>
-<div class="legend"><span><i style="background:var(--green)"></i>matched to AIS</span><span><i style="background:var(--red)"></i>not tracked &middot; high confidence</span>
-<span><i style="background:var(--amber)"></i>not tracked &middot; low confidence</span><span><i style="background:var(--cyan)"></i>live AIS position</span></div>
+</div>
+<h2>Tactical map</h2><ul class="acq" style="margin-bottom:10px"><li>{shown}</li></ul>
+<div class="legend"><span><i style="background:var(--green)"></i>matched</span><span><i style="background:var(--red)"></i>not tracked &middot; high</span>
+<span><i style="background:var(--amber)"></i>not tracked &middot; low</span><span><i style="background:var(--cyan)"></i>live AIS</span></div>
 <div id="map" class="map"></div>{js}
 <h2>Pass log</h2>{table}
 <h2>Telemetry</h2><img class="chart" src="charts.png" alt="AIS messages per hour and ships detected per pass">
-<p class="muted mono" style="font-size:12px">Feed gaps in the last 24 h: {st.get('gaps_last_24h', 0)} ({st.get('gap_minutes_last_24h', 0):.0f} min) &middot; AIS messages in the last hour: {st.get('messages_last_hour', 0)}</p>
-<h2>Recent Sentinel-1 acquisitions</h2><ul class="acq">{acq}</ul>"""
+<ul class="acq" style="margin-top:10px"><li>AIS MSG / H &middot; {st.get('messages_last_hour', 0)}</li><li>FEED GAPS 24 H &middot; {st.get('gaps_last_24h', 0)}
+({st.get('gap_minutes_last_24h', 0):.0f} min)</li></ul>
+<h2>Sentinel-1 acquisitions &middot; 14 days</h2><ul class="acq">{acq}</ul>"""
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(page(TITLES[region], body, depth=1, leaflet=True, active=region, feed=feed))
     return dict(region=region, passes=len(rp), live=len(live), st=st,
@@ -351,40 +352,43 @@ def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "shi
                                          ("F1 score", "f1"), ("ROC-AUC", "roc_auc")])
     comp += "".join(row(n, k, "{:d}") for n, k in [("True positives (ships found)", "tp"), ("False positives", "fp"),
                                                   ("True negatives", "tn"), ("False negatives (ships missed)", "fn")])
-    counts = lambda d: ", ".join(f"{v} {k}" for k, v in d.items())
     tr = rep["training"]
+    dset = "".join(
+        f"<tr><td>{name}</td><td>{d.get('ship (AIS-matched)', 0)}</td><td>{d.get('fixed structure', 0)}</td><td>{d.get('open sea', 0)}</td>"
+        f"<td>{sum(d.values())}</td><td>{where}</td></tr>"
+        for name, d, where in [("Train", rep["data"]["train"], ", ".join(rep["data"]["train_areas"])),
+                               ("Validation", rep["data"]["validation"], "same areas, split by location"),
+                               ("Test", rep["data"]["test"], rep["data"]["test_area"])])
+    spec = "".join(f"<tr><td>{k}</td><td>{v}</td></tr>" for k, v in [
+        ("Framework", "PyTorch, trained from scratch"),
+        ("Input", "64 &times; 64 radar chip &middot; 10 m/px &middot; log10 backscatter / 2 &middot; land blanked"),
+        ("Output", "P(ship), sigmoid"),
+        ("Labels", "ship = AIS-matched target &middot; not ship = point structure (no AIS &lt; 300 m) or open sea"),
+        ("Loss", "binary cross-entropy, ship class weighted"),
+        ("Optimiser", tr["optimizer"]),
+        ("Batch / epochs", f"{tr['batch']} / {tr['epochs']} &middot; best epoch {tr['best_epoch']} (lowest validation loss)"),
+        ("Augmentation", tr["augmentation"]),
+        ("Receptive field", "38 &times; 38 px (&asymp; 380 m) after block 4"),
+        ("Operating threshold", f"{thr:g} &middot; keeps &ge; 90% of validation ships")])
     body = f"""<div class="coords">NEURAL NETWORK // SHIPCNN</div>
-<h1>ShipCNN: our own convolutional network that decides "is this a ship?"</h1>
-<p class="lede">The detector has two stages. CFAR proposes every bright target on the sea. ShipCNN then looks at a 64 &times; 64 pixel
-radar chip around each target (640 m &times; 640 m at 10 m per pixel) and outputs the probability that it is a ship rather than a bridge
-pylon, pier, wind turbine, buoy or sea clutter. It was designed and trained from scratch in PyTorch for this project.</p>
-<div class="grid">{readout("Weights (parameters)", f"{rep['weights']:,}")}{readout("Layers with weights", 6)}
-{readout("Test F1 &middot; Oresund", f"{t['f1']:.2f}")}{readout("Test ROC-AUC", f"{t['roc_auc']:.2f}", "cyan")}</div>
+<h1>ShipCNN</h1>
+<div class="grid">{readout("Weights", f"{rep['weights']:,}")}{readout("Layers with weights", 6)}
+{readout("Test F1 &middot; Oresund", f"{t['f1']:.2f}")}{readout("Test ROC-AUC", f"{t['roc_auc']:.2f}", "cyan")}
+{readout("Threshold", f"{thr:g}", "amber")}</div>
 <h2>Architecture</h2>
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr>{arch}</tbody></table></div>
-<p class="muted" style="font-size:13px">Each convolution slides 3 &times; 3 filters over the chip; BatchNorm keeps activations in a stable range; ReLU
-(max(0, x)) adds non-linearity; max-pooling halves the size so deeper layers see larger areas (a neuron in block 4 sees 38 &times; 38 px,
-about 380 m, enough for a whole ship). Global average pooling makes the decision independent of exactly where the target sits.
-The two fully connected layers turn the 64 features into one number; the sigmoid squashes it to a probability between 0 and 1.</p>
-<h2>Training data: labelled by AIS, not by hand</h2>
-<div class="flow" style="grid-template-columns:repeat(3,1fr)">
-<div class="step"><div class="n">SHIP = 1</div><div class="t">AIS-matched targets</div><div class="d">A radar target paired with a ship broadcasting AIS at the image time.</div></div>
-<div class="step"><div class="n">NOT SHIP = 0</div><div class="t">Structures and open sea</div><div class="d">Targets on mapped bridges, piers, turbines and buoys with no AIS ship within 300 m, plus random open-sea patches.</div></div>
-<div class="step"><div class="n">EXCLUDED</div><div class="t">Everything else</div><div class="d">Unmatched targets could be boats without AIS, so they are not used for training at all.</div></div></div>
-<p class="muted mono" style="font-size:12.5px">Train ({', '.join(rep['data']['train_areas'])}): {counts(rep['data']['train'])}<br>
-Validation (same straits, different locations): {counts(rep['data']['validation'])}<br>
-Test, {rep['data']['test_area']}: {counts(rep['data']['test'])}</p>
-<p class="muted" style="font-size:13px">Training: {tr['optimizer']}, {tr['loss']}, batch {tr['batch']}, {tr['epochs']} epochs (weights kept from epoch
-{tr['best_epoch']}, the lowest validation loss), augmentation: {tr['augmentation']}.</p>
+<h2>Specification</h2>
+<div class="tablewrap"><table><tbody>{spec}</tbody></table></div>
+<h2>Dataset</h2>
+<div class="tablewrap"><table><thead><tr><th>set</th><th>ships</th><th>fixed structures</th><th>open sea</th><th>total</th><th>areas</th></tr></thead>
+<tbody>{dset}</tbody></table></div>
+<h2>Training</h2>
 <img class="chart" src="training.png" alt="training and validation loss and accuracy per epoch">
-<h2>Results on the held-out Oresund</h2>
-<p class="muted" style="font-size:13px">The network never saw the Oresund during training. Baseline = the pipeline without a neural network: every CFAR target
-that passes the brightness and size rules counts as a ship. Its recall is 1.0 by construction (ship labels only exist for targets CFAR
-accepts), so the fair comparison is the second table.</p>
-<div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g} (operating)</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
+<h2>Test &middot; held-out Oresund</h2>
+<div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g}</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
 <tbody>{comp}</tbody></table></div>
-<h2>Where the network matters: targets CFAR accepts as ships</h2>
+<h2>Targets accepted by CFAR</h2>
 <div class="tablewrap"><table><thead><tr><th></th><th>threshold {thr:g} (operating)</th><th>threshold 0.5</th></tr></thead><tbody>
 {"".join(f"<tr><td>{n}</td><td>{w[k] if isinstance(w[k], int) else f'{w[k]:.2f}'}</td><td>{w5[k] if isinstance(w5[k], int) else f'{w5[k]:.2f}'}</td></tr>"
          for n, k in [("Targets CFAR accepts", "targets"), ("of which real ships (AIS)", "ships"), ("of which not ships", "non_ships"),
@@ -392,15 +396,10 @@ accepts), so the fair comparison is the second table.</p>
                       ("Precision without the network", "precision_before"), ("Precision with the network", "precision_after")]
          for w, w5 in [(rep["where_it_matters"], rep.get("where_it_matters_at_0_5", rep["where_it_matters"]))])}
 </tbody></table></div>
-<p class="muted" style="font-size:13px">Choosing the threshold is a cost decision. Missing a real dark ship is worse than a false alarm, so the
-operating threshold ({thr:g}) is the highest one that still keeps 90% of ships <b>on the validation set</b> (it was never tuned on the test
-set). A threshold of 0.5 removes more non-ships but loses more real ships.</p>
-<img class="chart" src="confusion.png" alt="confusion matrices" style="margin-top:12px;max-width:760px">
-<h2>What the network sees</h2><p class="muted" style="font-size:13px">Random test chips from the Oresund with the network's P(ship), including its mistakes.</p>
-<img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px">
-<div class="alert" style="margin-top:16px"><b>Limits.</b> Labels come from AIS, so small boats without AIS never appear as "ship" in training and
-the network may under-rate them. "Not ship" examples are mostly mapped structures and open sea; unmapped clutter is not represented.
-The test set is one strait on two days.</div>"""
+<h2>Confusion matrices</h2>
+<img class="chart" src="confusion.png" alt="confusion matrices" style="max-width:760px">
+<h2>Test chips</h2>
+<img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px">"""
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(page("ShipCNN neural network", body, depth=1, active="nn", feed=feed))
     return rep
@@ -432,16 +431,12 @@ def demo_page(demo_dir: str, out: str, feed: dict) -> None:
         f"<td style='color:var(--amber)'>{r.n_low_conf}</td><td>{r.match_rate:.0%}</td><td>{r.ais_msgs}</td><td>{r.ais_gap_s / 60:.0f} min</td></tr>"
         for r in p.iloc[::-1].itertuples())
     body = f"""<div class="coords">SIMULATION // SYNTHETIC SCENES WITH KNOWN GROUND TRUTH</div>
-<h1>Simulation: the whole pipeline with a known answer</h1>
-<p class="lede">Four synthetic Sentinel-1-like scenes with planted ships, simulated AIS, two fixed platforms, rougher sea in pass 3 and an
-AIS feed outage in pass 4. Because every ship is known, detection accuracy and the "dark" labels can be checked exactly.
-Synthetic radar is easier than real radar; real results are on the sector pages.</p>
+<h1>Simulation</h1>
 <div class="grid">{readout("Passes simulated", len(p))}{readout("Ships matched", int(p.n_matched.sum()))}
 {readout("Not tracked", int(p.n_candidates.sum()), "red")}{readout("Flags downgraded", int(p.n_low_conf.sum()), "cyan")}</div>
-<h2>Map &middot; pass with AIS outage</h2><p class="muted mono" style="font-size:12.5px;margin:-4px 0 10px">Showing {html.escape(latest.pass_id)}: every
-flag is low confidence because the AIS feed had a 25-minute gap, so the system refuses to call these ships dark.</p>
-<div class="legend"><span><i style="background:var(--green)"></i>matched to AIS</span><span><i style="background:var(--red)"></i>not tracked &middot; high confidence</span>
-<span><i style="background:var(--amber)"></i>not tracked &middot; low confidence</span></div>
+<h2>Map</h2><ul class="acq" style="margin-bottom:10px"><li>{html.escape(latest.pass_id).upper()}</li><li>AIS OUTAGE &middot; 25 MIN</li></ul>
+<div class="legend"><span><i style="background:var(--green)"></i>matched</span><span><i style="background:var(--red)"></i>not tracked &middot; high</span>
+<span><i style="background:var(--amber)"></i>not tracked &middot; low</span></div>
 <div id="map" class="map"></div>{js}
 <h2>Pass log</h2><div class="tablewrap"><table><thead><tr><th>pass</th><th>ships</th><th>matched</th><th>not tracked</th><th>low conf.</th>
 <th>match rate</th><th>AIS msgs</th><th>feed gap</th></tr></thead><tbody>{rows}</tbody></table></div>
@@ -450,12 +445,12 @@ flag is low confidence because the AIS feed had a 25-minute gap, so the system r
         f.write(page("Simulation", body, depth=1, leaflet=True, active="demo", feed=feed))
 
 
-FLOW = [("01", "Radar image", "Sentinel-1 sees every large ship, day or night, through cloud.", ""),
-        ("02", "Propose", "CFAR marks every target much brighter than the sea around it; land is masked.", ""),
-        ("03", "ShipCNN", "Our neural network looks at each target and gives P(ship): ship, or pylon, turbine, buoy, clutter?", "nn"),
-        ("04", "Align AIS", "Each ship's last AIS report is moved along its course to the exact image time.", ""),
-        ("05", "Match", "The Hungarian algorithm pairs radar targets with AIS ships within a speed-aware radius.", ""),
-        ("06", "Flag", "Unmatched ships become candidates, labelled high or low confidence by what the data can support.", "")]
+FLOW = [("01", "Radar image", "Sentinel-1 SAR &middot; VH &middot; 10 m", ""),
+        ("02", "Propose", "CFAR &middot; 5.5 &times; local sea", ""),
+        ("03", "ShipCNN", "CNN &middot; P(ship)", "nn"),
+        ("04", "Align AIS", "Dead reckoning &middot; &plusmn; 30 min", ""),
+        ("05", "Match", "Hungarian &middot; speed-aware gate", ""),
+        ("06", "Flag", "High / low confidence", "")]
 
 
 def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = None, check_catalogue: bool = True) -> str:
@@ -509,28 +504,18 @@ def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = 
         f"<td>{r.get(k, {}).get('live', '')}</td><td>{r.get(k, {}).get('msgs_hour', '')}</td>" for k in C.REGIONS) + "</tr>"
         for r in log[::-1][:24])
     heads = "".join(f"<th>{k} live</th><th>{k} msg/h</th>" for k in C.REGIONS)
+    system = "".join(f"<li>{x}</li>" for x in [
+        f"RECORDER &middot; {'LIVE' if feed.get('live') else 'OFFLINE'}", "PASS SWEEP &middot; EVERY 15 MIN",
+        "COVERAGE &ge; 65%", f"SHIPCNN &middot; THRESHOLD {cnn_threshold():g}"])
     body = f"""<div class="coords">SYSTEM OVERVIEW</div>
 <h1>Ships the radar sees that nobody is tracking</h1>
-<p class="lede">Radar satellites see ships whether or not they announce themselves. AIS is what ships broadcast about themselves.
-This system compares the two for each processed Sentinel-1 pass and lists the ships that appear on radar with no matching AIS signal.</p>
 <div class="grid" style="margin-top:18px">{readout("Satellite passes processed", total_p)}{readout("Ships matched to AIS", total_m)}
 {readout("Not tracked &middot; high confidence", total_high, "red")}{readout("Not tracked &middot; low confidence", total_low, "amber")}
 {readout("Broadcasting now &middot; 30 min", total_live, "cyan")}</div>
-<p class="muted" style="font-size:13px;margin-top:10px"><b>High confidence</b> = no AIS ship nearby although the AIS feed was healthy and the
-target is within receiver range, and it is not at a spot where something was also seen on another pass. Everything else is
-<b>low confidence</b>: the data cannot support calling it dark (for example Mumbai, where no AIS was available for the pass at all).</p>
 <h2>Pipeline</h2><div class="flow">{flow}</div>
-<p class="muted" style="font-size:13px"><b>What runs by itself.</b> AIS is recorded continuously. Every 15 minutes the system checks the
-Sentinel-1 catalogue; any new pass that covers at least 65% of a sector and was taken while the recorder was running is downloaded,
-run through the whole pipeline including ShipCNN, and published here. Passes from before the recorder started were processed with the
-same pipeline using historical AIS. Next expected passes: Mumbai about 5 Nov 01:02 UTC, Oresund about 5 Nov 17:00 UTC
-(predicted from the 6-day repeat pattern).</p>
+<h2>System</h2><ul class="acq">{system}</ul>
 <h2>Sectors</h2><div class="grid">{regions}</div>
-<h2>Read before trusting a flag</h2>
-<div class="alert"><b>"Not publicly tracked" is not "switched off".</b> Small boats often carry no public AIS, free AIS comes from coastal
-receivers with limited range, and ships under about 40 m are not reliably visible to the satellite. Low-confidence flags are the ones the
-data cannot support: beyond receiver range, during an AIS feed gap, or with no AIS recorded.</div>
-<h2>Automatic runs</h2><p class="muted mono" style="font-size:12.5px;margin-top:-4px">Each row is one automatic website rebuild, with the live AIS counts at that moment. Newest first.</p>
+<h2>Run log</h2>
 <div class="tablewrap"><table><thead><tr><th>run (UTC)</th>{heads}</tr></thead><tbody>{runs}</tbody></table></div>"""
     path = os.path.join(out, "index.html")
     with open(path, "w", encoding="utf-8") as f:
