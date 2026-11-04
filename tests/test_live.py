@@ -90,6 +90,15 @@ def test_restart_after_downtime_logs_a_gap(tmp_path):
     assert end - start == pytest.approx(3600, abs=30)            # the hour the recorder was down
 
 
+def test_prune_keeps_recent_ais(tmp_path):
+    import pandas as pd
+    con = store.connect(str(tmp_path / "p.sqlite"))
+    now = 1_790_000_000.0
+    store.add_ais(con, pd.DataFrame([dict(mmsi=1, time=now - d * 86400, lon=72.8, lat=19.0, sog=1.0, cog=0.0) for d in (1, 4, 9)]))
+    assert store.prune_ais(con, 5, now) == 1
+    assert con.execute("SELECT COUNT(*) FROM ais").fetchone()[0] == 2
+
+
 def test_ais_status_pass_readiness(tmp_path):
     import pandas as pd
     con = store.connect(str(tmp_path / "s.sqlite"))

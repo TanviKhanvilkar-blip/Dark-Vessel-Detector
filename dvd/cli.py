@@ -43,6 +43,12 @@ def demo(out: str) -> None:
             print("  what the candidates really were:", c.groupby(["confidence", "truth"]).size().to_dict())
 
 
+def sqlite3_connect_with_wait(db: str):
+    """The recorder may be writing; wait for it rather than failing."""
+    import sqlite3
+    return sqlite3.connect(db, timeout=30)
+
+
 def region_aoi(a):
     return tuple(a.aoi) if getattr(a, "aoi", None) else C.ALL_AREAS[a.region]
 
@@ -120,6 +126,9 @@ def main() -> None:
     area_args(k)
     i = sub.add_parser("fetch-infra", help="download bridges, piers, platforms and buoys from OpenStreetMap")
     area_args(i)
+    q = sub.add_parser("prune-ais", help="drop live AIS older than a few days")
+    q.add_argument("--days", type=float, default=5)
+    q.add_argument("--db", default="live.sqlite")
     u = sub.add_parser("auto", help="process every new Sentinel-1 pass over the sectors (catalogue -> crop -> pipeline)")
     u.add_argument("--days", type=float, default=3, help="how far back to look in the catalogue")
     u.add_argument("--live", default="live.sqlite")
@@ -138,7 +147,11 @@ def main() -> None:
     area_args(m)
     a = p.parse_args()
 
-    if a.cmd == "auto":
+    if a.cmd == "prune-ais":
+        import time
+        con = sqlite3_connect_with_wait(a.db)
+        print(store.prune_ais(con, a.days, time.time()), "old AIS messages removed")
+    elif a.cmd == "auto":
         from .auto import sweep
         done = sweep(a.live, days=a.days, dry_run=a.dry_run)
         print(f"{len(done)} new pass(es) processed" if not a.dry_run else "dry run: nothing processed")

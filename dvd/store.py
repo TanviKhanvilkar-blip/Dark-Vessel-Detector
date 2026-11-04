@@ -43,6 +43,13 @@ def add_gap(con, start: float, end: float) -> None:
     con.commit()
 
 
+def prune_ais(con, keep_days: float, now: float) -> int:
+    """Drop live AIS older than keep_days (passes copy what they need), so the recording stays small."""
+    n = con.execute("DELETE FROM ais WHERE time < ?", (now - keep_days * 86400,)).rowcount
+    con.commit()
+    return n
+
+
 def last_ais_time(con) -> float | None:
     return con.execute("SELECT MAX(time) FROM ais").fetchone()[0]
 

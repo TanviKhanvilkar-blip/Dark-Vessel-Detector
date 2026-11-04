@@ -1,0 +1,8 @@
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6
+pillow==12.3.0
+requests==2.34.2
+websockets==15.0.1
+rasterio==1.5.2
+shapely==2.1.1

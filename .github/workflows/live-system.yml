@@ -1,0 +1,41 @@
+# The live system in the cloud: record AIS, process new satellite passes, publish the website.
+# Each run is one shift of up to 5 h 45 min (GitHub's limit is 6 h). Shifts start at 03, 09, 15 and 21 UTC so that the
+# known pass times (Mumbai 01:02, Oresund about 05:30 and 17:00) fall mid-shift, away from the short gap between shifts.
+name: Live system
+
+on:
+  schedule:
+    - cron: "0 3,9,15,21 * * *"
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: "How many minutes this shift should run"
+        default: "345"
+
+concurrency:
+  group: live-system
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  shift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-cloud.txt
+      - name: Install
+        run: |
+          pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-cloud.txt
+      - name: Run shift
+        env:
+          AISSTREAM_KEY: ${{ secrets.AISSTREAM_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bash scripts/cloud_shift.sh "${{ inputs.minutes || '345' }}"
