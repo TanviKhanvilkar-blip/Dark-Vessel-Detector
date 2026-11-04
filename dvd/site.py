@@ -313,8 +313,11 @@ def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "shi
     t, h, b = rep["test"]["cnn"], rep["test"].get("cnn_at_0_5", rep["test"]["cnn"]), rep["test"]["cfar"]
     thr = rep.get("threshold", 0.5)
 
+    tuned = thr != 0.5       # show a separate 0.5 column only when the operating threshold differs from it
+
     def row(name, k, fmt="{:.3f}"):
-        return f"<tr><td>{name}</td><td>{fmt.format(t[k])}</td><td>{fmt.format(h[k])}</td><td>{fmt.format(b[k])}</td></tr>"
+        mid = f"<td>{fmt.format(h[k])}</td>" if tuned else ""
+        return f"<tr><td>{name}</td><td>{fmt.format(t[k])}</td>{mid}<td>{fmt.format(b[k])}</td></tr>"
 
     comp = "".join(row(n, k) for n, k in [("Accuracy", "accuracy"), ("Precision", "precision"), ("Recall", "recall"),
                                          ("F1 score", "f1"), ("ROC-AUC", "roc_auc")])
@@ -328,7 +331,7 @@ def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "shi
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr>{arch}</tbody></table></div>
 <h2>Test on the held-out Øresund</h2>
-<div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g}</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
+<div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g}</th>{"<th>ShipCNN @ 0.5</th>" if tuned else ""}<th>CFAR only</th></tr></thead>
 <tbody>{comp}</tbody></table></div>
 <h2>Test chips</h2>
 <img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px">"""

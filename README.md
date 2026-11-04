@@ -4,11 +4,10 @@ Radar satellites (Sentinel-1) see ships whether or not they broadcast. AIS shows
 no matching AIS is a **"not publicly tracked" candidate**: for human review, never an accusation.
 
 ```
-python -m dvd demo            # full pipeline on 4 synthetic passes -> site/index.html (+ metrics in the terminal)
-python -m pytest              # 10 tests
+python -m dvd demo            # full pipeline on 4 synthetic passes, metrics in the terminal
+python -m pytest              # 48 tests
 python -m dvd find-scenes     # recent Sentinel-1 GRD scenes over the AOI (needs network)
 python -m dvd record-ais --key YOUR_AISSTREAM_KEY   # always-on AIS recorder (free key at aisstream.io)
-python -m dvd export-yolo     # YOLO-format training tiles (then: pip install ultralytics; yolo detect train data=yolo_data/data.yaml model=yolov8n.pt imgsz=640)
 ```
 
 ## Running on a real Sentinel-1 scene
@@ -43,8 +42,8 @@ because no AIS was recorded for that date. 174 detections were removed as fixed 
 Bandra–Worli/coastal-road bridges, plus piers). Offshore ships and the Mumbai harbour anchorage look right by eye; 9 candidates
 still sit within 300 m of a mapped structure and are worth inspecting.
 
-Re-run with the final pipeline and ShipCNN (`--cnn`): ShipCNN rejects 38 targets as not ships, leaving **115 candidates, all low
-confidence** (no AIS exists for that date; 9 are also beyond the assumed receiver range). Note that ShipCNN was trained only on
+Re-run with the final pipeline and ShipCNN (`--cnn`): ShipCNN rejects 48 targets as not ships, leaving **105 candidates, all low
+confidence** (no AIS exists for that date). Note that ShipCNN was trained only on
 Danish waters, so how well it transfers to Mumbai is untested.
 
 `dvd/sar.py` reads only the pixels covering the AOI, converts DN to sigma0 with the calibration XML, resamples onto the AOI grid,
@@ -66,20 +65,16 @@ python -m dvd fetch-scene S1C_IW_GRDH_1SDV_20261027T052338_20261027T052403_01006
 python -m dvd run-scene scenes/20261027/<...>-vh-aoi.tiff --cal scenes/20261027/calibration-<...>.xml --region denmark --db denmark_hist.sqlite
 ```
 
-Result, 27 Oct 2026 05:23 UTC: 79 ships broadcasting AIS inside the area at image time (11 moving); 68 of them (86%) had a radar
-detection within 300 m. After filtering: **26 ships matched to AIS, 4 candidates not publicly tracked** (none had any AIS report
-within 0.9 km at image time; all four are compact targets on open water). Lessons from the real data, now built in:
+Result after the size check (see the correction below): 20 ships matched over 26 and 27 Oct, no candidates remaining.
+Lessons from the real data, now built in:
 - Structure and shore filters apply only to *unmatched* detections; before this, 62 moored ships at quays were thrown away.
 - Moving ships are imaged displaced along the satellite track (~110 s x their velocity toward the satellite, ~500 m at 10 kn),
   so the match radius grows with speed. Stationary ships keep the tight radius.
 - 29 broadcasting ships (mostly small harbour craft) gave detections below the score threshold: the detector's real limit.
 - Offshore wind turbines (Middelgrunden) are now pulled from OpenStreetMap with the other fixed structures.
 
-Second pass, 26 Oct 2026 05:32 UTC: 88 ships broadcasting inside the area, 75 (85%) with a radar detection within 300 m;
-**24 matched, 3 candidates**. All three were within ~400 m of 27 Oct candidates: an untracked target at the same spot on
-consecutive days is almost certainly fixed (unmapped structure, mooring, anchored hulk). Such candidates are now tagged
-`same_spot_in_another_pass` and downgraded to low confidence (`REPEAT_RADIUS_M`). Across both passes this leaves **one
-high-confidence candidate** (27 Oct, 55.669 N 12.670 E) out of 50 matched ships.
+Untracked targets that recur at the same spot on another pass are tagged `same_spot_in_another_pass` and downgraded to low
+confidence (`REPEAT_RADIUS_M`), since they are probably fixed objects.
 
 ## The neural network: ShipCNN
 
@@ -113,24 +108,26 @@ python -m dvd train-cnn --rebuild                                              #
 python -m dvd run-scene ... --region denmark --db denmark_hist.sqlite --cnn    # pipeline with the network
 ```
 
-Held-out Oresund (375 chips, 50 ships), operating threshold 0.69 chosen on validation as the highest that keeps >= 90% of ships:
+Held-out Oresund (316 chips, 20 ships), threshold 0.5:
 
 | | ShipCNN | CFAR only |
 |---|---|---|
-| Accuracy | 0.827 | 0.765 |
-| Precision | 0.430 | 0.362 |
-| Recall | 0.920 | 1.000 (by construction) |
-| F1 | 0.586 | 0.532 |
-| ROC-AUC | 0.922 | 0.865 |
+| Accuracy | 0.899 | 0.722 |
+| Precision | 0.370 | 0.185 |
+| Recall | 0.850 | 1.000 (by construction) |
+| F1 | 0.515 | 0.312 |
+| ROC-AUC | 0.892 | 0.851 |
 
-Where it matters, on the 138 targets CFAR accepts as ships: ShipCNN removes 63 of 88 non-ships and loses 4 of 50 real ships,
-raising precision from 0.36 to 0.65. In the full pipeline it rejects 5 unmatched targets across the two passes; every AIS-matched ship
-scores above the threshold (median P = 0.99).
+On the 108 targets CFAR accepts as ships, ShipCNN removes 74 of 88 non-ships and loses 3 of 20 real ships, raising precision from
+0.19 to 0.55. Validation has only 12 ships, too few to tune a threshold, so the operating threshold is the plain default of 0.5.
+That rule was added after a tuned 0.88 lost 40% of test ships, so read 0.5 as untuned. The test set is small: a few ships either way
+moves these figures. Remaining weakness: lateral buoys and small navigation lights (compact bright points).
 
-How it got there (each step is in the git history): the first model scored F1 0.41 because "not ship" labels included piers where
-boats moor (fixed: point structures only), it called 87% of wind turbines ships (fixed: added two wind farms to training, now 23%),
-and it judged the city around harbour targets instead of the target (fixed: land blanked in chips; ROC-AUC 0.88 -> 0.92).
-Remaining weakness: buoys and small navigation lights, and quay edges that the coastline does not count as land.
+**Correction (4 Nov 2026).** Earlier figures (F1 0.586, ROC-AUC 0.922, 50 matched ships) were inflated. Checking matches against ships'
+reported lengths showed small moored boats claiming the radar return of the quay beside them (median 16 m boats on 91 m targets).
+Matching now refuses impossible sizes (`dvd/match.py`, `plausible_size`): the Oresund's 50 matches became 20 genuine ones, and ShipCNN
+was retrained on the cleaned labels. Radar also measures about 1.7x the reported length (about 2x moving, 1.2x moored), which the
+site's length estimates correct for.
 
 ## Automatic pass processing
 
