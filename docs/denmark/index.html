@@ -73,7 +73,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:w
 <header class="top"><div class="wrap bar">
  <a class="brand" href="../index.html"><span class="scope"></span>Dark Vessel Detection</a>
  <nav class="tabs"><a class="" href="../index.html">Overview</a><a class="" href="../mumbai/index.html">Mumbai</a><a class="on" href="../denmark/index.html">Øresund</a></nav>
- <span class="pill" id="status" data-built="1793775655" data-live="0"></span>
+ <span class="pill" id="status" data-built="1793775837" data-live="0"></span>
 </div></header>
 <main class="wrap"><div class="titlerow"><h1>Øresund</h1><span class='tag green'>Radar + AIS</span></div><p class="sub">Copenhagen–Malmö strait, Denmark and Sweden</p>
 <div class="grid">
@@ -108,7 +108,7 @@ function inspect(d){
  if(a&&a.track&&a.track.length>1)trackLine=L.polyline(a.track,{color:'#2ef2b0',weight:2,opacity:.8,dashArray:'5 5',interactive:false}).addTo(m);
  let h='<span class="tag" style="color:'+c+';border-color:'+c+'">'+label+'</span><h3>'+esc((a&&a.name)||(t?'Tracked ship':(low?'Unverified target':'Untracked target')))+'</h3>';
  if(d.crop)h+='<img src="'+d.crop+'" alt="radar image of this target">';
- h+='<h4>Radar</h4>'+(info.est_length_m?kv('Estimated length','about '+info.est_length_m+' m'):'')+kv('Measured on radar',d.length_m.toFixed(0)+' m')
+ h+='<h4>Radar</h4>'+(info.est_length_m&&!(a&&a.length_m)?kv('Estimated length','about '+info.est_length_m+' m'):'')+kv('Measured on radar',d.length_m.toFixed(0)+' m')
   +kv('From shore',d.shore_km.toFixed(1)+' km')+kv('Position',d.lat.toFixed(4)+', '+d.lon.toFixed(4))
   +kv('Surroundings',info.setting)+(d.ship_prob===''||d.ship_prob===null?'':kv('Ship likelihood',(Number(d.ship_prob)*100).toFixed(0)+'%'))+kv('Imaged',WHEN);
  if(a){h+='<h4>Reported by the ship</h4>'+kv('Type',a.type)+kv('Length',a.length_m?a.length_m.toFixed(0)+' m':null)+kv('Speed',a.sog===null?null:a.sog+' kn')
@@ -133,7 +133,7 @@ L.control.layers(null,{[dot('#2ef2b0')+'Tracked by AIS']:tracked,[dot('#ff5c6c')
 </script>
 <h2>To review</h2><div class='panel muted'>Nothing to review on this pass.</div>
 <h2>Pass history</h2><div class='tablewrap'><table><thead><tr><th>date</th><th>ships seen</th><th>not tracked</th></tr></thead><tbody><tr><td>27 Oct 2026, 05:23 UTC</td><td>9</td><td>0</td></tr><tr><td>26 Oct 2026, 05:32 UTC</td><td>11</td><td>0</td></tr></tbody></table></div>
-<h2>Recent satellite passes</h2><ul class='chips'><li>2026-11-02 05:23 UTC</li><li>2026-11-01 16:44 UTC</li><li>2026-11-01 05:31 UTC</li><li>2026-10-31 16:52 UTC</li><li>2026-10-30 17:00 UTC</li><li>2026-10-27 05:23 UTC</li><li>2026-10-26 05:32 UTC</li><li>2026-10-25 16:52 UTC</li></ul></main>
+</main>
 <footer><div class="wrap"><span>Flags are for human review, not accusations.</span>
 <span>Contains modified Copernicus Sentinel data 2026 &middot; AIS: aisstream.io, Danish Maritime Authority &middot;
 &copy; OpenStreetMap contributors &middot; <a href="../nn/index.html">Methodology</a></span></div></footer>

@@ -200,7 +200,7 @@ function inspect(d){
  if(a&&a.track&&a.track.length>1)trackLine=L.polyline(a.track,{color:'#2ef2b0',weight:2,opacity:.8,dashArray:'5 5',interactive:false}).addTo(m);
  let h='<span class="tag" style="color:'+c+';border-color:'+c+'">'+label+'</span><h3>'+esc((a&&a.name)||(t?'Tracked ship':(low?'Unverified target':'Untracked target')))+'</h3>';
  if(d.crop)h+='<img src="'+d.crop+'" alt="radar image of this target">';
- h+='<h4>Radar</h4>'+(info.est_length_m?kv('Estimated length','about '+info.est_length_m+' m'):'')+kv('Measured on radar',d.length_m.toFixed(0)+' m')
+ h+='<h4>Radar</h4>'+(info.est_length_m&&!(a&&a.length_m)?kv('Estimated length','about '+info.est_length_m+' m'):'')+kv('Measured on radar',d.length_m.toFixed(0)+' m')
   +kv('From shore',d.shore_km.toFixed(1)+' km')+kv('Position',d.lat.toFixed(4)+', '+d.lon.toFixed(4))
   +kv('Surroundings',info.setting)+(d.ship_prob===''||d.ship_prob===null?'':kv('Ship likelihood',(Number(d.ship_prob)*100).toFixed(0)+'%'))+kv('Imaged',WHEN);
  if(a){h+='<h4>Reported by the ship</h4>'+kv('Type',a.type)+kv('Length',a.length_m?a.length_m.toFixed(0)+' m':null)+kv('Speed',a.sog===null?null:a.sog+' kn')
