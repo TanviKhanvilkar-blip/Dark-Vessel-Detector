@@ -165,8 +165,11 @@ def page(title: str, body: str, depth: int = 0, leaflet: bool = False, active: s
 MAP_JS = """<script>
 const D=__DATA__,LIVE=__LIVE__,B=[[__S__,__W__],[__N__,__E__]],R=__REASONS__,SHOW_UNVERIFIED=__SHOW__;
 const m=L.map('map',{zoomSnap:.25}).fitBounds(B);
-// re-fit once layout has settled: if the container had no size when the map was created, Leaflet falls back to zoom 0
-const refit=()=>{m.invalidateSize();m.fitBounds(B);};setTimeout(refit,0);window.addEventListener('load',refit);
+// a map created while its container has no size (e.g. a page opened in a background tab) falls back to zoom 0, so
+// re-fit whenever the container's size changes, until the visitor has moved the map themselves
+let moved=false;m.on('dragstart',()=>moved=true);m.getContainer().addEventListener('wheel',()=>moved=true,{passive:true});
+const refit=()=>{m.invalidateSize();if(!moved)m.fitBounds(B,{animate:false});};
+new ResizeObserver(refit).observe(m.getContainer());window.addEventListener('load',refit);
 // standard OSM tiles (no API key), turned into a dark basemap with a CSS filter (.radar-tiles)
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,className:'radar-tiles',
  attribution:'&copy; OpenStreetMap contributors'}).addTo(m);
