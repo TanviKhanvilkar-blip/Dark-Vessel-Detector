@@ -1,6 +1,7 @@
 """One satellite pass end to end: detect -> align AIS -> match -> filter -> label -> save."""
 from __future__ import annotations
 
+import json
 import os
 
 import numpy as np
@@ -9,11 +10,11 @@ from PIL import Image
 from scipy import ndimage
 
 from . import config as C
-from . import store
+from . import insight, store
 from .detect import detect_scene
 from .geo import haversine_m
 from .infra import Structures
-from .match import match, project_ais
+from .match import add_ship_details, match, project_ais
 
 
 def shore_distance_km(land: np.ndarray, grid, rows, cols) -> np.ndarray:
@@ -28,6 +29,39 @@ def save_crop(image: np.ndarray, row: float, col: float, path: str, half: int = 
     v = np.log1p(patch)
     v = (255 * (v - 0.0) / max(np.log1p(60.0), 1e-6)).clip(0, 255).astype(np.uint8)
     Image.fromarray(v).resize((192, 192), Image.NEAREST).save(path)
+
+
+def region_of_grid(grid) -> str | None:
+    lon, lat = grid.west + grid.width * grid.res_deg / 2, grid.north - grid.height * grid.res_deg / 2
+    return next((name for name, (w, s, e, n) in C.REGIONS.items() if w <= lon <= e and s <= lat <= n), None)
+
+
+def target_info(kept: pd.DataFrame, pairs: dict, proj: pd.DataFrame, con, t0: float, bbox, grid) -> dict:
+    """{detection index: details for the website}: surroundings, nearest ports and likely type for every target;
+    for ships matched to AIS also what the ship itself reports, and its real track."""
+    if kept.empty:
+        return {}
+    region = region_of_grid(grid)
+    matched = {i: int(proj.mmsi.iloc[pairs[i]]) for i in kept.index if i in pairs and kept.status[i] == "matched"}
+    ships = store.get_ships(con, matched.values())
+    tracks = store.ais_window(con, t0, 2 * C.MATCH_WINDOW_S, bbox).sort_values("time") if matched else None
+    out = {}
+    for i, d in kept.iterrows():
+        ports = insight.nearest_ports(region, d.lon, d.lat)
+        est = d.length_m / C.RADAR_LENGTH_BIAS
+        info = dict(setting=insight.setting(d.lon, d.lat, d.shore_km, kept.lon.values, kept.lat.values, ports[0][1] if ports else None),
+                    ports=ports, est_length_m=round(est), types=insight.likely_types(est))
+        if i in matched:
+            mmsi = matched[i]
+            p = proj[proj.mmsi == mmsi].iloc[0]
+            track = tracks[tracks.mmsi == mmsi]
+            step = max(len(track) // 40, 1)         # a line on a map needs no more than ~40 points
+            ship = ships.get(mmsi, {})
+            info["ais"] = dict(name=ship.get("name"), type=ship.get("ship_type"), length_m=ship.get("length_m"), destination=ship.get("destination"),
+                               sog=round(float(p.sog), 1), cog=round(float(tracks[tracks.mmsi == mmsi].cog.iloc[-1]), 0) if len(track) else None,
+                               track=[[round(a, 5), round(o, 5)] for a, o in zip(track.lat.values[::step], track.lon.values[::step])])
+        out[i] = info
+    return out
 
 
 def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detector: str = "cfar",
@@ -45,6 +79,7 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
     ais = store.ais_window(store_con, t0, C.MATCH_WINDOW_S, bbox)
     gap_s = store.gap_seconds(store_con, t0, C.MATCH_WINDOW_S)
     proj = project_ais(ais, t0)
+    proj = add_ship_details(proj, store.get_ships(store_con, proj.mmsi.values) if len(proj) else {})
 
     det["shore_km"] = shore_distance_km(scene.land, grid, det["row"], det["col"]) if len(det) else []
     # only plausible ships compete for AIS partners, so faint clutter (e.g. a wake) cannot take a real ship's match
@@ -109,11 +144,14 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
         status.append(s); reason.append(r); conf.append(c)
     det["status"], det["reason"], det["confidence"] = status, reason, conf
     det["pass_id"], det["det_id"] = pass_id, np.arange(len(det))
-    det["crop"] = ""
+    det["crop"], det["info"] = "", ""
+    kept = det[det.status != "filtered"]
+    for i, info in target_info(kept, pairs, proj, store_con, t0, bbox, grid).items():
+        det.at[i, "info"] = json.dumps(info)
 
     if out_dir:
         os.makedirs(os.path.join(out_dir, "crops"), exist_ok=True)
-        for i, d in det[det.status == "candidate"].iterrows():
+        for i, d in kept.iterrows():
             rel = f"crops/{pass_id}_{int(d.det_id)}.png"
             save_crop(scene.image, d.row, d.col, os.path.join(out_dir, rel))
             det.at[i, "crop"] = rel

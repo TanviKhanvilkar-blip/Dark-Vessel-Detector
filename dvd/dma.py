@@ -61,6 +61,25 @@ def read_window(zip_path: str, bbox, t_from: float, t_to: float, chunksize: int 
     return df.astype({"mmsi": "int64"}).drop_duplicates().sort_values("time").reset_index(drop=True)
 
 
+def read_ships(zip_path: str, chunksize: int = 500_000) -> pd.DataFrame:
+    """One row per ship in a day file: mmsi, name, ship_type, length_m, destination (latest known values)."""
+    f = _open_csv(zip_path)
+    names = [h.strip().lstrip("#").strip().lower() for h in f.readline().rstrip("\n").split(",")]
+    want = {"mmsi": "mmsi", "name": "name", "ship type": "ship_type", "length": "length_m", "destination": "destination",
+            "type of mobile": "mobile"}
+    use = [i for i, n in enumerate(names) if n in want]
+    parts = []
+    for chunk in pd.read_csv(f, header=None, usecols=use, names=range(len(names)), chunksize=chunksize, dtype=str):
+        chunk.columns = [want[names[i]] for i in use]
+        chunk = chunk[chunk.mobile.str.startswith("Class", na=False)].drop(columns="mobile")
+        chunk["mmsi"] = pd.to_numeric(chunk.mmsi, errors="coerce")
+        chunk["length_m"] = pd.to_numeric(chunk.length_m, errors="coerce")
+        chunk = chunk.replace({"Unknown": None, "Undefined": None, "Unknown value": None}).dropna(subset=["mmsi"])
+        parts.append(chunk.groupby("mmsi", as_index=False).last())       # last() keeps each column's last non-null value
+    ships = pd.concat(parts, ignore_index=True).groupby("mmsi", as_index=False).last()
+    return ships.astype({"mmsi": "int64"})
+
+
 def import_window(zip_path: str, db_path: str, bbox, t_from: float, t_to: float) -> int:
     df = read_window(zip_path, bbox, t_from, t_to)
     con = store.connect(db_path)

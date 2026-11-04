@@ -62,7 +62,7 @@ def test_drop_and_stall_are_logged_and_reconnected(tmp_path):
     (s_lat, s_lon), (n_lat, n_lon) = subs[0]["BoundingBoxes"][0]  # aisstream wants [[lat, lon], [lat, lon]]
     w, s, e, n = C.LIVE_AOI
     assert (s_lat, s_lon, n_lat, n_lon) == pytest.approx((s - C.AIS_PAD_DEG, w - C.AIS_PAD_DEG, n + C.AIS_PAD_DEG, e + C.AIS_PAD_DEG))
-    assert subs[0]["FilterMessageTypes"] == ["PositionReport"]
+    assert subs[0]["FilterMessageTypes"] == ["PositionReport", "ShipStaticData"]
     assert len(subs[0]["BoundingBoxes"]) == len(C.REGIONS)       # one connection records every region
 
 

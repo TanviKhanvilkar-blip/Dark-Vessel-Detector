@@ -23,7 +23,7 @@ from torch import nn
 
 from . import config as C
 from .geo import haversine_m
-from .match import match, project_ais
+from .match import add_ship_details, match, project_ais
 
 CHIP = 64            # chip size in pixels
 PX_M = 10.0          # chip pixel size in metres (Sentinel-1 GRD is ~10 m)
@@ -122,13 +122,18 @@ def is_point_structure(kind: str) -> bool:
     return True
 
 
-def label_scene(scene, ais: pd.DataFrame, structures, area: str, pass_id: str, rng: np.random.Generator) -> pd.DataFrame:
-    """CFAR proposals in one scene, labelled from AIS and mapped structures; plus random open-sea chips."""
+def label_scene(scene, ais: pd.DataFrame, structures, area: str, pass_id: str, rng: np.random.Generator,
+                ships: dict | None = None) -> pd.DataFrame:
+    """CFAR proposals in one scene, labelled from AIS and mapped structures; plus random open-sea chips.
+    `ships` (mmsi -> reported length and type) lets matching refuse pairs of the wrong size, which keeps quay returns
+    that a small moored boat happens to sit next to out of the "ship" class."""
     from .detect import detect_scene
+    from .pipeline import shore_distance_km
     det = detect_scene(scene.image, scene.land, scene.grid)
-    proj = project_ais(ais, scene.time)
+    proj = add_ship_details(project_ais(ais, scene.time), ships or {})
     rows = []
     if len(det):
+        det["shore_km"] = shore_distance_km(scene.land, scene.grid, det["row"], det["col"])
         eligible = det.index[(det.score >= C.MIN_SCORE) & (det.length_m >= C.MIN_LENGTH_M)]
         sub = match(det.loc[eligible].reset_index(drop=True), proj)
         matched = {int(eligible[k]) for k in sub}

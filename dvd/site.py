@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from . import config as C
+from .insight import priors
 from .live import ais_status, recording_box
 
 TITLES = {"mumbai": "Mumbai", "denmark": "Øresund"}
@@ -109,7 +110,19 @@ h2{font:600 17px/1.3 var(--sans);margin:34px 0 12px}
 .kv{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:5px 0;border-top:1px solid var(--line)}
 .kv span:first-child{color:var(--muted)}.kv span:last-child{font-family:var(--mono)}
 .go{color:var(--green);font-weight:600;font-size:14px;margin-top:10px}
-.map{height:540px;border:1px solid var(--line);border-radius:8px;background:#0a0f13}
+.inspect{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px}
+.map{height:620px;border:1px solid var(--line);border-radius:8px;background:#0a0f13;min-width:0}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;height:620px;overflow-y:auto;min-width:0}
+.side .empty{color:var(--muted);height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+.side h3{font:600 18px/1.3 var(--sans);margin:6px 0 10px;overflow-wrap:anywhere}
+.side h4{font:600 13px/1.3 var(--sans);color:var(--muted);margin:16px 0 6px}
+.side img{width:100%;display:block;border:1px solid var(--line);border-radius:6px;image-rendering:pixelated;background:#000}
+.side .kv span:last-child{text-align:right;overflow-wrap:anywhere}
+.side .note{color:var(--amber);font-size:13px;margin:10px 0 0}.side .hint{color:var(--muted);font-size:12.5px;margin:6px 0 0}
+.bar2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font-size:14px;margin:6px 0}
+.bar2 i{grid-column:1/3;height:5px;border-radius:3px;background:var(--line);overflow:hidden;display:block}
+.bar2 i b{display:block;height:100%;background:var(--cyan)}
+tr.pick{cursor:pointer}tr.pick:hover td,tr.pick:focus td{background:#16222a}tr.pick:focus{outline:none}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
 table{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
 th{font-weight:600;font-size:13px;color:var(--muted);text-align:right}
@@ -128,7 +141,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:w
 .leaflet-control-layers,.leaflet-bar a{background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important}
 .leaflet-control-layers i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 6px 0 2px}
 .leaflet-control-attribution{background:rgba(7,11,15,.75)!important;color:var(--muted)!important}.leaflet-control-attribution a{color:var(--muted)}
-@media (max-width:760px){h1{font-size:25px}.value{font-size:25px}.map{height:420px}nav.tabs{flex-basis:100%;order:3}.bar{padding:10px 0;gap:8px 16px}}
+@media (max-width:900px){.inspect{grid-template-columns:minmax(0,1fr)}.map{height:420px}.side{height:auto;max-height:none}.side .empty{padding:24px}}
+@media (max-width:760px){h1{font-size:25px}.value{font-size:25px}nav.tabs{flex-basis:100%;order:3}.bar{padding:10px 0;gap:8px 16px}}
 """
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -163,7 +177,7 @@ def page(title: str, body: str, depth: int = 0, leaflet: bool = False, active: s
 
 
 MAP_JS = """<script>
-const D=__DATA__,LIVE=__LIVE__,B=[[__S__,__W__],[__N__,__E__]],R=__REASONS__,SHOW_UNVERIFIED=__SHOW__;
+const D=__DATA__,LIVE=__LIVE__,B=[[__S__,__W__],[__N__,__E__]],R=__REASONS__,SHOW_UNVERIFIED=__SHOW__,WHEN=__WHEN__,PRIOR_N=__PRIOR_N__;
 const m=L.map('map',{zoomSnap:.25}).fitBounds(B);
 // a map created while its container has no size (e.g. a page opened in a background tab) falls back to zoom 0, so
 // re-fit whenever the container's size changes, until the visitor has moved the map themselves
@@ -175,12 +189,35 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,classNa
  attribution:'&copy; OpenStreetMap contributors'}).addTo(m);
 const tracked=L.layerGroup().addTo(m),untracked=L.layerGroup().addTo(m),unverified=L.layerGroup(),live=L.layerGroup().addTo(m);
 if(SHOW_UNVERIFIED)unverified.addTo(m);
-D.forEach(d=>{const t=d.status=='matched',low=d.confidence=='low',c=t?'#2ef2b0':(low?'#ffb547':'#ff5c6c');
-let h='<b>'+(t?'Tracked by AIS':(low?'Unverified':'Untracked'))+'</b><br>About '+d.length_m.toFixed(0)+' m long &middot; '+d.shore_km.toFixed(1)+' km from shore';
-if(d.ship_prob!==''&&d.ship_prob!==null)h+='<br>Ship likelihood '+(Number(d.ship_prob)*100).toFixed(0)+'%';
-if(d.reason)h+='<br><span style="color:#ffb547">'+d.reason.split(',').map(x=>R[x]||x).join(' &middot; ')+'</span>';
-if(d.crop)h+='<br><img src="'+d.crop+'" width="160" alt="radar image of this target">';
-L.circleMarker([d.lat,d.lon],{radius:t?4.5:7,color:c,fillColor:c,fillOpacity:.85,weight:t?1:2}).bindPopup(h).addTo(t?tracked:(low?unverified:untracked));});
+const side=document.getElementById('side'),byId={};let ring=null,trackLine=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const kv=(k,v)=>v===null||v===undefined||v===''?'':'<div class="kv"><span>'+k+'</span><span>'+esc(v)+'</span></div>';
+function inspect(d){
+ const t=d.status=='matched',low=d.confidence=='low',info=d.info||{},a=info.ais;
+ const c=t?'#2ef2b0':(low?'#ffb547':'#ff5c6c'),label=t?'Tracked by AIS':(low?'Unverified':'Untracked');
+ if(ring)ring.remove();if(trackLine){trackLine.remove();trackLine=null;}
+ ring=L.circleMarker([d.lat,d.lon],{radius:13,color:'#fff',weight:2,fill:false,interactive:false}).addTo(m);
+ if(a&&a.track&&a.track.length>1)trackLine=L.polyline(a.track,{color:'#2ef2b0',weight:2,opacity:.8,dashArray:'5 5',interactive:false}).addTo(m);
+ let h='<span class="tag" style="color:'+c+';border-color:'+c+'">'+label+'</span><h3>'+esc((a&&a.name)||(t?'Tracked ship':(low?'Unverified target':'Untracked target')))+'</h3>';
+ if(d.crop)h+='<img src="'+d.crop+'" alt="radar image of this target">';
+ h+='<h4>Radar</h4>'+(info.est_length_m?kv('Estimated length','about '+info.est_length_m+' m'):'')+kv('Measured on radar',d.length_m.toFixed(0)+' m')
+  +kv('From shore',d.shore_km.toFixed(1)+' km')+kv('Position',d.lat.toFixed(4)+', '+d.lon.toFixed(4))
+  +kv('Surroundings',info.setting)+(d.ship_prob===''||d.ship_prob===null?'':kv('Ship likelihood',(Number(d.ship_prob)*100).toFixed(0)+'%'))+kv('Imaged',WHEN);
+ if(a){h+='<h4>Reported by the ship</h4>'+kv('Type',a.type)+kv('Length',a.length_m?a.length_m.toFixed(0)+' m':null)+kv('Speed',a.sog===null?null:a.sog+' kn')
+  +kv('Course',a.cog===null?null:a.cog.toFixed(0)+'°')+kv('Destination',a.destination);
+  if(a.track&&a.track.length>1)h+='<p class="hint">Its AIS track around the image time is shown on the map.</p>';}
+ if(!(a&&a.type)&&info.types&&info.types.length){h+='<h4>Likely type</h4>'+info.types.map(([n,p])=>'<div class="bar2"><span>'+esc(n)+'</span><span>'+(p*100).toFixed(0)+'%</span><i><b style="width:'+(p*100).toFixed(0)+'%"></b></i></div>').join('')
+  +'<p class="hint">Estimate from length, based on '+PRIOR_N.toLocaleString()+' ships in Danish AIS records.</p>';}
+ if(info.ports&&info.ports.length){h+='<h4>Nearest ports</h4>'+info.ports.map(([n,k])=>kv(n,k+' km')).join('');
+  if(!t)h+='<p class="hint">Distance only. Its real origin is unknown without AIS.</p>';}
+ if(d.reason)h+='<p class="note">'+d.reason.split(',').map(x=>esc(R[x]||x)).join(' &middot; ')+'</p>';
+ side.innerHTML=h;side.scrollTop=0;
+ if(innerWidth<=900)side.scrollIntoView({behavior:'smooth',block:'start'});
+}
+D.forEach(d=>{const t=d.status=='matched',low=d.confidence=='low',c=t?'#2ef2b0':(low?'#ffb547':'#ff5c6c'),layer=t?tracked:(low?unverified:untracked);
+byId[d.det_id]={d,layer};L.circleMarker([d.lat,d.lon],{radius:t?5:7,color:c,fillColor:c,fillOpacity:.85,weight:t?1:2}).on('click',()=>inspect(d)).addTo(layer);});
+document.querySelectorAll('tr.pick').forEach(r=>{const go=()=>{const x=byId[r.dataset.id];if(!x)return;if(!m.hasLayer(x.layer))x.layer.addTo(m);inspect(x.d);m.panTo([x.d.lat,x.d.lon]);
+ document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go();});});
 LIVE.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:3,color:'#4fc3ff',fillColor:'#4fc3ff',fillOpacity:.9,weight:1}).bindPopup('<b>Broadcasting now</b><br>'+p.sog+' kn &middot; '+p.age+' min ago').addTo(live));
 const dot=c=>'<i style="background:'+c+'"></i>';
 L.control.layers(null,{[dot('#2ef2b0')+'Tracked by AIS']:tracked,[dot('#ff5c6c')+'Untracked']:untracked,
@@ -204,11 +241,11 @@ def review_table(d: pd.DataFrame, limit: int = 12) -> str:
     c["rank"] = (c.confidence == "low").astype(int)
     c = c.sort_values(["rank", "ship_prob"], ascending=[True, False])
     rows = "".join(
-        f"<tr><td>{'Unverified' if r.confidence == 'low' else 'Untracked'}</td><td>{r.lat:.3f}, {r.lon:.3f}</td><td>{r.length_m:.0f} m</td>"
+        f"<tr class='pick' tabindex='0' data-id='{int(r.det_id)}'><td>{'Unverified' if r.confidence == 'low' else 'Untracked'}</td><td>{r.lat:.3f}, {r.lon:.3f}</td><td>{r.length_m / C.RADAR_LENGTH_BIAS:.0f} m</td>"
         f"<td>{r.shore_km:.1f} km</td><td>{'&ndash;' if pd.isna(r.ship_prob) else f'{r.ship_prob:.0%}'}</td>"
         f"<td>{html.escape(plain_reason(r.reason))}</td></tr>" for r in c.head(limit).itertuples())
     more = f"<p class='more'>{len(c) - limit} more on the map.</p>" if len(c) > limit else ""
-    return ("<div class='tablewrap'><table><thead><tr><th>status</th><th>position</th><th>length</th><th>from shore</th><th>ship likelihood</th>"
+    return ("<div class='tablewrap'><table><thead><tr><th>status</th><th>position</th><th>est. length</th><th>from shore</th><th>ship likelihood</th>"
             f"<th>note</th></tr></thead><tbody>{rows}</tbody></table></div>{more}")
 
 
@@ -221,8 +258,10 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
     if len(rp):
         latest = rp.iloc[-1]
         d = dets[(dets.pass_id == latest.pass_id) & (dets.status != "filtered")]
-        data = d.reindex(columns=["lon", "lat", "length_m", "shore_km", "status", "reason", "confidence", "crop",
-                                  "ship_prob"]).astype(object).fillna("").to_dict("records")
+        data = d.reindex(columns=["det_id", "lon", "lat", "length_m", "shore_km", "status", "reason", "confidence", "crop",
+                                  "ship_prob", "info"]).astype(object).fillna("").to_dict("records")
+        for x in data:
+            x["info"] = json.loads(x["info"]) if x["info"] else {}
         shown, seen, n_m = utc(latest.time), int(latest.n_det), int(latest.n_matched)
         n_low = int(latest.n_low_conf)
         n_high = int(latest.n_candidates) - n_low
@@ -233,7 +272,8 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
         review = "<div class='panel muted'>No pass yet.</div>"
     w, s, e, n = aoi
     js = (MAP_JS.replace("__DATA__", json.dumps(data)).replace("__LIVE__", json.dumps(live)).replace("__REASONS__", json.dumps(REASONS))
-          .replace("__SHOW__", "true" if radar_only else "false")
+          .replace("__SHOW__", "true" if radar_only else "false").replace("__WHEN__", json.dumps(shown))
+          .replace("__PRIOR_N__", str((priors() or {}).get("ships", 0)))
           .replace("__S__", str(s)).replace("__W__", str(w)).replace("__N__", str(n)).replace("__E__", str(e)))
 
     rows = "".join(f"<tr><td>{utc(r.time)}</td><td>{r.n_det}</td><td>{r.n_candidates}</td></tr>" for r in rp.iloc[::-1].itertuples())
@@ -250,7 +290,8 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
  {readout("Untracked", n_high, "red")}
 </div>
 <h2>Latest pass &middot; {shown}</h2>
-<div id="map" class="map"></div>{js}
+<div class="inspect"><div id="map" class="map"></div>
+<aside id="side" class="side" aria-live="polite"><div class="empty">Select a dot on the map to inspect it</div></aside></div>{js}
 <h2>To review</h2>{review}
 <h2>Pass history</h2>{table}
 {recent}"""

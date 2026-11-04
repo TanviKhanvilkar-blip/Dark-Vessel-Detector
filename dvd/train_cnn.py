@@ -24,6 +24,7 @@ from .sar import load_scene
 
 DATASET = os.path.join("data", "cnn", "dataset.pkl")
 FIG_DIR = os.path.join("docs", "nn")
+MIN_SHIPS_TO_TUNE = 30
 PAL = dict(panel="#0a1218", line="#16303a", ink="#d3ece9", muted="#6d8c91", green="#2ef2b0", red="#ff4d5e", cyan="#4fc3ff")
 
 
@@ -34,7 +35,8 @@ def _scene_set(folder: str, area: str, aoi, ais_db: str, rng) -> pd.DataFrame:
     scene = load_scene(tif, aoi=aoi, calibration_xml=xml, land_geojson=land if os.path.exists(land) else None)
     ais = store.ais_window(sqlite3.connect(ais_db), scene.time, C.MATCH_WINDOW_S, recording_box(aoi))
     structures = Structures.load(os.path.join("data", area, "infra_osm.geojson"))
-    df = cnn.label_scene(scene, ais, structures, area, os.path.basename(folder), rng)
+    ships = store.get_ships(store.connect("denmark_hist.sqlite"), ais.mmsi.unique())     # all Danish ship details live here
+    df = cnn.label_scene(scene, ais, structures, area, os.path.basename(folder), rng, ships)
     counts = df.kind.value_counts().to_dict() if len(df) else {}
     print(f"  {os.path.basename(folder):28s} AIS ships {ais.mmsi.nunique():4d}  chips {counts}")
     return df
@@ -65,7 +67,10 @@ def cfar_baseline(df: pd.DataFrame) -> np.ndarray:
 
 def choose_threshold(y_val: np.ndarray, p_val: np.ndarray, min_recall: float = 0.9) -> float:
     """Missing a real dark ship costs more than a false alarm, so pick the highest threshold that still keeps
-    `min_recall` of the validation ships. Chosen on validation data only, never on the test set."""
+    `min_recall` of the validation ships. Chosen on validation data only, never on the test set. With too few validation
+    ships the tuned value is mostly noise (12 ships gave 0.88, which lost 40% of test ships), so use the plain 0.5."""
+    if (y_val == 1).sum() < MIN_SHIPS_TO_TUNE:
+        return 0.5
     for thr in np.arange(0.95, 0.0, -0.01):
         yh = p_val >= thr
         if yh[y_val == 1].mean() >= min_recall:

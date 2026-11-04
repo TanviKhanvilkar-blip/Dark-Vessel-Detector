@@ -102,6 +102,19 @@ def test_fixed_structures_are_filtered(tmp_path):
     assert (det.reason == "fixed_structure").sum() == len(C.FIXED_STRUCTURES)
 
 
+def test_size_check_refuses_impossible_pairs():
+    from dvd.match import plausible_size
+    det = pd.DataFrame(dict(lon=[72.5] * 3, lat=[19.0] * 3, length_m=[120.0, 60.0, 60.0], shore_km=[5.0, 0.1, 5.0]))
+    proj = pd.DataFrame(dict(lon=[72.5] * 3, lat=[19.0] * 3, sog=[0.0] * 3, dt_s=[0.0] * 3,
+                             ais_length_m=[11.0, 100.0, None], ship_type=["Pleasure", "Cargo", "Pleasure"]))
+    ok = plausible_size(det, proj)
+    assert not ok[0, 0]                     # a 120 m target cannot be an 11 m boat
+    assert ok[0, 1] and ok[1, 1]            # a 100 m ship fits, even at a quay
+    assert not ok[1, 0] and not ok[1, 2]    # small craft at a quay never match: known by length or by type
+    assert ok[2, 2]                         # away from a quay, an unknown length is not ruled out
+    assert match(det.iloc[[0]], proj.iloc[[0]]) == {}
+
+
 def test_moving_ships_get_wider_gate_for_sar_shift():
     from dvd.match import match_radius_m
     still, fast = match_radius_m(100, 0, 0), match_radius_m(100, 10, 0)

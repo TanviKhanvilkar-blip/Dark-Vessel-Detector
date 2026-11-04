@@ -32,6 +32,27 @@ def match_radius_m(length_m, sog_kn, dt_s):
             + C.SAR_RANGE_OVER_VELOCITY_S * speed)
 
 
+def add_ship_details(proj: pd.DataFrame, ships: dict) -> pd.DataFrame:
+    """Attach each AIS ship's reported length and type, used to check that a match makes sense."""
+    if proj.empty:
+        return proj
+    return proj.assign(ais_length_m=[ships.get(int(m), {}).get("length_m") for m in proj.mmsi],
+                       ship_type=[ships.get(int(m), {}).get("ship_type") for m in proj.mmsi])
+
+
+def plausible_size(det: pd.DataFrame, proj: pd.DataFrame) -> np.ndarray:
+    """[detections x ships] True where the target's size and place fit the ship. At a quay a match needs a known length
+    of at least 40 m: a large ship nearly always reports its length, and a small craft can't be told from the quay."""
+    if "ais_length_m" not in proj or "shore_km" not in det:
+        return np.ones((len(det), len(proj)), bool)
+    radar = det["length_m"].values[:, None]
+    at_quay = det["shore_km"].values[:, None] < C.QUAY_SHORE_KM
+    ais = pd.to_numeric(proj["ais_length_m"], errors="coerce").values[None, :]
+    too_long = radar > C.MATCH_MAX_LENGTH_RATIO * ais + C.MATCH_LENGTH_SLACK_M       # False where the AIS length is unknown (NaN)
+    small = ~(ais >= C.QUAY_MIN_SHIP_M) | proj["ship_type"].isin(C.SMALL_CRAFT_TYPES).values[None, :]    # NaN counts as small
+    return ~(too_long | (at_quay & small))
+
+
 def match(det: pd.DataFrame, proj: pd.DataFrame) -> dict[int, int]:
     """Hungarian assignment on distance / gate. Returns {detection index: ais row index} for accepted pairs."""
     if det.empty or proj.empty:
@@ -40,6 +61,6 @@ def match(det: pd.DataFrame, proj: pd.DataFrame) -> dict[int, int]:
                     proj["lon"].values[None, :], proj["lat"].values[None, :])
     gate = match_radius_m(det["length_m"].values[:, None], proj["sog"].values[None, :], proj["dt_s"].values[None, :])
     ratio = d / gate
-    cost = np.where(ratio <= 1.0, ratio, 1e6)       # forbid pairs outside the gate
+    cost = np.where((ratio <= 1.0) & plausible_size(det, proj), ratio, 1e6)       # forbid pairs outside the gate or of the wrong size
     rows, cols = linear_sum_assignment(cost)
     return {int(r): int(c) for r, c in zip(rows, cols) if cost[r, c] < 1e6}

@@ -10,8 +10,11 @@ import json
 import time
 from datetime import datetime, timezone
 
+import pandas as pd
+
 from . import config as C
 from . import store
+from .insight import ais_type_name
 
 AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
 
@@ -31,6 +34,19 @@ def parse_position_report(raw: str | bytes | dict) -> dict | None:
     if sog is None or cog is None or sog >= 102.3 or cog >= 360:      # 102.3 kn / 360 deg = "not available" in AIS
         return None
     return dict(mmsi=int(meta["MMSI"]), time=t.timestamp(), lon=rep["Longitude"], lat=rep["Latitude"], sog=sog, cog=cog)
+
+
+def parse_ship_static(msg: dict) -> dict | None:
+    """aisstream ShipStaticData -> row for the `ships` table (None for any other message)."""
+    if msg.get("MessageType") != "ShipStaticData":
+        return None
+    meta = msg.get("MetaData") or msg.get("Metadata") or {}
+    rep = msg.get("Message", {}).get("ShipStaticData", {})
+    dim = rep.get("Dimension") or {}
+    length = (dim.get("A") or 0) + (dim.get("B") or 0)
+    clean = lambda v: (str(v).replace("@", "").strip() or None) if v is not None else None   # AIS pads text with @
+    return dict(mmsi=int(meta.get("MMSI") or rep.get("UserID") or 0), name=clean(rep.get("Name")), ship_type=ais_type_name(rep.get("Type")),
+                length_m=float(length) if length else None, destination=clean(rep.get("Destination")))
 
 
 def recording_box(aoi, pad_deg: float = C.AIS_PAD_DEG):
@@ -55,7 +71,7 @@ async def record_ais(api_key: str, db_path: str, aois=tuple(C.REGIONS.values()),
     for aoi in aois:
         west, south, east, north = recording_box(aoi)
         boxes.append([[south, west], [north, east]])          # aisstream wants [[lat, lon], [lat, lon]]
-    sub = json.dumps({"APIKey": api_key, "BoundingBoxes": boxes, "FilterMessageTypes": ["PositionReport"]})
+    sub = json.dumps({"APIKey": api_key, "BoundingBoxes": boxes, "FilterMessageTypes": ["PositionReport", "ShipStaticData"]})
     con = store.connect(db_path)
     last_rx = store.last_ais_time(con)          # None on a fresh database
     buf: list[dict] = []
@@ -111,6 +127,9 @@ async def record_ais(api_key: str, db_path: str, aois=tuple(C.REGIONS.values()),
                             store.add_gap(con, last_rx, now)
                             log(f"gap of {now - last_rx:.0f}s recorded")
                         last_rx, backoff = now, 1.0
+                        static = parse_ship_static(msg)
+                        if static and static["mmsi"]:
+                            store.add_ships(con, pd.DataFrame([static]))
                         row = parse_position_report(msg)
                         if row:
                             buf.append(row)

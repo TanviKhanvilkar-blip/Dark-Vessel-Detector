@@ -77,10 +77,11 @@ def processed_ids(db: str) -> set[str]:
 def copy_ais(live_db: str, results_db: str, aoi, t0: float) -> int:
     """AIS and feed gaps around t0 from the live recording into the results database (the pipeline reads both there)."""
     window = C.MATCH_WINDOW_S * 2
-    src = sqlite3.connect(live_db, timeout=30)
+    src = store.connect(live_db)
     try:
         ais = store.ais_window(src, t0, window, recording_box(aoi))
         gaps = src.execute("SELECT start, end FROM ais_gaps WHERE end > ? AND start < ?", (t0 - window, t0 + window)).fetchall()
+        ships = pd.read_sql("SELECT * FROM ships", src)
     finally:
         src.close()
     dst = store.connect(results_db)
@@ -91,6 +92,7 @@ def copy_ais(live_db: str, results_db: str, aoi, t0: float) -> int:
         dst.execute("DELETE FROM ais_gaps WHERE end > ? AND start < ?", (t0 - window, t0 + window))
         dst.commit()
     store.add_ais(dst, ais)
+    store.add_ships(dst, ships)
     for s, e in gaps:
         store.add_gap(dst, s, e)
     dst.close()

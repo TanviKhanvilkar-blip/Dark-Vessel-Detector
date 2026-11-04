@@ -59,6 +59,16 @@ MATCH_SPEED_FACTOR = 0.15  # extra radius per metre of distance the ship could h
 # so 10 kn can mean ~500 m. Without orbit geometry we allow the worst case (all of the speed along the look direction).
 SAR_RANGE_OVER_VELOCITY_S = 110.0
 
+# Size sanity for matches. Checking matched pairs against ships' real AIS lengths showed small moored boats claiming the
+# radar return of the quay beside them (median 16 m boats on 91 m targets). So a pair is refused when the target is far
+# too long for the ship, and small craft at a quay cannot match at all: they can't be told apart from the quay.
+MATCH_MAX_LENGTH_RATIO = 2.5
+MATCH_LENGTH_SLACK_M = 40.0        # radar smears small targets, so a real tug of 24 m can measure 44 m
+QUAY_SHORE_KM = 0.3
+QUAY_MIN_SHIP_M = 40.0             # same limit as MIN_LENGTH_M: what the satellite can reliably resolve
+SMALL_CRAFT_TYPES = ("Pleasure", "Sailing")
+RADAR_LENGTH_BIAS = 1.7            # radar length / AIS length: median over the 20 matched Oresund ships (moving ones ~2, moored ~1.2)
+
 # AIS coverage honesty: free ground receivers only reach so far offshore (approximate).
 RX_RANGE_KM = 18.0
 MAX_AIS_GAP_S = 300        # a feed gap longer than this inside the window makes all flags low confidence

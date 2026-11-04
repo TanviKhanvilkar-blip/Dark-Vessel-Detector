@@ -126,6 +126,7 @@ def main() -> None:
     area_args(k)
     i = sub.add_parser("fetch-infra", help="download bridges, piers, platforms and buoys from OpenStreetMap")
     area_args(i)
+    sub.add_parser("ship-priors", help="build ship-type statistics and ship details from the Danish AIS day files")
     q = sub.add_parser("prune-ais", help="drop live AIS older than a few days")
     q.add_argument("--days", type=float, default=5)
     q.add_argument("--db", default="live.sqlite")
@@ -147,7 +148,23 @@ def main() -> None:
     area_args(m)
     a = p.parse_args()
 
-    if a.cmd == "prune-ais":
+    if a.cmd == "ship-priors":
+        import glob
+        import json
+        import pandas as pd
+        from .dma import read_ships
+        from .insight import PRIORS_PATH, build_priors
+        ships = pd.concat([read_ships(z) for z in sorted(glob.glob(os.path.join("data", "dma", "*.zip")))], ignore_index=True)
+        ships = ships.groupby("mmsi", as_index=False).last()
+        priors = build_priors(ships)
+        with open(PRIORS_PATH, "w", encoding="utf-8") as f:
+            json.dump(priors, f, indent=1)
+        con = store.connect("denmark_hist.sqlite")
+        store.add_ships(con, ships)
+        print(f"{len(ships)} ships read; {priors['ships']} with type and length -> {PRIORS_PATH}")
+        for b in priors["bins"]:
+            print(b)
+    elif a.cmd == "prune-ais":
         import time
         con = sqlite3_connect_with_wait(a.db)
         print(store.prune_ais(con, a.days, time.time()), "old AIS messages removed")

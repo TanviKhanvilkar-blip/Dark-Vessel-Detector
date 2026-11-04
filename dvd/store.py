@@ -18,18 +18,41 @@ CREATE TABLE IF NOT EXISTS passes (
   ais_gap_s REAL, sea_state REAL);
 CREATE TABLE IF NOT EXISTS detections (
   pass_id TEXT, det_id INTEGER, lon REAL, lat REAL, length_m REAL, score REAL, shore_km REAL,
-  status TEXT, reason TEXT, confidence TEXT, crop TEXT, ship_prob REAL);
+  status TEXT, reason TEXT, confidence TEXT, crop TEXT, ship_prob REAL, info TEXT);
+CREATE TABLE IF NOT EXISTS ships (mmsi INTEGER PRIMARY KEY, name TEXT, ship_type TEXT, length_m REAL, destination TEXT);
 """
 
 
 def connect(path: str) -> sqlite3.Connection:
-    con = sqlite3.connect(path)
+    con = sqlite3.connect(path, timeout=30)     # the recorder may be writing; wait for it rather than failing
     con.executescript(SCHEMA)
     cols = {r[1] for r in con.execute("PRAGMA table_info(detections)")}
-    if "ship_prob" not in cols:     # added with the CNN; older databases get the column on first open
-        con.execute("ALTER TABLE detections ADD COLUMN ship_prob REAL")
-        con.commit()
+    for col, kind in (("ship_prob", "REAL"), ("info", "TEXT")):     # older databases get new columns on first open
+        if col not in cols:
+            con.execute(f"ALTER TABLE detections ADD COLUMN {col} {kind}")
+    con.commit()
     return con
+
+
+def add_ships(con, df: pd.DataFrame) -> None:
+    """Insert or update ship details; a value we don't have never overwrites one we do."""
+    rows = df.reindex(columns=["mmsi", "name", "ship_type", "length_m", "destination"]).astype(object)
+    rows = rows.where(rows.notna(), None)
+    con.executemany("""INSERT INTO ships VALUES (?, ?, ?, ?, ?) ON CONFLICT(mmsi) DO UPDATE SET
+        name=COALESCE(excluded.name, name), ship_type=COALESCE(excluded.ship_type, ship_type),
+        length_m=COALESCE(excluded.length_m, length_m), destination=COALESCE(excluded.destination, destination)""",
+                    rows.values.tolist())
+    con.commit()
+
+
+def get_ships(con, mmsis) -> dict:
+    """{mmsi: {name, ship_type, length_m, destination}} for the given ships."""
+    ids = [int(m) for m in mmsis]
+    if not ids:
+        return {}
+    marks = ",".join("?" * len(ids))
+    df = pd.read_sql(f"SELECT * FROM ships WHERE mmsi IN ({marks})", con, params=ids)
+    return {int(r.mmsi): {k: (None if pd.isna(v) else v) for k, v in r._asdict().items() if k != "Index" and k != "mmsi"} for r in df.itertuples()}
 
 
 def add_ais(con, df: pd.DataFrame) -> None:
@@ -74,6 +97,6 @@ def save_pass(con, summary: dict, detections: pd.DataFrame) -> None:
     con.execute("DELETE FROM passes WHERE pass_id=?", (summary["pass_id"],))
     con.execute("DELETE FROM detections WHERE pass_id=?", (summary["pass_id"],))
     pd.DataFrame([summary]).to_sql("passes", con, if_exists="append", index=False)
-    cols = ["pass_id", "det_id", "lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop", "ship_prob"]
+    cols = ["pass_id", "det_id", "lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop", "ship_prob", "info"]
     detections.reindex(columns=cols)[cols].to_sql("detections", con, if_exists="append", index=False)
     con.commit()
