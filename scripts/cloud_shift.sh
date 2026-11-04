@@ -7,8 +7,10 @@ MINUTES="${1:-345}"
 REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 DBS="live.sqlite mumbai_results.sqlite denmark_hist.sqlite"
 
-git fetch -q --depth=1 origin state && git checkout -q FETCH_HEAD -- $DBS docs
+# never continue without the saved state: a shift that started empty would overwrite it with empty databases
+git fetch -q --depth=1 origin state && git checkout -q FETCH_HEAD -- $DBS docs || { echo "could not restore state; stopping"; exit 1; }
 git reset -q                                    # restored files stay in place, unstaged
+[ -n "${AISSTREAM_KEY:-}" ] || echo "WARNING: AISSTREAM_KEY secret is not set, so no live AIS will be recorded this shift"
 
 save_state() {
   rm -rf _state && mkdir _state
