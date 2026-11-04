@@ -1,4 +1,4 @@
-"""Ship detection on a SAR intensity scene: tiled CA-CFAR baseline, with a hook for a YOLO model.
+"""Ship detection on a SAR intensity scene: tiled CA-CFAR, which proposes the targets ShipCNN then judges.
 
 CFAR (constant false alarm rate): a pixel is a ship candidate if it is much brighter than the sea
 around it. The background is estimated from a ring around each pixel (a guard window is excluded so
@@ -75,9 +75,6 @@ def detect_scene(image: np.ndarray, land: np.ndarray, grid: Grid, detector: str 
         tile, tsea = image[rs, cs], sea[rs, cs]
         if detector == "cfar":
             blobs = cfar_blobs(tile, tsea, grid, row_off=rs.start)
-        elif detector == "yolo":
-            from .yolo import yolo_blobs
-            blobs = yolo_blobs(tile, tsea, grid, row_off=rs.start)
         else:
             raise ValueError(f"unknown detector {detector!r}")
         for b in blobs:

@@ -1,4 +1,4 @@
-"""Command line: `python -m dvd demo | record-ais | find-scenes | export-yolo`."""
+"""Command line: `python -m dvd record-ais | auto | build-site | run-scene | train-cnn | demo ...`."""
 from __future__ import annotations
 
 import argparse
@@ -6,7 +6,7 @@ import asyncio
 import os
 
 from . import config as C
-from . import report, store
+from . import store
 from .evaluate import classify_candidates, score_detections, truth_frame
 from .infra import Structures
 from .pipeline import run_pass
@@ -41,7 +41,6 @@ def demo(out: str) -> None:
         print(f"  ships: matched={summary['n_matched']} candidates={summary['n_candidates']} (low confidence {summary['n_low_conf']})")
         if len(c):
             print("  what the candidates really were:", c.groupby(["confidence", "truth"]).size().to_dict())
-    print("\nsite:", report.build_site(con, out))
 
 
 def region_aoi(a):
@@ -68,7 +67,7 @@ def run_scene(a) -> None:
     scene = load_scene(a.tiff, aoi=aoi, calibration_xml=a.cal, land_geojson=land, time=a.time)
     con = store.connect(a.db)
     pass_id = a.pass_id or os.path.basename(a.tiff).split(".")[0][:40]
-    summary, det = run_pass(scene, con, pass_id, out_dir=out, detector=a.detector, structures=structures, use_cnn=a.cnn)
+    summary, det = run_pass(scene, con, pass_id, out_dir=out, structures=structures, use_cnn=a.cnn)
     print({k: summary[k] for k in ("n_det", "n_matched", "n_candidates", "n_low_conf", "n_filtered", "ais_msgs", "ais_gap_s")})
     print("filtered:", det[det.status == "filtered"].reason.value_counts().to_dict())
     if summary["ais_msgs"] == 0:
@@ -90,7 +89,7 @@ def main() -> None:
         sp.add_argument("--region", choices=choices, default="all" if all_ok else "mumbai")
         sp.add_argument("--aoi", type=float, nargs=4, metavar=("WEST", "SOUTH", "EAST", "NORTH"), help="override the region's box")
 
-    d = sub.add_parser("demo", help="run the full pipeline on synthetic passes and build the site")
+    d = sub.add_parser("demo", help="run the full pipeline on synthetic passes and print how it scored")
     d.add_argument("--out", default="site")
     r = sub.add_parser("record-ais", help="record aisstream (needs a free API key in AISSTREAM_KEY)")
     r.add_argument("--db", default="live.sqlite")
@@ -102,9 +101,6 @@ def main() -> None:
     f = sub.add_parser("find-scenes", help="list recent Sentinel-1 GRD scenes over a region")
     f.add_argument("--days", type=int, default=7)
     area_args(f)
-    y = sub.add_parser("export-yolo", help="write a YOLO-format training set from synthetic scenes")
-    y.add_argument("--out", default="yolo_data")
-    y.add_argument("--scenes", type=int, default=6)
     s = sub.add_parser("run-scene", help="run the pipeline on a real Sentinel-1 GRD measurement GeoTIFF")
     s.add_argument("tiff"); s.add_argument("--cal", help="calibration-*.xml from the SAFE annotation folder")
     area_args(s)
@@ -114,11 +110,10 @@ def main() -> None:
     s.add_argument("--out", help="where image crops go (default docs/<region>)")
     b = sub.add_parser("build-site", help="rebuild the public website in docs/")
     b.add_argument("--out", default="docs"); b.add_argument("--live", default="live.sqlite")
-    b.add_argument("--results", nargs="*", default=["mumbai_results.sqlite", "denmark_hist.sqlite", "live.sqlite"])
-    b.add_argument("--demo", default="site", help="folder with the simulation demo (python -m dvd demo)")
+    b.add_argument("--results", nargs="*", default=["mumbai_results.sqlite", "denmark_hist.sqlite"])
     b.add_argument("--no-catalogue", action="store_true", help="skip the Copernicus catalogue check")
     s.add_argument("--time", type=float, help="epoch seconds; default parsed from file name")
-    s.add_argument("--pass-id"); s.add_argument("--detector", default="cfar", choices=["cfar", "yolo"])
+    s.add_argument("--pass-id")
     s.add_argument("--cnn", action="store_true", help="score every CFAR target with ShipCNN (models/ship_cnn.pt)")
     s.add_argument("--reference", help="CSV with lon,lat[,length_m] of reference detections")
     k = sub.add_parser("fetch-coast", help="build a detailed land mask from OpenStreetMap coastlines")
@@ -189,7 +184,7 @@ def main() -> None:
             print(to_geojson(raw, out), "->", out)
     elif a.cmd == "build-site":
         from .site import build
-        print("site:", build(a.out, a.live, a.results, demo_dir=a.demo, check_catalogue=not a.no_catalogue))
+        print("site:", build(a.out, a.live, a.results, check_catalogue=not a.no_catalogue))
     elif a.cmd == "run-scene":
         run_scene(a)
     elif a.cmd == "demo":
@@ -226,8 +221,3 @@ def main() -> None:
         from .live import find_scenes
         for s in find_scenes(a.days, aoi=region_aoi(a)):
             print(s["start"], s["name"])
-    elif a.cmd == "export-yolo":
-        from .yolo import export_dataset
-        scenes = [make_scene(100 + i) for i in range(a.scenes)]
-        n = export_dataset(scenes[:-1], a.out, "train") + export_dataset(scenes[-1:], a.out, "val")
-        print(f"wrote {n} tiles to {a.out}")

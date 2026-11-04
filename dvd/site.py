@@ -1,39 +1,30 @@
-"""Public static site, rebuilt on a schedule: overview, one page per region, and the simulation demo.
+"""Public static site, rebuilt on a schedule: an overview, one page per area, and a methodology page.
 
 Inputs are SQLite databases: the live AIS recording, plus any databases that hold processed passes
-(`passes` and `detections` tables). Each pass is assigned to a region by where its detections are.
+(`passes` and `detections` tables). Each pass is assigned to an area by where its detections are.
 """
 from __future__ import annotations
 
 import html
 import json
 import os
-import shutil
 import sqlite3
 import time
 from datetime import datetime, timezone
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import pandas as pd
 
 from . import config as C
 from .live import ais_status, recording_box
 
-TITLES = {"mumbai": "Mumbai coast and harbour, India", "denmark": "Oresund, Copenhagen (Denmark/Sweden)"}
-REPORT = os.path.join("models", "ship_cnn_report.json")
+TITLES = {"mumbai": "Mumbai", "denmark": "Øresund"}
+SUBTITLES = {"mumbai": "Coast and harbour, India", "denmark": "Copenhagen–Malmö strait, Denmark and Sweden"}
+REASONS = {"beyond_ground_receiver_range": "Beyond coastal AIS range", "ais_feed_gap": "AIS feed was down",
+           "no_ais_in_window": "No AIS available for this pass", "same_spot_in_another_pass": "Probably a fixed object"}
+LIVE_WITHIN_MIN = 30      # a message this recent means the feed counts as live when the site is built
 
 
-def cnn_threshold() -> float:
-    """ShipCNN's operating threshold from its training report (read directly: importing the model would load PyTorch)."""
-    try:
-        return float(json.load(open(REPORT))["threshold"])
-    except Exception:
-        return C.CNN_THRESHOLD
-
-
-def utc(t, fmt="%Y-%m-%d %H:%M UTC"):
+def utc(t, fmt="%d %b %Y, %H:%M UTC"):
     return datetime.fromtimestamp(t, timezone.utc).strftime(fmt) if t else "never"
 
 
@@ -81,192 +72,116 @@ def live_positions(live_db: str, aoi, minutes: int = 30) -> list[dict]:
     return [dict(lon=r.lon, lat=r.lat, sog=round(r.sog, 1), age=int((time.time() - r.time) / 60)) for r in last.itertuples()]
 
 
-def ais_hourly(live_db: str, aoi, hours: int = 48) -> pd.Series:
-    if not os.path.exists(live_db):
-        return pd.Series(dtype=float)
-    w, s, e, n = recording_box(aoi)
-    con = sqlite3.connect(live_db)
-    try:
-        df = pd.read_sql("SELECT CAST(time / 3600 AS INTEGER) AS h, COUNT(*) AS n FROM ais WHERE time > ? AND lon BETWEEN ? AND ? "
-                         "AND lat BETWEEN ? AND ? GROUP BY h", con, params=(time.time() - hours * 3600, w, e, s, n))
-    finally:
-        con.close()
-    return pd.Series(df.n.values, index=pd.to_datetime(df.h * 3600, unit="s", utc=True))
-
-
-PAL = dict(bg="#05090d", panel="#0a1218", line="#16303a", ink="#d3ece9", muted="#6d8c91", green="#2ef2b0",
-           red="#ff4d5e", amber="#ffb547", cyan="#4fc3ff")
-
-
-def charts(region: str, passes: pd.DataFrame, hourly: pd.Series, path: str) -> None:
-    with plt.rc_context({"font.family": "monospace", "text.color": PAL["ink"], "axes.labelcolor": PAL["muted"],
-                         "xtick.color": PAL["muted"], "ytick.color": PAL["muted"], "axes.edgecolor": PAL["line"]}):
-        fig, ax = plt.subplots(1, 2, figsize=(11, 3.2), facecolor=PAL["panel"])
-        for a in ax:
-            a.set_facecolor(PAL["panel"])
-            a.grid(axis="y", color=PAL["line"], linewidth=0.6)
-            a.set_axisbelow(True)
-            for sp in ("top", "right"):
-                a.spines[sp].set_visible(False)
-            a.tick_params(labelsize=8)
-        if len(hourly):
-            ax[0].bar(hourly.index, hourly.values, width=1 / 24 * 0.85, align="edge", color=PAL["cyan"])  # bar covers its hour
-            now = pd.Timestamp.now(tz="UTC")
-            ax[0].set_xlim(now - pd.Timedelta(hours=48), now + pd.Timedelta(hours=1))
-            import matplotlib.dates as mdates
-            ax[0].xaxis.set_major_formatter(mdates.DateFormatter("%d %b %H:%M"))
-            ax[0].xaxis.set_major_locator(mdates.HourLocator(byhour=[0, 12]))
-            ax[0].tick_params(axis="x", labelrotation=30)
-        else:
-            ax[0].text(0.5, 0.5, "NO AIS RECEIVED YET", ha="center", va="center", color=PAL["muted"], transform=ax[0].transAxes)
-            ax[0].set_xticks([]); ax[0].set_yticks([])
-        ax[0].set_title("LIVE AIS MESSAGES / HOUR (48 H)", fontsize=9, loc="left", color=PAL["ink"])
-        if len(passes):
-            x = [utc(t, "%d %b %H:%M") for t in passes.time]
-            ax[1].bar(x, passes.n_matched, width=0.5, color=PAL["green"], label="matched to AIS")
-            ax[1].bar(x, passes.n_candidates, width=0.5, bottom=passes.n_matched, color=PAL["red"], label="not publicly tracked")
-            ax[1].set_xlim(-0.75, max(len(x), 4) - 0.25)     # keep bars narrow even with one or two passes
-            ax[1].set_ylim(0, (passes.n_matched + passes.n_candidates).max() * 1.3 + 1)
-            leg = ax[1].legend(fontsize=8, frameon=False, loc="upper right", ncol=2)
-            for t in leg.get_texts():
-                t.set_color(PAL["ink"])
-            ax[1].tick_params(axis="x", labelrotation=30, labelsize=8)
-        else:
-            ax[1].text(0.5, 0.5, "NO PASSES PROCESSED YET", ha="center", va="center", color=PAL["muted"], transform=ax[1].transAxes)
-            ax[1].set_xticks([]); ax[1].set_yticks([])
-        ax[1].set_title("SHIPS DETECTED PER SATELLITE PASS", fontsize=9, loc="left", color=PAL["ink"])
-        fig.tight_layout()
-        fig.savefig(path, dpi=110, facecolor=PAL["panel"])
-        plt.close(fig)
-
-
 CSS = """
-:root{--bg:#05090d;--panel:#0a1218;--panel2:#0d1820;--line:#16303a;--ink:#d3ece9;--muted:#6d8c91;
---green:#2ef2b0;--red:#ff4d5e;--amber:#ffb547;--cyan:#4fc3ff;--glow:0 0 12px rgba(46,242,176,.35);
+:root{--bg:#070b0f;--panel:#0d141a;--line:#1b2a33;--ink:#e3eeee;--muted:#7f9498;
+--green:#2ef2b0;--red:#ff5c6c;--amber:#ffb547;--cyan:#4fc3ff;
 --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;--sans:'Inter',system-ui,-apple-system,Segoe UI,sans-serif}
 *{box-sizing:border-box}html{background:var(--bg)}
-body{margin:0;color:var(--ink);font:15px/1.6 var(--sans);background:
- radial-gradient(1200px 500px at 70% -10%,rgba(46,242,176,.08),transparent 60%),
- linear-gradient(rgba(46,242,176,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(46,242,176,.035) 1px,transparent 1px),var(--bg);
- background-size:auto,44px 44px,44px 44px,auto;min-height:100vh}
-a{color:var(--green);text-decoration:none}a:hover{text-shadow:var(--glow)}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-header.hud{border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(10,18,24,.95),rgba(5,9,13,.85));position:sticky;top:0;z-index:1000;backdrop-filter:blur(6px)}
-.hudrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:14px}
-.scope{width:52px;height:52px;border-radius:50%;position:relative;overflow:hidden;flex:none;border:1px solid rgba(46,242,176,.5);
- background:repeating-radial-gradient(circle,transparent 0 9px,rgba(46,242,176,.22) 9px 10px),
- linear-gradient(rgba(46,242,176,.25),rgba(46,242,176,.25)) center/1px 100% no-repeat,
- linear-gradient(90deg,rgba(46,242,176,.25),rgba(46,242,176,.25)) center/100% 1px no-repeat,#03110c;box-shadow:var(--glow)}
-.sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(46,242,176,.65),rgba(46,242,176,0) 75deg,transparent);animation:spin 3.2s linear infinite}
-.blip{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--red);box-shadow:0 0 6px var(--red);animation:blink 3.2s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes blink{0%,60%{opacity:.15}70%{opacity:1}100%{opacity:.15}}
-@media (prefers-reduced-motion:reduce){.sweep,.blip,.dot.live{animation:none}}
-.kicker{font:600 11px/1.2 var(--mono);letter-spacing:.18em;color:var(--muted)}
-.title{font:700 20px/1.2 var(--mono);letter-spacing:.06em;color:var(--ink)}
-.title b{color:var(--green);font-weight:700}
-.status{display:flex;gap:10px;flex-wrap:wrap;font:12px/1 var(--mono)}
-.pill{border:1px solid var(--line);background:var(--panel);padding:7px 10px;border-radius:999px;color:var(--muted);white-space:nowrap}
-.pill strong{color:var(--ink);font-weight:600}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:0}
-.dot.live{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.6s ease-in-out infinite}.dot.off{background:var(--red)}
-@keyframes pulse{50%{opacity:.35}}
-nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 0 0;margin-top:-1px}
-nav.tabs a{font:600 12px/1 var(--mono);letter-spacing:.12em;color:var(--muted);padding:12px 14px;border-bottom:2px solid transparent;white-space:nowrap}
-nav.tabs a.on{color:var(--green);border-bottom-color:var(--green);text-shadow:var(--glow)}nav.tabs a:hover{color:var(--ink)}
-main{padding:24px 0 40px}
-h1{font:700 28px/1.2 var(--sans);margin:4px 0 6px;letter-spacing:-.01em}
-h2{font:600 12px/1 var(--mono);letter-spacing:.18em;color:var(--muted);margin:34px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
-h2::after{content:"";flex:1;height:1px;background:var(--line)}
-.lede{color:#a9c6c3;max-width:760px}.muted{color:var(--muted)}.mono{font-family:var(--mono)}
-.coords{font:12px/1.4 var(--mono);color:var(--muted);letter-spacing:.06em}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.panel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:6px;padding:14px 16px;position:relative}
-.panel::before,.panel::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--green);opacity:.55}
-.panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0}.panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
-.label{font:600 10.5px/1.2 var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
-.value{font:600 30px/1.1 var(--mono);color:var(--green);text-shadow:var(--glow)}
-.value.red{color:var(--red);text-shadow:0 0 12px rgba(255,77,94,.35)}.value.cyan{color:var(--cyan);text-shadow:0 0 12px rgba(79,195,255,.35)}
-.value.small{font-size:16px}.value.amber{color:var(--amber);text-shadow:0 0 12px rgba(255,181,71,.3)}
-.step a{color:inherit}.step.nn{border-color:rgba(46,242,176,.6);box-shadow:var(--glow)}.ok{color:var(--green)}.bad{color:var(--red)}
-.alert{border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.07);border-radius:6px;padding:12px 16px;color:#f3dcb4}
-.alert b{color:var(--amber)}
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.step{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px}
-.step .n{font:700 11px/1 var(--mono);color:var(--green);letter-spacing:.14em}.step .t{font:600 14px/1.3 var(--sans);margin:6px 0 4px}
-.step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
-@media (max-width:760px){.flow{grid-template-columns:1fr 1fr!important}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
- header.hud{position:static}.status .pill:nth-child(3){display:none}.map{height:420px}}
-.region{display:block;color:inherit}.region:hover{border-color:rgba(46,242,176,.5)}
-.region .rt{font:600 16px/1.3 var(--sans);color:var(--ink);margin-bottom:6px}.region .go{font:600 11px/1 var(--mono);color:var(--green);letter-spacing:.14em;margin-top:10px}
-.kv{display:flex;justify-content:space-between;font:13px/1.9 var(--mono);border-bottom:1px dashed var(--line)}.kv span:last-child{color:var(--ink)}
-.map{height:520px;border:1px solid var(--line);border-radius:6px;background:#0a0f13}
-.legend{display:flex;flex-wrap:wrap;gap:16px;font:12px/1 var(--mono);color:var(--muted);margin:0 0 10px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
-table{border-collapse:collapse;width:100%;font:13px/1.4 var(--mono);background:var(--panel)}
-th{font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+body{margin:0;color:var(--ink);font:15px/1.55 var(--sans);background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{border-bottom:1px solid var(--line);background:var(--panel)}
+.bar{display:flex;align-items:center;gap:24px;min-height:60px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;font-size:16px}.brand:hover{text-decoration:none}
+.scope{width:26px;height:26px;border-radius:50%;flex:none;border:1px solid var(--green);
+ background:conic-gradient(from 0deg,rgba(46,242,176,.75),rgba(46,242,176,0) 90deg,transparent)}
+nav.tabs{display:flex;gap:4px;flex:1}
+nav.tabs a{color:var(--muted);padding:6px 10px;border-radius:6px;font-weight:600;font-size:14px}
+nav.tabs a:hover{color:var(--ink);text-decoration:none}nav.tabs a.on{color:var(--ink);background:#16222a}
+.pill{font-size:13px;color:var(--muted);white-space:nowrap}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;background:var(--muted)}
+.dot.live{background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}@media (prefers-reduced-motion:reduce){.dot.live{animation:none}}
+main{padding:28px 0 40px;flex:1}
+h1{font:700 30px/1.2 var(--sans);margin:0 0 4px;letter-spacing:-.01em}
+h2{font:600 17px/1.3 var(--sans);margin:34px 0 12px}
+.sub{color:var(--muted);margin:0 0 20px}
+.titlerow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.tag.amber{color:var(--amber);border-color:rgba(255,181,71,.45)}.tag.green{color:var(--green);border-color:rgba(46,242,176,.45)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
+.label{font-size:13px;color:var(--muted);margin-bottom:6px}
+.value{font:600 30px/1.1 var(--mono);color:var(--ink)}
+.value.green{color:var(--green)}.value.red{color:var(--red)}.value.cyan{color:var(--cyan)}.value.amber{color:var(--amber)}
+.area{display:block;color:inherit}.area:hover{border-color:rgba(46,242,176,.5);text-decoration:none}
+.area h3{font:600 18px/1.3 var(--sans);margin:0}.area .sub{margin:2px 0 12px;font-size:14px}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:5px 0;border-top:1px solid var(--line)}
+.kv span:first-child{color:var(--muted)}.kv span:last-child{font-family:var(--mono)}
+.go{color:var(--green);font-weight:600;font-size:14px;margin-top:10px}
+.map{height:540px;border:1px solid var(--line);border-radius:8px;background:#0a0f13}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
+th{font-weight:600;font-size:13px;color:var(--muted);text-align:right}
 td,th{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}td:first-child,th:first-child{text-align:left}
-tr:last-child td{border-bottom:0}tbody tr:hover td{background:rgba(46,242,176,.04)}
-.chart{border:1px solid var(--line);border-radius:6px;display:block;width:100%}
-ul.acq{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
-ul.acq li{font:12px/1 var(--mono);border:1px solid var(--line);background:var(--panel);padding:8px 10px;border-radius:4px}
-footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--mono);color:var(--muted)}
-.leaflet-container{background:#0a0f13;font:12px var(--mono)}
+td{font-variant-numeric:tabular-nums}tr:last-child td{border-bottom:0}
+.more{color:var(--muted);font-size:13px;margin:8px 0 0}
+.chips{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.chips li{font-size:13px;border:1px solid var(--line);background:var(--panel);padding:6px 10px;border-radius:6px;color:var(--muted)}
+.chart{border:1px solid var(--line);border-radius:8px;display:block;width:100%}
+footer{border-top:1px solid var(--line);padding:16px 0 24px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap}
+.leaflet-container{background:#0a0f13;font:13px var(--sans)}
 .radar-tiles{filter:invert(100%) hue-rotate(180deg) grayscale(70%) brightness(78%) contrast(118%)}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0d1820;color:var(--ink);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.6)}
-.leaflet-popup-content b{color:var(--green)}.leaflet-popup-content img{border:1px solid var(--line);margin-top:6px;image-rendering:pixelated}
-.leaflet-control-layers,.leaflet-bar a{background:#0d1820!important;color:var(--ink)!important;border-color:var(--line)!important}
-.leaflet-control-attribution{background:rgba(5,9,13,.75)!important;color:var(--muted)!important}.leaflet-control-attribution a{color:var(--muted)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.6)}
+.leaflet-popup-content{line-height:1.5}.leaflet-popup-content img{border:1px solid var(--line);margin-top:6px;image-rendering:pixelated}
+.leaflet-control-layers,.leaflet-bar a{background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important}
+.leaflet-control-layers i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 6px 0 2px}
+.leaflet-control-attribution{background:rgba(7,11,15,.75)!important;color:var(--muted)!important}.leaflet-control-attribution a{color:var(--muted)}
+@media (max-width:760px){h1{font-size:25px}.value{font-size:25px}.map{height:420px}nav.tabs{flex-basis:100%;order:3}.bar{padding:10px 0;gap:8px 16px}}
 """
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-         '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">')
+         '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">')
+
+# "Updated 5 min ago" is worked out in the viewer's browser, so the page stays truthful however long ago it was built:
+# if the system stops, the page quietly shows its age rather than claiming to be live.
+STATUS_JS = """<script>(function(){const s=document.getElementById('status'),b=+s.dataset.built,live=s.dataset.live==='1';
+const f=()=>{const m=Math.round((Date.now()/1000-b)/60),a=m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago',ok=live&&m<180;
+s.innerHTML='<span class="dot'+(ok?' live':'')+'"></span>'+(ok?'Live &middot; updated ':'Updated ')+a;};f();setInterval(f,60000);})();</script>"""
 
 
 def page(title: str, body: str, depth: int = 0, leaflet: bool = False, active: str = "overview", feed: dict | None = None) -> str:
     up = "../" * depth
-    tabs = [("overview", f"{up}index.html", "OVERVIEW")] + [(r, f"{up}{r}/index.html", r.upper()) for r in C.REGIONS] + \
-           [("nn", f"{up}nn/index.html", "NEURAL NET"), ("demo", f"{up}demo/index.html", "SIMULATION")]
+    tabs = [("overview", f"{up}index.html", "Overview")] + [(r, f"{up}{r}/index.html", TITLES[r]) for r in C.REGIONS]
     nav = "".join(f'<a class="{"on" if k == active else ""}" href="{href}">{label}</a>' for k, href, label in tabs)
-    feed = feed or {}
-    dot = "live" if feed.get("live") else "off"
-    feed_txt = "AIS FEED <strong>LIVE</strong>" if feed.get("live") else "AIS FEED <strong>OFFLINE</strong>"
     lf = ('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">'
           '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>') if leaflet else ""
-    blips = '<span class="blip" style="left:32px;top:14px"></span><span class="blip" style="left:15px;top:33px;animation-delay:1.1s"></span>'
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark"><title>{html.escape(title)}</title>{FONTS}<style>{CSS}</style>{lf}</head><body>
-<header class="hud"><div class="wrap"><div class="hudrow">
- <a class="brand" href="{up}index.html"><div class="scope"><div class="sweep"></div>{blips}</div>
-  <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
- <div class="status"><span class="pill"><span class="dot {dot}"></span>{feed_txt}</span>
-  <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
-  <span class="pill">UPDATED <strong>{utc(time.time(), '%d %b %H:%M')}</strong></span></div>
-</div><nav class="tabs">{nav}</nav></div></header>
+<header class="top"><div class="wrap bar">
+ <a class="brand" href="{up}index.html"><span class="scope"></span>Dark Vessel Detection</a>
+ <nav class="tabs">{nav}</nav>
+ <span class="pill" id="status" data-built="{int(time.time())}" data-live="{1 if (feed or {}).get('live') else 0}"></span>
+</div></header>
 <main class="wrap">{body}</main>
-<footer><div class="wrap">Contains modified Copernicus Sentinel data 2026 &middot; AIS: aisstream.io, Danish Maritime Authority &middot;
-&copy; OpenStreetMap contributors</div></footer>
-<script>(function(){{const e=document.getElementById('utc');const t=()=>e.textContent=new Date().toISOString().slice(11,19);t();setInterval(t,1000);}})();</script>
+<footer><div class="wrap"><span>Flags are for human review, not accusations.</span>
+<span>Contains modified Copernicus Sentinel data 2026 &middot; AIS: aisstream.io, Danish Maritime Authority &middot;
+&copy; OpenStreetMap contributors &middot; <a href="{up}nn/index.html">Methodology</a></span></div></footer>
+{STATUS_JS}
 </body></html>"""
 
 
 MAP_JS = """<script>
-const D=__DATA__,LIVE=__LIVE__,B=[[__S__,__W__],[__N__,__E__]];const m=L.map('map',{zoomSnap:.25}).fitBounds(B);
+const D=__DATA__,LIVE=__LIVE__,B=[[__S__,__W__],[__N__,__E__]],R=__REASONS__,SHOW_UNVERIFIED=__SHOW__;
+const m=L.map('map',{zoomSnap:.25}).fitBounds(B);
 // re-fit once layout has settled: if the container had no size when the map was created, Leaflet falls back to zoom 0
 const refit=()=>{m.invalidateSize();m.fitBounds(B);};setTimeout(refit,0);window.addEventListener('load',refit);
-// standard OSM tiles (no API key), turned into a dark "radar console" basemap with a CSS filter (.radar-tiles)
+// standard OSM tiles (no API key), turned into a dark basemap with a CSS filter (.radar-tiles)
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,className:'radar-tiles',
  attribution:'&copy; OpenStreetMap contributors'}).addTo(m);
-L.rectangle(B,{color:'#2ef2b0',weight:1,dashArray:'4 6',fill:false,opacity:.6}).addTo(m);
-const det=L.layerGroup().addTo(m),live=L.layerGroup().addTo(m);
-D.forEach(d=>{const c=d.status=='matched'?'#2ef2b0':(d.confidence=='low'?'#ffb547':'#ff4d5e');
-let h='<b>'+(d.status=='matched'?'MATCHED TO AIS':'NOT PUBLICLY TRACKED')+'</b><br>length ~'+d.length_m.toFixed(0)+' m &middot; score '+d.score.toFixed(2)+'<br>'+d.shore_km.toFixed(1)+' km from shore';
-if(d.ship_prob!==''&&d.ship_prob!==null)h+='<br>ShipCNN P(ship) '+Number(d.ship_prob).toFixed(2);
-if(d.reason)h+='<br><span style="color:#ffb547">caveat:'+d.reason.replaceAll('_',' ').replaceAll(',',', ')+'</span>';if(d.crop)h+='<br><img src="'+d.crop+'" width="160">';
-L.circleMarker([d.lat,d.lon],{radius:d.status=='matched'?4.5:7,color:c,fillColor:c,fillOpacity:.85,weight:d.status=='matched'?1:2,opacity:1}).bindPopup(h).addTo(det);});
-LIVE.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:3,color:'#4fc3ff',fillColor:'#4fc3ff',fillOpacity:.9,weight:1}).bindPopup('<b>LIVE AIS</b><br>'+p.sog+' kn &middot; '+p.age+' min ago').addTo(live));
-L.control.layers(null,{'Radar detections (selected pass)':det,'Live AIS, last 30 min':live},{collapsed:false}).addTo(m);
+const tracked=L.layerGroup().addTo(m),untracked=L.layerGroup().addTo(m),unverified=L.layerGroup(),live=L.layerGroup().addTo(m);
+if(SHOW_UNVERIFIED)unverified.addTo(m);
+D.forEach(d=>{const t=d.status=='matched',low=d.confidence=='low',c=t?'#2ef2b0':(low?'#ffb547':'#ff5c6c');
+let h='<b>'+(t?'Tracked by AIS':(low?'Unverified':'Untracked'))+'</b><br>About '+d.length_m.toFixed(0)+' m long &middot; '+d.shore_km.toFixed(1)+' km from shore';
+if(d.ship_prob!==''&&d.ship_prob!==null)h+='<br>Ship likelihood '+(Number(d.ship_prob)*100).toFixed(0)+'%';
+if(d.reason)h+='<br><span style="color:#ffb547">'+d.reason.split(',').map(x=>R[x]||x).join(' &middot; ')+'</span>';
+if(d.crop)h+='<br><img src="'+d.crop+'" width="160" alt="radar image of this target">';
+L.circleMarker([d.lat,d.lon],{radius:t?4.5:7,color:c,fillColor:c,fillOpacity:.85,weight:t?1:2}).bindPopup(h).addTo(t?tracked:(low?unverified:untracked));});
+LIVE.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:3,color:'#4fc3ff',fillColor:'#4fc3ff',fillOpacity:.9,weight:1}).bindPopup('<b>Broadcasting now</b><br>'+p.sog+' kn &middot; '+p.age+' min ago').addTo(live));
+const dot=c=>'<i style="background:'+c+'"></i>';
+L.control.layers(null,{[dot('#2ef2b0')+'Tracked by AIS']:tracked,[dot('#ff5c6c')+'Untracked']:untracked,
+ [dot('#ffb547')+'Unverified']:unverified,[dot('#4fc3ff')+'Broadcasting now']:live},{collapsed:false}).addTo(m);
 </script>"""
 
 
@@ -274,67 +189,77 @@ def readout(label: str, value, cls: str = "") -> str:
     return f'<div class="panel"><div class="label">{label}</div><div class="value {cls}">{value}</div></div>'
 
 
+def plain_reason(reason) -> str:
+    return " · ".join(REASONS.get(r, r) for r in str(reason or "").split(",") if r)
+
+
+def review_table(d: pd.DataFrame, limit: int = 12) -> str:
+    """Untracked and unverified targets of a pass: the ones a person would look at. Strongest first."""
+    c = d[d.status == "candidate"].copy()
+    if c.empty:
+        return "<div class='panel muted'>Nothing to review on this pass.</div>"
+    c["rank"] = (c.confidence == "low").astype(int)
+    c = c.sort_values(["rank", "ship_prob"], ascending=[True, False])
+    rows = "".join(
+        f"<tr><td>{'Unverified' if r.confidence == 'low' else 'Untracked'}</td><td>{r.lat:.3f}, {r.lon:.3f}</td><td>{r.length_m:.0f} m</td>"
+        f"<td>{r.shore_km:.1f} km</td><td>{'&ndash;' if pd.isna(r.ship_prob) else f'{r.ship_prob:.0%}'}</td>"
+        f"<td>{html.escape(plain_reason(r.reason))}</td></tr>" for r in c.head(limit).itertuples())
+    more = f"<p class='more'>{len(c) - limit} more on the map.</p>" if len(c) > limit else ""
+    return ("<div class='tablewrap'><table><thead><tr><th>status</th><th>position</th><th>length</th><th>from shore</th><th>ship likelihood</th>"
+            f"<th>note</th></tr></thead><tbody>{rows}</tbody></table></div>{more}")
+
+
 def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: str, out: str, scenes: list[dict], feed: dict) -> dict:
     aoi = C.REGIONS[region]
     os.makedirs(out, exist_ok=True)
     rp = passes[passes.region == region] if len(passes) else passes
-    st = ais_status(sqlite3.connect(live_db), aoi=aoi) if os.path.exists(live_db) else {}
     live = live_positions(live_db, aoi)
-    charts(region, rp, ais_hourly(live_db, aoi), os.path.join(out, "charts.png"))
 
     if len(rp):
         latest = rp.iloc[-1]
         d = dets[(dets.pass_id == latest.pass_id) & (dets.status != "filtered")]
-        data = d.reindex(columns=["lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop",
+        data = d.reindex(columns=["lon", "lat", "length_m", "shore_km", "status", "reason", "confidence", "crop",
                                   "ship_prob"]).astype(object).fillna("").to_dict("records")
-        shown = f"PASS &middot; {utc(latest.time)}"
-        n_m, n_low = int(latest.n_matched), int(latest.n_low_conf)
+        shown, seen, n_m = utc(latest.time), int(latest.n_det), int(latest.n_matched)
+        n_low = int(latest.n_low_conf)
         n_high = int(latest.n_candidates) - n_low
+        radar_only = int(latest.ais_msgs) == 0
+        review = review_table(d)
     else:
-        data, shown, n_m, n_high, n_low = [], "NO PASS YET", 0, 0, 0
+        data, shown, seen, n_m, n_high, n_low, radar_only = [], "No pass yet", 0, 0, 0, 0, False
+        review = "<div class='panel muted'>No pass yet.</div>"
     w, s, e, n = aoi
-    js = (MAP_JS.replace("__DATA__", json.dumps(data)).replace("__LIVE__", json.dumps(live))
+    js = (MAP_JS.replace("__DATA__", json.dumps(data)).replace("__LIVE__", json.dumps(live)).replace("__REASONS__", json.dumps(REASONS))
+          .replace("__SHOW__", "true" if radar_only else "false")
           .replace("__S__", str(s)).replace("__W__", str(w)).replace("__N__", str(n)).replace("__E__", str(e)))
 
-    rows = "".join(
-        f"<tr><td>{utc(r.time)}</td><td>{r.n_det}</td><td class='ok'>{r.n_matched}</td><td class='bad'>{r.n_candidates - r.n_low_conf}</td>"
-        f"<td style='color:var(--amber)'>{r.n_low_conf}</td><td>{'&ndash;' if pd.isna(r.match_rate) else f'{r.match_rate:.0%}'}</td><td>{r.ais_msgs}</td></tr>"
-        for r in rp.iloc[::-1].itertuples())
-    table = ("<div class='tablewrap'><table><thead><tr><th>pass (UTC)</th><th>ships</th><th>matched</th><th>not tracked</th>"
-             f"<th>low conf.</th><th>match rate</th><th>AIS msgs</th></tr></thead><tbody>{rows}</tbody></table></div>") if rows \
-        else "<p class='muted mono'>No passes processed yet.</p>"
-    acq = "".join(f"<li>{html.escape(x['start'][:16].replace('T', ' '))} UTC</li>" for x in scenes[:8]) or "<li>catalogue unavailable</li>"
-    fresh = st.get("minutes_since_last")
-    rec = (f"<span class='ok'>RECEIVING</span>" if fresh is not None and fresh < 10 else "<span class='bad'>NO SIGNAL</span>")
-    since = f"{fresh:.0f} min ago" if fresh is not None else "no data"
-    body = f"""<div class="coords">SECTOR // {region.upper()} &middot; {s:.2f}&ndash;{n:.2f}&deg;N &middot; {w:.2f}&ndash;{e:.2f}&deg;E</div>
-<h1>{TITLES[region]}</h1>
+    rows = "".join(f"<tr><td>{utc(r.time)}</td><td>{r.n_det}</td><td>{r.n_candidates}</td></tr>" for r in rp.iloc[::-1].itertuples())
+    table = ("<div class='tablewrap'><table><thead><tr><th>date</th><th>ships seen</th><th>not tracked</th></tr></thead>"
+             f"<tbody>{rows}</tbody></table></div>") if rows else "<div class='panel muted'>No pass yet.</div>"
+    acq = "".join(f"<li>{html.escape(x['start'][:16].replace('T', ' '))} UTC</li>" for x in scenes[:8])
+    recent = f"<h2>Recent satellite passes</h2><ul class='chips'>{acq}</ul>" if acq else ""
+    tag = "<span class='tag amber'>Radar only</span>" if radar_only else "<span class='tag green'>Radar + AIS</span>"
+    body = f"""<div class="titlerow"><h1>{TITLES[region]}</h1>{tag}</div><p class="sub">{SUBTITLES[region]}</p>
 <div class="grid">
- <div class="panel"><div class="label">Live AIS feed</div><div class="value small">{rec}</div><div class="muted mono" style="font-size:12px;margin-top:6px">{since}</div></div>
- {readout("Ships broadcasting &middot; 30 min", len(live), "cyan")}
- {readout("Matched &middot; latest pass", n_m)}
- {readout("Not tracked &middot; high confidence", n_high, "red")}
- {readout("Not tracked &middot; low confidence", n_low, "amber")}
+ {readout("Broadcasting now", len(live), "cyan")}
+ {readout("Ships seen, latest pass", seen)}
+ {readout("Tracked by AIS", n_m, "green")}
+ {readout("Untracked", n_high, "red")}
 </div>
-<h2>Tactical map</h2><ul class="acq" style="margin-bottom:10px"><li>{shown}</li></ul>
-<div class="legend"><span><i style="background:var(--green)"></i>matched</span><span><i style="background:var(--red)"></i>not tracked &middot; high</span>
-<span><i style="background:var(--amber)"></i>not tracked &middot; low</span><span><i style="background:var(--cyan)"></i>live AIS</span></div>
+<h2>Latest pass &middot; {shown}</h2>
 <div id="map" class="map"></div>{js}
-<h2>Pass log</h2>{table}
-<h2>Telemetry</h2><img class="chart" src="charts.png" alt="AIS messages per hour and ships detected per pass">
-<ul class="acq" style="margin-top:10px"><li>AIS MSG / H &middot; {st.get('messages_last_hour', 0)}</li><li>FEED GAPS 24 H &middot; {st.get('gaps_last_24h', 0)}
-({st.get('gap_minutes_last_24h', 0):.0f} min)</li></ul>
-<h2>Sentinel-1 acquisitions &middot; 14 days</h2><ul class="acq">{acq}</ul>"""
+<h2>To review</h2>{review}
+<h2>Pass history</h2>{table}
+{recent}"""
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-        f.write(page(TITLES[region], body, depth=1, leaflet=True, active=region, feed=feed))
-    return dict(region=region, passes=len(rp), live=len(live), st=st,
-                matched=int(rp.n_matched.sum()) if len(rp) else 0,
-                high=int((rp.n_candidates - rp.n_low_conf).sum()) if len(rp) else 0,
-                low=int(rp.n_low_conf.sum()) if len(rp) else 0)
+        f.write(page(f"{TITLES[region]} · Dark Vessel Detection", body, depth=1, leaflet=True, active=region, feed=feed))
+    return dict(region=region, passes=len(rp), live=len(live), shown=shown, seen=seen, latest_matched=n_m, latest_high=n_high,
+                radar_only=radar_only, matched=int(rp.n_matched.sum()) if len(rp) else 0,
+                high=int((rp.n_candidates - rp.n_low_conf).sum()) if len(rp) else 0)
 
 
 def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "ship_cnn_report.json")) -> dict | None:
-    """The neural network: architecture, how it was trained, and how it scores on the held-out Oresund."""
+    """Methodology: the neural network's architecture and how it scores on the held-out Oresund. Linked from the footer."""
     if not os.path.exists(report_path):
         return None
     rep = json.load(open(report_path))
@@ -345,85 +270,35 @@ def nn_page(out: str, feed: dict, report_path: str = os.path.join("models", "shi
     thr = rep.get("threshold", 0.5)
 
     def row(name, k, fmt="{:.3f}"):
-        return (f"<tr><td>{name}</td><td class='ok'>{fmt.format(t[k])}</td><td>{fmt.format(h[k])}</td>"
-                f"<td>{fmt.format(b[k])}</td></tr>")
+        return f"<tr><td>{name}</td><td>{fmt.format(t[k])}</td><td>{fmt.format(h[k])}</td><td>{fmt.format(b[k])}</td></tr>"
 
     comp = "".join(row(n, k) for n, k in [("Accuracy", "accuracy"), ("Precision", "precision"), ("Recall", "recall"),
                                          ("F1 score", "f1"), ("ROC-AUC", "roc_auc")])
     comp += "".join(row(n, k, "{:d}") for n, k in [("True positives (ships found)", "tp"), ("False positives", "fp"),
                                                   ("True negatives", "tn"), ("False negatives (ships missed)", "fn")])
-    body = f"""<div class="coords">NEURAL NETWORK // SHIPCNN</div>
-<h1>ShipCNN</h1>
+    body = f"""<h1>Methodology</h1><p class="sub">ShipCNN, the neural network behind the detector</p>
 <div class="grid">{readout("Weights", f"{rep['weights']:,}")}{readout("Layers with weights", 6)}
-{readout("Test F1 &middot; Oresund", f"{t['f1']:.2f}")}{readout("Test ROC-AUC", f"{t['roc_auc']:.2f}", "cyan")}
+{readout("Test F1", f"{t['f1']:.2f}")}{readout("Test ROC-AUC", f"{t['roc_auc']:.2f}", "cyan")}
 {readout("Threshold", f"{thr:g}", "amber")}</div>
 <h2>Architecture</h2>
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr>{arch}</tbody></table></div>
-<h2>Test &middot; held-out Oresund</h2>
+<h2>Test on the held-out Øresund</h2>
 <div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ {thr:g}</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
 <tbody>{comp}</tbody></table></div>
 <h2>Test chips</h2>
 <img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px">"""
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-        f.write(page("ShipCNN neural network", body, depth=1, active="nn", feed=feed))
+        f.write(page("Methodology · Dark Vessel Detection", body, depth=1, active="nn", feed=feed))
     return rep
 
 
-def demo_page(demo_dir: str, out: str, feed: dict) -> None:
-    """The simulation (python -m dvd demo) in the same layout. Synthetic scenes with known ground truth."""
-    os.makedirs(out, exist_ok=True)
-    if os.path.isdir(os.path.join(demo_dir, "crops")):
-        shutil.copytree(os.path.join(demo_dir, "crops"), os.path.join(out, "crops"), dirs_exist_ok=True)
-    con = sqlite3.connect(os.path.join(demo_dir, "dvd.sqlite"))
-    try:
-        p = pd.read_sql("SELECT * FROM passes ORDER BY time", con)
-        d = pd.read_sql("SELECT * FROM detections", con)
-    finally:
-        con.close()
-    if p.empty:
-        return
-    p = p.assign(region="demo")
-    charts("demo", p, pd.Series(dtype=float), os.path.join(out, "charts.png"))
-    latest = p.iloc[-1]
-    dd = d[(d.pass_id == latest.pass_id) & (d.status != "filtered")]
-    data = dd[["lon", "lat", "length_m", "score", "shore_km", "status", "reason", "confidence", "crop"]].fillna("").to_dict("records")
-    w, s, e, n = C.AOI
-    js = (MAP_JS.replace("__DATA__", json.dumps(data)).replace("__LIVE__", "[]")
-          .replace("__S__", str(s)).replace("__W__", str(w)).replace("__N__", str(n)).replace("__E__", str(e)))
-    rows = "".join(
-        f"<tr><td>{html.escape(r.pass_id)}</td><td>{r.n_det}</td><td class='ok'>{r.n_matched}</td><td class='bad'>{r.n_candidates - r.n_low_conf}</td>"
-        f"<td style='color:var(--amber)'>{r.n_low_conf}</td><td>{r.match_rate:.0%}</td><td>{r.ais_msgs}</td><td>{r.ais_gap_s / 60:.0f} min</td></tr>"
-        for r in p.iloc[::-1].itertuples())
-    body = f"""<div class="coords">SIMULATION // SYNTHETIC SCENES WITH KNOWN GROUND TRUTH</div>
-<h1>Simulation</h1>
-<div class="grid">{readout("Passes simulated", len(p))}{readout("Ships matched", int(p.n_matched.sum()))}
-{readout("Not tracked", int(p.n_candidates.sum()), "red")}{readout("Flags downgraded", int(p.n_low_conf.sum()), "cyan")}</div>
-<h2>Map</h2><ul class="acq" style="margin-bottom:10px"><li>{html.escape(latest.pass_id).upper()}</li><li>AIS OUTAGE &middot; 25 MIN</li></ul>
-<div class="legend"><span><i style="background:var(--green)"></i>matched</span><span><i style="background:var(--red)"></i>not tracked &middot; high</span>
-<span><i style="background:var(--amber)"></i>not tracked &middot; low</span></div>
-<div id="map" class="map"></div>{js}
-<h2>Pass log</h2><div class="tablewrap"><table><thead><tr><th>pass</th><th>ships</th><th>matched</th><th>not tracked</th><th>low conf.</th>
-<th>match rate</th><th>AIS msgs</th><th>feed gap</th></tr></thead><tbody>{rows}</tbody></table></div>
-<h2>Telemetry</h2><img class="chart" src="charts.png" alt="ships detected per simulated pass">"""
-    with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-        f.write(page("Simulation", body, depth=1, leaflet=True, active="demo", feed=feed))
-
-
-FLOW = [("01", "Radar image", "Sentinel-1 SAR &middot; VH &middot; 10 m", ""),
-        ("02", "Propose", "CFAR &middot; 5.5 &times; local sea", ""),
-        ("03", "ShipCNN", "CNN &middot; P(ship)", "nn"),
-        ("04", "Align AIS", "Dead reckoning &middot; &plusmn; 30 min", ""),
-        ("05", "Match", "Hungarian &middot; speed-aware gate", ""),
-        ("06", "Flag", "High / low confidence", "")]
-
-
-def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = None, check_catalogue: bool = True) -> str:
+def build(out: str, live_db: str, result_dbs: list[str], check_catalogue: bool = True) -> str:
     os.makedirs(out, exist_ok=True)
     passes, dets = collect_passes(result_dbs)
     con = sqlite3.connect(live_db) if os.path.exists(live_db) else None
     fresh = [ais_status(con, aoi=a).get("minutes_since_last") for a in C.REGIONS.values()] if con else []
-    feed = dict(live=any(f is not None and f < 10 for f in fresh))
+    feed = dict(live=any(f is not None and f < LIVE_WITHIN_MIN for f in fresh))
     summaries = []
     for region in C.REGIONS:
         scenes = []
@@ -434,54 +309,24 @@ def build(out: str, live_db: str, result_dbs: list[str], demo_dir: str | None = 
             except Exception:
                 scenes = []
         summaries.append(region_page(region, passes, dets, live_db, os.path.join(out, region), scenes, feed))
-
-    if demo_dir and os.path.exists(os.path.join(demo_dir, "dvd.sqlite")):
-        demo_page(demo_dir, os.path.join(out, "demo"), feed)
     nn_page(os.path.join(out, "nn"), feed)
 
-    log_path = os.path.join(out, "runlog.json")
-    try:
-        log = json.load(open(log_path))
-    except Exception:
-        log = []
-    log.append(dict(t=time.time(), **{s["region"]: dict(live=s["live"], msgs_hour=s["st"].get("messages_last_hour", 0)) for s in summaries}))
-    log = log[-500:]
-    json.dump(log, open(log_path, "w"))
-
-    total_m = sum(s["matched"] for s in summaries)
-    total_high = sum(s["high"] for s in summaries)
-    total_low = sum(s["low"] for s in summaries)
-    total_p = sum(s["passes"] for s in summaries)
-    total_live = sum(s["live"] for s in summaries)
-    flow = "".join(
-        (f'<a class="step nn" href="nn/index.html">' if link else '<div class="step">')
-        + f'<div class="n">{n}{" &middot; NEURAL NETWORK" if link else ""}</div><div class="t">{t}</div><div class="d">{d}</div>'
-        + ("</a>" if link else "</div>") for n, t, d, link in FLOW)
-    regions = "".join(f"""<a class="panel region" href="{s['region']}/index.html"><div class="label">Sector // {s['region'].upper()}</div>
-<div class="rt">{TITLES[s['region']]}</div>
-<div class="kv"><span>passes processed</span><span>{s['passes']}</span></div>
-<div class="kv"><span>ships matched to AIS</span><span class="ok">{s['matched']}</span></div>
-<div class="kv"><span>not tracked, high confidence</span><span class="bad">{s['high']}</span></div>
-<div class="kv"><span>not tracked, low confidence</span><span style="color:var(--amber)">{s['low']}</span></div>
-<div class="kv"><span>broadcasting now (30 min)</span><span style="color:var(--cyan)">{s['live']}</span></div>
-<div class="go">OPEN SECTOR &rarr;</div></a>""" for s in summaries)
-    runs = "".join(f"<tr><td>{utc(r['t'], '%Y-%m-%d %H:%M')}</td>" + "".join(
-        f"<td>{r.get(k, {}).get('live', '')}</td><td>{r.get(k, {}).get('msgs_hour', '')}</td>" for k in C.REGIONS) + "</tr>"
-        for r in log[::-1][:24])
-    heads = "".join(f"<th>{k} live</th><th>{k} msg/h</th>" for k in C.REGIONS)
-    system = "".join(f"<li>{x}</li>" for x in [
-        f"RECORDER &middot; {'LIVE' if feed.get('live') else 'OFFLINE'}", "PASS SWEEP &middot; EVERY 15 MIN",
-        "COVERAGE &ge; 65%", f"SHIPCNN &middot; THRESHOLD {cnn_threshold():g}"])
-    body = f"""<div class="coords">SYSTEM OVERVIEW</div>
-<h1>Ships the radar sees that nobody is tracking</h1>
-<div class="grid" style="margin-top:18px">{readout("Satellite passes processed", total_p)}{readout("Ships matched to AIS", total_m)}
-{readout("Not tracked &middot; high confidence", total_high, "red")}{readout("Not tracked &middot; low confidence", total_low, "amber")}
-{readout("Broadcasting now &middot; 30 min", total_live, "cyan")}</div>
-<h2>Pipeline</h2><div class="flow">{flow}</div>
-<h2>System</h2><ul class="acq">{system}</ul>
-<h2>Sectors</h2><div class="grid">{regions}</div>
-<h2>Run log</h2>
-<div class="tablewrap"><table><thead><tr><th>run (UTC)</th>{heads}</tr></thead><tbody>{runs}</tbody></table></div>"""
+    areas = "".join(f"""<a class="panel area" href="{s['region']}/index.html"><div class="titlerow"><h3>{TITLES[s['region']]}</h3>
+<span class="tag {'amber' if s['radar_only'] else 'green'}">{'Radar only' if s['radar_only'] else 'Radar + AIS'}</span></div>
+<p class="sub">{SUBTITLES[s['region']]}</p>
+<div class="kv"><span>Latest pass</span><span>{s['shown']}</span></div>
+<div class="kv"><span>Ships seen</span><span>{s['seen']}</span></div>
+<div class="kv"><span>Tracked by AIS</span><span>{s['latest_matched']}</span></div>
+<div class="kv"><span>Untracked</span><span>{s['latest_high']}</span></div>
+<div class="kv"><span>Broadcasting now</span><span>{s['live']}</span></div>
+<div class="go">Open map &rarr;</div></a>""" for s in summaries)
+    body = f"""<h1>Ships the radar sees that nobody is tracking</h1>
+<p class="sub">Radar satellite images checked against ship broadcasts, pass by pass</p>
+<div class="grid">{readout("Satellite passes", sum(s['passes'] for s in summaries))}
+{readout("Ships tracked by AIS", sum(s['matched'] for s in summaries), "green")}
+{readout("Untracked ships", sum(s['high'] for s in summaries), "red")}
+{readout("Broadcasting now", sum(s['live'] for s in summaries), "cyan")}</div>
+<h2>Areas</h2><div class="grid">{areas}</div>"""
     path = os.path.join(out, "index.html")
     with open(path, "w", encoding="utf-8") as f:
         f.write(page("Dark Vessel Detection", body, active="overview", feed=feed))

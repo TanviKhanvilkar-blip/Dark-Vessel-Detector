@@ -8,6 +8,7 @@ scenes/
 *.tif
 data/dma/
 data/cnn/
+_archive/
 data/coast.geojson
 yolo_data/
 

@@ -1,104 +1,83 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark"><title>ShipCNN neural network</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"><style>
-:root{--bg:#05090d;--panel:#0a1218;--panel2:#0d1820;--line:#16303a;--ink:#d3ece9;--muted:#6d8c91;
---green:#2ef2b0;--red:#ff4d5e;--amber:#ffb547;--cyan:#4fc3ff;--glow:0 0 12px rgba(46,242,176,.35);
+<meta name="color-scheme" content="dark"><title>Methodology · Dark Vessel Detection</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>
+:root{--bg:#070b0f;--panel:#0d141a;--line:#1b2a33;--ink:#e3eeee;--muted:#7f9498;
+--green:#2ef2b0;--red:#ff5c6c;--amber:#ffb547;--cyan:#4fc3ff;
 --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;--sans:'Inter',system-ui,-apple-system,Segoe UI,sans-serif}
 *{box-sizing:border-box}html{background:var(--bg)}
-body{margin:0;color:var(--ink);font:15px/1.6 var(--sans);background:
- radial-gradient(1200px 500px at 70% -10%,rgba(46,242,176,.08),transparent 60%),
- linear-gradient(rgba(46,242,176,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(46,242,176,.035) 1px,transparent 1px),var(--bg);
- background-size:auto,44px 44px,44px 44px,auto;min-height:100vh}
-a{color:var(--green);text-decoration:none}a:hover{text-shadow:var(--glow)}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-header.hud{border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(10,18,24,.95),rgba(5,9,13,.85));position:sticky;top:0;z-index:1000;backdrop-filter:blur(6px)}
-.hudrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:14px}
-.scope{width:52px;height:52px;border-radius:50%;position:relative;overflow:hidden;flex:none;border:1px solid rgba(46,242,176,.5);
- background:repeating-radial-gradient(circle,transparent 0 9px,rgba(46,242,176,.22) 9px 10px),
- linear-gradient(rgba(46,242,176,.25),rgba(46,242,176,.25)) center/1px 100% no-repeat,
- linear-gradient(90deg,rgba(46,242,176,.25),rgba(46,242,176,.25)) center/100% 1px no-repeat,#03110c;box-shadow:var(--glow)}
-.sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(46,242,176,.65),rgba(46,242,176,0) 75deg,transparent);animation:spin 3.2s linear infinite}
-.blip{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--red);box-shadow:0 0 6px var(--red);animation:blink 3.2s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes blink{0%,60%{opacity:.15}70%{opacity:1}100%{opacity:.15}}
-@media (prefers-reduced-motion:reduce){.sweep,.blip,.dot.live{animation:none}}
-.kicker{font:600 11px/1.2 var(--mono);letter-spacing:.18em;color:var(--muted)}
-.title{font:700 20px/1.2 var(--mono);letter-spacing:.06em;color:var(--ink)}
-.title b{color:var(--green);font-weight:700}
-.status{display:flex;gap:10px;flex-wrap:wrap;font:12px/1 var(--mono)}
-.pill{border:1px solid var(--line);background:var(--panel);padding:7px 10px;border-radius:999px;color:var(--muted);white-space:nowrap}
-.pill strong{color:var(--ink);font-weight:600}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:0}
-.dot.live{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.6s ease-in-out infinite}.dot.off{background:var(--red)}
-@keyframes pulse{50%{opacity:.35}}
-nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 0 0;margin-top:-1px}
-nav.tabs a{font:600 12px/1 var(--mono);letter-spacing:.12em;color:var(--muted);padding:12px 14px;border-bottom:2px solid transparent;white-space:nowrap}
-nav.tabs a.on{color:var(--green);border-bottom-color:var(--green);text-shadow:var(--glow)}nav.tabs a:hover{color:var(--ink)}
-main{padding:24px 0 40px}
-h1{font:700 28px/1.2 var(--sans);margin:4px 0 6px;letter-spacing:-.01em}
-h2{font:600 12px/1 var(--mono);letter-spacing:.18em;color:var(--muted);margin:34px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
-h2::after{content:"";flex:1;height:1px;background:var(--line)}
-.lede{color:#a9c6c3;max-width:760px}.muted{color:var(--muted)}.mono{font-family:var(--mono)}
-.coords{font:12px/1.4 var(--mono);color:var(--muted);letter-spacing:.06em}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.panel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:6px;padding:14px 16px;position:relative}
-.panel::before,.panel::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--green);opacity:.55}
-.panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0}.panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
-.label{font:600 10.5px/1.2 var(--mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
-.value{font:600 30px/1.1 var(--mono);color:var(--green);text-shadow:var(--glow)}
-.value.red{color:var(--red);text-shadow:0 0 12px rgba(255,77,94,.35)}.value.cyan{color:var(--cyan);text-shadow:0 0 12px rgba(79,195,255,.35)}
-.value.small{font-size:16px}.value.amber{color:var(--amber);text-shadow:0 0 12px rgba(255,181,71,.3)}
-.step a{color:inherit}.step.nn{border-color:rgba(46,242,176,.6);box-shadow:var(--glow)}.ok{color:var(--green)}.bad{color:var(--red)}
-.alert{border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.07);border-radius:6px;padding:12px 16px;color:#f3dcb4}
-.alert b{color:var(--amber)}
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.step{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px}
-.step .n{font:700 11px/1 var(--mono);color:var(--green);letter-spacing:.14em}.step .t{font:600 14px/1.3 var(--sans);margin:6px 0 4px}
-.step .d{font-size:12.5px;color:var(--muted);line-height:1.45}
-@media (max-width:760px){.flow{grid-template-columns:1fr 1fr!important}.title{font-size:16px}h1{font-size:23px}.value{font-size:24px}
- header.hud{position:static}.status .pill:nth-child(3){display:none}.map{height:420px}}
-.region{display:block;color:inherit}.region:hover{border-color:rgba(46,242,176,.5)}
-.region .rt{font:600 16px/1.3 var(--sans);color:var(--ink);margin-bottom:6px}.region .go{font:600 11px/1 var(--mono);color:var(--green);letter-spacing:.14em;margin-top:10px}
-.kv{display:flex;justify-content:space-between;font:13px/1.9 var(--mono);border-bottom:1px dashed var(--line)}.kv span:last-child{color:var(--ink)}
-.map{height:520px;border:1px solid var(--line);border-radius:6px;background:#0a0f13}
-.legend{display:flex;flex-wrap:wrap;gap:16px;font:12px/1 var(--mono);color:var(--muted);margin:0 0 10px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
-table{border-collapse:collapse;width:100%;font:13px/1.4 var(--mono);background:var(--panel)}
-th{font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+body{margin:0;color:var(--ink);font:15px/1.55 var(--sans);background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{border-bottom:1px solid var(--line);background:var(--panel)}
+.bar{display:flex;align-items:center;gap:24px;min-height:60px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;font-size:16px}.brand:hover{text-decoration:none}
+.scope{width:26px;height:26px;border-radius:50%;flex:none;border:1px solid var(--green);
+ background:conic-gradient(from 0deg,rgba(46,242,176,.75),rgba(46,242,176,0) 90deg,transparent)}
+nav.tabs{display:flex;gap:4px;flex:1}
+nav.tabs a{color:var(--muted);padding:6px 10px;border-radius:6px;font-weight:600;font-size:14px}
+nav.tabs a:hover{color:var(--ink);text-decoration:none}nav.tabs a.on{color:var(--ink);background:#16222a}
+.pill{font-size:13px;color:var(--muted);white-space:nowrap}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;background:var(--muted)}
+.dot.live{background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}@media (prefers-reduced-motion:reduce){.dot.live{animation:none}}
+main{padding:28px 0 40px;flex:1}
+h1{font:700 30px/1.2 var(--sans);margin:0 0 4px;letter-spacing:-.01em}
+h2{font:600 17px/1.3 var(--sans);margin:34px 0 12px}
+.sub{color:var(--muted);margin:0 0 20px}
+.titlerow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.tag.amber{color:var(--amber);border-color:rgba(255,181,71,.45)}.tag.green{color:var(--green);border-color:rgba(46,242,176,.45)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
+.label{font-size:13px;color:var(--muted);margin-bottom:6px}
+.value{font:600 30px/1.1 var(--mono);color:var(--ink)}
+.value.green{color:var(--green)}.value.red{color:var(--red)}.value.cyan{color:var(--cyan)}.value.amber{color:var(--amber)}
+.area{display:block;color:inherit}.area:hover{border-color:rgba(46,242,176,.5);text-decoration:none}
+.area h3{font:600 18px/1.3 var(--sans);margin:0}.area .sub{margin:2px 0 12px;font-size:14px}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:5px 0;border-top:1px solid var(--line)}
+.kv span:first-child{color:var(--muted)}.kv span:last-child{font-family:var(--mono)}
+.go{color:var(--green);font-weight:600;font-size:14px;margin-top:10px}
+.map{height:540px;border:1px solid var(--line);border-radius:8px;background:#0a0f13}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
+th{font-weight:600;font-size:13px;color:var(--muted);text-align:right}
 td,th{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}td:first-child,th:first-child{text-align:left}
-tr:last-child td{border-bottom:0}tbody tr:hover td{background:rgba(46,242,176,.04)}
-.chart{border:1px solid var(--line);border-radius:6px;display:block;width:100%}
-ul.acq{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
-ul.acq li{font:12px/1 var(--mono);border:1px solid var(--line);background:var(--panel);padding:8px 10px;border-radius:4px}
-footer{border-top:1px solid var(--line);padding:18px 0 28px;font:12px/1.6 var(--mono);color:var(--muted)}
-.leaflet-container{background:#0a0f13;font:12px var(--mono)}
+td{font-variant-numeric:tabular-nums}tr:last-child td{border-bottom:0}
+.more{color:var(--muted);font-size:13px;margin:8px 0 0}
+.chips{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.chips li{font-size:13px;border:1px solid var(--line);background:var(--panel);padding:6px 10px;border-radius:6px;color:var(--muted)}
+.chart{border:1px solid var(--line);border-radius:8px;display:block;width:100%}
+footer{border-top:1px solid var(--line);padding:16px 0 24px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap}
+.leaflet-container{background:#0a0f13;font:13px var(--sans)}
 .radar-tiles{filter:invert(100%) hue-rotate(180deg) grayscale(70%) brightness(78%) contrast(118%)}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0d1820;color:var(--ink);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.6)}
-.leaflet-popup-content b{color:var(--green)}.leaflet-popup-content img{border:1px solid var(--line);margin-top:6px;image-rendering:pixelated}
-.leaflet-control-layers,.leaflet-bar a{background:#0d1820!important;color:var(--ink)!important;border-color:var(--line)!important}
-.leaflet-control-attribution{background:rgba(5,9,13,.75)!important;color:var(--muted)!important}.leaflet-control-attribution a{color:var(--muted)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.6)}
+.leaflet-popup-content{line-height:1.5}.leaflet-popup-content img{border:1px solid var(--line);margin-top:6px;image-rendering:pixelated}
+.leaflet-control-layers,.leaflet-bar a{background:var(--panel)!important;color:var(--ink)!important;border-color:var(--line)!important}
+.leaflet-control-layers i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 6px 0 2px}
+.leaflet-control-attribution{background:rgba(7,11,15,.75)!important;color:var(--muted)!important}.leaflet-control-attribution a{color:var(--muted)}
+@media (max-width:760px){h1{font-size:25px}.value{font-size:25px}.map{height:420px}nav.tabs{flex-basis:100%;order:3}.bar{padding:10px 0;gap:8px 16px}}
 </style></head><body>
-<header class="hud"><div class="wrap"><div class="hudrow">
- <a class="brand" href="../index.html"><div class="scope"><div class="sweep"></div><span class="blip" style="left:32px;top:14px"></span><span class="blip" style="left:15px;top:33px;animation-delay:1.1s"></span></div>
-  <div><div class="kicker">SAR &times; AIS &middot; MARITIME AWARENESS</div><div class="title">DARK VESSEL <b>DETECTION</b></div></div></a>
- <div class="status"><span class="pill"><span class="dot live"></span>AIS FEED <strong>LIVE</strong></span>
-  <span class="pill">UTC <strong id="utc">--:--:--</strong></span>
-  <span class="pill">UPDATED <strong>03 Nov 08:37</strong></span></div>
-</div><nav class="tabs"><a class="" href="../index.html">OVERVIEW</a><a class="" href="../mumbai/index.html">MUMBAI</a><a class="" href="../denmark/index.html">DENMARK</a><a class="on" href="../nn/index.html">NEURAL NET</a><a class="" href="../demo/index.html">SIMULATION</a></nav></div></header>
-<main class="wrap"><div class="coords">NEURAL NETWORK // SHIPCNN</div>
-<h1>ShipCNN</h1>
+<header class="top"><div class="wrap bar">
+ <a class="brand" href="../index.html"><span class="scope"></span>Dark Vessel Detection</a>
+ <nav class="tabs"><a class="" href="../index.html">Overview</a><a class="" href="../mumbai/index.html">Mumbai</a><a class="" href="../denmark/index.html">Øresund</a></nav>
+ <span class="pill" id="status" data-built="1793773734" data-live="0"></span>
+</div></header>
+<main class="wrap"><h1>Methodology</h1><p class="sub">ShipCNN, the neural network behind the detector</p>
 <div class="grid"><div class="panel"><div class="label">Weights</div><div class="value ">62,689</div></div><div class="panel"><div class="label">Layers with weights</div><div class="value ">6</div></div>
-<div class="panel"><div class="label">Test F1 &middot; Oresund</div><div class="value ">0.59</div></div><div class="panel"><div class="label">Test ROC-AUC</div><div class="value cyan">0.92</div></div>
+<div class="panel"><div class="label">Test F1</div><div class="value ">0.59</div></div><div class="panel"><div class="label">Test ROC-AUC</div><div class="value cyan">0.92</div></div>
 <div class="panel"><div class="label">Threshold</div><div class="value amber">0.69</div></div></div>
 <h2>Architecture</h2>
 <div class="tablewrap"><table><thead><tr><th>layer</th><th>output (channels x height x width)</th><th>activation</th><th>weights</th></tr></thead>
 <tbody><tr><td>0. Input: radar chip, log10 backscatter / 2</td><td>1 x 64 x 64</td><td>-</td><td>0</td></tr><tr><td>1. Conv 3x3, 16 filters + BatchNorm + MaxPool 2x2</td><td>16 x 32 x 32</td><td>ReLU</td><td>192</td></tr><tr><td>2. Conv 3x3, 32 filters + BatchNorm + MaxPool 2x2</td><td>32 x 16 x 16</td><td>ReLU</td><td>4,704</td></tr><tr><td>3. Conv 3x3, 64 filters + BatchNorm + MaxPool 2x2</td><td>64 x 8 x 8</td><td>ReLU</td><td>18,624</td></tr><tr><td>4. Conv 3x3, 64 filters + BatchNorm</td><td>64 x 8 x 8</td><td>ReLU</td><td>37,056</td></tr><tr><td>5. Global average pool</td><td>64 x 1 x 1</td><td>-</td><td>0</td></tr><tr><td>6. Fully connected + Dropout 0.3</td><td>32</td><td>ReLU</td><td>2,080</td></tr><tr><td>7. Output</td><td>1</td><td>Sigmoid (P(ship))</td><td>33</td></tr></tbody></table></div>
-<h2>Test &middot; held-out Oresund</h2>
+<h2>Test on the held-out Øresund</h2>
 <div class="tablewrap"><table><thead><tr><th>metric</th><th>ShipCNN @ 0.69</th><th>ShipCNN @ 0.5</th><th>CFAR only</th></tr></thead>
-<tbody><tr><td>Accuracy</td><td class='ok'>0.827</td><td>0.803</td><td>0.765</td></tr><tr><td>Precision</td><td class='ok'>0.430</td><td>0.400</td><td>0.362</td></tr><tr><td>Recall</td><td class='ok'>0.920</td><td>0.960</td><td>1.000</td></tr><tr><td>F1 score</td><td class='ok'>0.586</td><td>0.565</td><td>0.532</td></tr><tr><td>ROC-AUC</td><td class='ok'>0.922</td><td>0.922</td><td>0.865</td></tr><tr><td>True positives (ships found)</td><td class='ok'>46</td><td>48</td><td>50</td></tr><tr><td>False positives</td><td class='ok'>61</td><td>72</td><td>88</td></tr><tr><td>True negatives</td><td class='ok'>264</td><td>253</td><td>237</td></tr><tr><td>False negatives (ships missed)</td><td class='ok'>4</td><td>2</td><td>0</td></tr></tbody></table></div>
+<tbody><tr><td>Accuracy</td><td>0.827</td><td>0.803</td><td>0.765</td></tr><tr><td>Precision</td><td>0.430</td><td>0.400</td><td>0.362</td></tr><tr><td>Recall</td><td>0.920</td><td>0.960</td><td>1.000</td></tr><tr><td>F1 score</td><td>0.586</td><td>0.565</td><td>0.532</td></tr><tr><td>ROC-AUC</td><td>0.922</td><td>0.922</td><td>0.865</td></tr><tr><td>True positives (ships found)</td><td>46</td><td>48</td><td>50</td></tr><tr><td>False positives</td><td>61</td><td>72</td><td>88</td></tr><tr><td>True negatives</td><td>264</td><td>253</td><td>237</td></tr><tr><td>False negatives (ships missed)</td><td>4</td><td>2</td><td>0</td></tr></tbody></table></div>
 <h2>Test chips</h2>
 <img class="chart" src="examples.png" alt="example radar chips with predicted probabilities" style="max-width:820px"></main>
-<footer><div class="wrap">Contains modified Copernicus Sentinel data 2026 &middot; AIS: aisstream.io, Danish Maritime Authority &middot;
-&copy; OpenStreetMap contributors</div></footer>
-<script>(function(){const e=document.getElementById('utc');const t=()=>e.textContent=new Date().toISOString().slice(11,19);t();setInterval(t,1000);})();</script>
+<footer><div class="wrap"><span>Flags are for human review, not accusations.</span>
+<span>Contains modified Copernicus Sentinel data 2026 &middot; AIS: aisstream.io, Danish Maritime Authority &middot;
+&copy; OpenStreetMap contributors &middot; <a href="../nn/index.html">Methodology</a></span></div></footer>
+<script>(function(){const s=document.getElementById('status'),b=+s.dataset.built,live=s.dataset.live==='1';
+const f=()=>{const m=Math.round((Date.now()/1000-b)/60),a=m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago',ok=live&&m<180;
+s.innerHTML='<span class="dot'+(ok?' live':'')+'"></span>'+(ok?'Live &middot; updated ':'Updated ')+a;};f();setInterval(f,60000);})();</script>
 </body></html>
