@@ -131,7 +131,7 @@ site's length estimates correct for.
 
 ## Automatic pass processing
 
-`python -m dvd auto` (run by `scripts/publish_site.ps1` every 15 minutes, before the site is rebuilt) asks Planetary Computer for
+`python -m dvd auto` (run every 15 minutes during each cloud shift, before the site is rebuilt) asks Planetary Computer for
 Sentinel-1 scenes over each sector from the last 3 days and processes a scene when it covers >= 65% of the sector (the uncovered
 part is treated as no-data, so ships there are simply not assessed), was taken while
 the AIS recorder was running, is at least 35 min old (AIS must exist up to 30 min after the image) and is not in the sector's
@@ -139,28 +139,28 @@ results database yet. Processing = download the sector crop, copy the AIS and fe
 into the sector's results database (`mumbai_results.sqlite`, `denmark_hist.sqlite`), run the pipeline with ShipCNN.
 `python -m dvd auto --dry-run` prints the decision for every scene without processing anything.
 
-Rehearsed end to end on 26 and 27 Oct (historical Danish AIS standing in for the recording): 25 matched / 0 candidates and
-27 matched / 2 low-confidence, one more match each than the manual runs because the automatic path uses the catalogue's exact
-image-centre time rather than the slice start time in the file name; a second sweep skipped both as already processed.
-A failed download is logged and retried next sweep instead of stopping it (a storage timeout in the first rehearsal exposed this).
+Rehearsed end to end on 26 and 27 Oct with historical Danish AIS standing in for the recording; a second sweep skipped both as
+already processed. A failed download is logged and retried next sweep instead of stopping it (a storage timeout in the first rehearsal exposed this).
 Next passes covering the sectors (predicted from the 6-day repeat): Mumbai ~5 Nov 01:02 UTC, Oresund ~5 Nov 17:00 UTC.
 
-## Recording AIS for a pass
+## Running in the cloud
 
-aisstream has no history, so AIS must be recorded *while* the satellite passes.
+The live system runs on GitHub Actions (`.github/workflows/live-system.yml`, `scripts/cloud_shift.sh`), so no PC needs to stay on.
+aisstream has no history, so AIS must be recorded *while* a satellite passes: each shift runs up to 5 h 45 min, starting at 03, 09, 15
+and 21 UTC so that the known pass times fall mid-shift. The recorder runs throughout, and every 15 minutes the shift sweeps for new
+passes, rebuilds the site and saves. Shifts can start a little late, and the gap between them is logged like any feed outage: flags
+overlapping more than 5 min of gaps are downgraded to low confidence.
 
-1. Get a free API key at aisstream.io (sign in, then create a key). Keep it out of chats and files.
-2. Start the recorder and leave it running (it asks for the key once per session):
-   `powershell -ExecutionPolicy Bypass -File scripts\record_ais.ps1`
-   It records the Mumbai area plus a ~16 km margin (`config.LIVE_AOI`, `AIS_PAD_DEG`) into `live.sqlite`, reconnects on drops,
-   reconnects if the feed goes silent for 3 min, and logs every silence over 60 s (including recorder downtime and the PC
-   sleeping) to `ais_gaps`. Flags overlapping a gap longer than 5 min are downgraded to low confidence.
-3. Keep the PC awake for at least 00:30–01:35 UTC on the pass day.
-4. Check coverage: `python -m dvd ais-status --at 2026-11-05T01:02:38` (`pass_ready True` = recording covers ±30 min with no long gap).
-5. When the scene appears (`python -m dvd find-scenes`), download it and run `run-scene ... --db live.sqlite`.
+- **Secret:** `AISSTREAM_KEY` in the repo's Actions secrets (free key from aisstream.io). Never commit it.
+- **State:** the `state` branch holds the databases and the site as a single commit replaced on each save. `main` holds only code.
+- **Website:** GitHub Pages serves the `docs/` folder of the `state` branch.
+- **Test run:** Actions, Live system, Run workflow, with a short `minutes` value.
 
-Sentinel-1 schedule seen so far for this area: Sentinel-1D only, 01:02 UTC (06:32 IST), every 12 days (12 and 24 Oct 2026).
-The next pass is therefore expected on **5 Nov 2026 ~01:02 UTC**; this is a prediction from that pattern, not an official plan.
+On a PC, `scripts\record_ais.ps1` runs the recorder alone. `python -m dvd ais-status --at 2026-11-05T01:02:38` shows whether a recording
+covers a pass (`pass_ready True` = ±30 min with no long gap).
+
+Sentinel-1 schedule seen so far for Mumbai: Sentinel-1D only, 01:02 UTC (06:32 IST), every 12 days (12 and 24 Oct 2026). The next pass
+is therefore expected on **5 Nov 2026 ~01:02 UTC**; this is a prediction from that pattern, not an official plan.
 
 ## Status against the build plan
 

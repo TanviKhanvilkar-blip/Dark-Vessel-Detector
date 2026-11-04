@@ -17,7 +17,7 @@ yolo_data/
 *.sqlite-journal
 site/
 site*/
-!docs/
+docs/
 
 # python / tools
 __pycache__/
