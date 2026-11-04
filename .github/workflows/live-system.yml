@@ -1,11 +1,15 @@
 # The live system in the cloud: record AIS, process new satellite passes, publish the website.
-# Each run is one shift of up to 5 h 45 min (GitHub's limit is 6 h). Shifts start at 03, 09, 15 and 21 UTC so that the
-# known pass times (Mumbai 01:02, Oresund about 05:30 and 17:00) fall mid-shift, away from the short gap between shifts.
+# Each run is one shift of up to 5 h 45 min (GitHub's limit is 6 h), and each shift starts the next one when it ends, so the
+# system keeps itself going. GitHub's schedules are best-effort (the first one simply did not fire), so the cron entry is only
+# a backstop that restarts the chain if a shift fails. Pushing a change to this file also starts a shift.
 name: Live system
 
 on:
   schedule:
     - cron: "0 3,9,15,21 * * *"
+  push:
+    branches: [main]
+    paths: [".github/workflows/live-system.yml"]
   workflow_dispatch:
     inputs:
       minutes:
@@ -18,6 +22,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   shift:
@@ -39,3 +44,8 @@ jobs:
           AISSTREAM_KEY: ${{ secrets.AISSTREAM_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
         run: bash scripts/cloud_shift.sh "${{ inputs.minutes || '345' }}"
+      # runs only if the shift succeeded, so a broken shift can't restart itself in a loop; the cron backstop retries instead
+      - name: Start next shift
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run live-system.yml --ref main

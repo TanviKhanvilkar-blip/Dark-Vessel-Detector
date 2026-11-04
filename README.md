@@ -146,10 +146,11 @@ Next passes covering the sectors (predicted from the 6-day repeat): Mumbai ~5 No
 ## Running in the cloud
 
 The live system runs on GitHub Actions (`.github/workflows/live-system.yml`, `scripts/cloud_shift.sh`), so no PC needs to stay on.
-aisstream has no history, so AIS must be recorded *while* a satellite passes: each shift runs up to 5 h 45 min, starting at 03, 09, 15
-and 21 UTC so that the known pass times fall mid-shift. The recorder runs throughout, and every 15 minutes the shift sweeps for new
-passes, rebuilds the site and saves. Shifts can start a little late, and the gap between them is logged like any feed outage: flags
-overlapping more than 5 min of gaps are downgraded to low confidence.
+aisstream has no history, so AIS must be recorded *while* a satellite passes: each shift runs up to 5 h 45 min and starts the next one
+when it ends, so the system keeps itself going. A schedule at 03, 09, 15 and 21 UTC is only a backstop: GitHub's schedules are best-effort
+and the first one did not fire. The recorder runs throughout, and every 15 minutes the shift sweeps for new passes, rebuilds the site and
+saves. The short gap between shifts is logged like any feed outage: flags overlapping more than 5 min of gaps are downgraded to low
+confidence. A failed shift does not restart itself; the next schedule, or Actions > Live system > Run workflow, does.
 
 - **Secret:** `AISSTREAM_KEY` in the repo's Actions secrets (free key from aisstream.io). Never commit it.
 - **State:** the `state` branch holds the databases and the site as a single commit replaced on each save. `main` holds only code.
