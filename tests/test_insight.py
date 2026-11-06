@@ -32,6 +32,15 @@ def test_setting_from_surroundings():
     assert insight.setting(12.70, 55.7, 2, lon, lat, 1) == "Port area"
 
 
+def test_same_spot_note_is_dropped_only_in_crowded_areas():
+    from dvd.site import shown_reason
+    note = "no_ais_in_window,same_spot_in_another_pass"
+    assert shown_reason(note, json.dumps({"setting": "Anchorage or waiting area"})) == "no_ais_in_window"
+    assert shown_reason(note, json.dumps({"setting": "Port area"})) == "no_ais_in_window"
+    assert shown_reason(note, json.dumps({"setting": "Open water"})) == note
+    assert shown_reason("", "") == ""
+
+
 def test_static_message_gives_ship_details():
     row = parse_ship_static({"MessageType": "ShipStaticData", "MetaData": {"MMSI": 219000001},
                              "Message": {"ShipStaticData": {"Name": "MAERSK TEST@@@", "Type": 71, "Destination": "AARHUS@@",

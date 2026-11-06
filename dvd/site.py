@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from . import config as C
-from .insight import priors
+from .insight import CROWDED, priors
 from .live import ais_status, recording_box
 
 TITLES = {"mumbai": "Mumbai", "denmark": "Øresund"}
@@ -202,7 +202,7 @@ function inspect(d){
  if(d.crop)h+='<img src="'+d.crop+'" alt="radar image of this target">';
  h+='<h4>Radar</h4>'+(info.est_length_m&&!(a&&a.length_m)?kv('Estimated length','about '+info.est_length_m+' m'):'')+kv('Measured on radar',d.length_m.toFixed(0)+' m')
   +kv('From shore',d.shore_km.toFixed(1)+' km')+kv('Position',d.lat.toFixed(4)+', '+d.lon.toFixed(4))
-  +kv('Surroundings',info.setting)+(d.ship_prob===''||d.ship_prob===null?'':kv('Ship likelihood',(Number(d.ship_prob)*100).toFixed(0)+'%'))+kv('Imaged',WHEN);
+  +kv('Surroundings',info.setting)+(t||d.ship_prob===''||d.ship_prob===null?'':kv('Ship likelihood',(Number(d.ship_prob)*100).toFixed(0)+'%'))+kv('Imaged',WHEN);
  if(a){h+='<h4>Reported by the ship</h4>'+kv('Type',a.type)+kv('Length',a.length_m?a.length_m.toFixed(0)+' m':null)+kv('Speed',a.sog===null?null:a.sog+' kn')
   +kv('Course',a.cog===null?null:a.cog.toFixed(0)+'°')+kv('Destination',a.destination);
   if(a.track&&a.track.length>1)h+='<p class="hint">Its AIS track around the image time is shown on the map.</p>';}
@@ -227,6 +227,13 @@ L.control.layers(null,{[dot('#2ef2b0')+'Tracked by AIS']:tracked,[dot('#ff5c6c')
 
 def readout(label: str, value, cls: str = "") -> str:
     return f'<div class="panel"><div class="label">{label}</div><div class="value {cls}">{value}</div></div>'
+
+
+def shown_reason(reason, info) -> str:
+    """The reasons worth showing. Passes saved before the crowded-area rule may still carry the same-spot note, which
+    means little where ships crowd together, so it is dropped here as well as no longer being added by the pipeline."""
+    setting = (json.loads(info) if info else {}).get("setting")
+    return ",".join(r for r in str(reason or "").split(",") if r and not (r == "same_spot_in_another_pass" and setting in CROWDED))
 
 
 def plain_reason(reason) -> str:
@@ -258,6 +265,7 @@ def region_page(region: str, passes: pd.DataFrame, dets: pd.DataFrame, live_db: 
     if len(rp):
         latest = rp.iloc[-1]
         d = dets[(dets.pass_id == latest.pass_id) & (dets.status != "filtered")]
+        d = d.assign(reason=[shown_reason(r, i) for r, i in zip(d.reason, d["info"])])
         data = d.reindex(columns=["det_id", "lon", "lat", "length_m", "shore_km", "status", "reason", "confidence", "crop",
                                   "ship_prob", "info"]).astype(object).fillna("").to_dict("records")
         for x in data:

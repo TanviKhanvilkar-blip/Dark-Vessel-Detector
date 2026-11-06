@@ -19,6 +19,7 @@ PRIORS_PATH = os.path.join("data", "ship_type_priors.json")
 LENGTH_BINS = [(0, 40), (40, 80), (80, 150), (150, 250), (250, 10_000)]
 IGNORED_TYPES = {"Other", "Reserved", "Spare 1", "Spare 2", "Not party to conflict", "Undefined"}
 ANCHORAGE_RADIUS_M, ANCHORAGE_NEIGHBOURS = 1500.0, 3
+CROWDED = ("Port area", "Anchorage or waiting area")    # a target here being near one from another pass proves little
 
 # Main commercial ports near each area: (name, lat, lon), approximate harbour positions
 PORTS = {

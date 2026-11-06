@@ -108,8 +108,16 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
         det["ship_prob"] = cnn.predict(model, chips)
         cnn_thr = cnn.threshold()
 
-    def recurring(lon, lat) -> bool:
-        return len(others) > 0 and bool((haversine_m(lon, lat, others.lon.values, others.lat.values) < C.REPEAT_RADIUS_M).any())
+    region = region_of_grid(grid)
+
+    def recurring(d) -> bool:
+        """Something at this spot on another pass suggests a fixed object, but only where targets are sparse: in a port or
+        anchorage some ship is nearly always within the radius (101 of 120 Mumbai targets would count)."""
+        if len(others) == 0 or not (haversine_m(d.lon, d.lat, others.lon.values, others.lat.values) < C.REPEAT_RADIUS_M).any():
+            return False
+        ports = insight.nearest_ports(region, d.lon, d.lat, 1)
+        where = insight.setting(d.lon, d.lat, d.shore_km, det.lon.values[eligible], det.lat.values[eligible], ports[0][1] if ports else None)
+        return where not in insight.CROWDED
 
     status, reason, conf = [], [], []
     for i, d in det.iterrows():
@@ -138,7 +146,7 @@ def run_pass(scene, store_con, pass_id: str, out_dir: str | None = None, detecto
                 reasons.append("ais_feed_gap")
             if proj.empty:
                 reasons.append("no_ais_in_window")
-            if recurring(d.lon, d.lat):
+            if recurring(d):
                 reasons.append("same_spot_in_another_pass")
             s, r, c = "candidate", ",".join(reasons), "low" if reasons else "high"
         status.append(s); reason.append(r); conf.append(c)
