@@ -58,6 +58,10 @@ Mumbai gets ~1 pass every 12 days and almost no free live AIS, so the end-to-end
 which Sentinel-1 covers fully on most passes and where the Danish Maritime Authority publishes full historical AIS.
 (The Great Belt was tried first: on both available dates it sat on the swath edge, 21% and 72% covered.)
 
+The website shows only the Oresund (`config.SITE_REGIONS`). Mumbai is still recorded and processed in the cloud, but the
+free AIS feed has delivered 0 messages for that coast, including around the 5 Nov 2026 pass (120 radar targets, all
+unverifiable), so it is kept off the site until an AIS source for India is added: add `"mumbai"` back to `SITE_REGIONS`.
+
 ```
 python -m dvd fetch-coast --region denmark && python -m dvd fetch-infra --region denmark
 python -m dvd import-dma --region denmark --at 2026-10-27T05:23:38          # one AIS day, ~620 MB, cut to the area +/- 1 h

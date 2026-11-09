@@ -12,6 +12,9 @@ REGIONS = {
     "denmark": (12.55, 55.55, 12.95, 55.85),
 }
 LIVE_AOI = REGIONS["mumbai"]
+# Areas shown on the website. Mumbai is still recorded and processed, but no free AIS feed covers that coast
+# (0 messages so far), so every target there stays unverifiable; it is kept off the site until an AIS source exists.
+SITE_REGIONS = ("denmark",)
 
 # Training areas for the ship/not-ship CNN: Danish straits fully covered by Sentinel-1 on days we hold AIS for.
 # The Oresund ("denmark") is deliberately NOT here: it is the held-out test area.

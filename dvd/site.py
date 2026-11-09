@@ -157,7 +157,7 @@ s.innerHTML='<span class="dot'+(ok?' live':'')+'"></span>'+(ok?'Live &middot; up
 
 def page(title: str, body: str, depth: int = 0, leaflet: bool = False, active: str = "overview", feed: dict | None = None) -> str:
     up = "../" * depth
-    tabs = [("overview", f"{up}index.html", "Overview")] + [(r, f"{up}{r}/index.html", TITLES[r]) for r in C.REGIONS]
+    tabs = [("overview", f"{up}index.html", "Overview")] + [(r, f"{up}{r}/index.html", TITLES[r]) for r in C.SITE_REGIONS]
     nav = "".join(f'<a class="{"on" if k == active else ""}" href="{href}">{label}</a>' for k, href, label in tabs)
     lf = ('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">'
           '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>') if leaflet else ""
@@ -352,10 +352,14 @@ def build(out: str, live_db: str, result_dbs: list[str], check_catalogue: bool =
     os.makedirs(out, exist_ok=True)
     passes, dets = collect_passes(result_dbs)
     con = sqlite3.connect(live_db) if os.path.exists(live_db) else None
-    fresh = [ais_status(con, aoi=a).get("minutes_since_last") for a in C.REGIONS.values()] if con else []
+    fresh = [ais_status(con, aoi=a).get("minutes_since_last") for a in (C.REGIONS[r] for r in C.SITE_REGIONS)] if con else []
     feed = dict(live=any(f is not None and f < LIVE_WITHIN_MIN for f in fresh))
+    for region in set(C.REGIONS) - set(C.SITE_REGIONS):
+        stale = os.path.join(out, region, "index.html")    # a page from before the area was hidden
+        if os.path.exists(stale):
+            os.remove(stale)
     summaries = []
-    for region in C.REGIONS:
+    for region in C.SITE_REGIONS:
         scenes = []
         if check_catalogue:
             try:
